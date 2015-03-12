@@ -1,0 +1,1251 @@
+
+(5775, 7, 1)
+א' בתשרי
+(2014, 9, 25)
+Rosh Hashanah
+ראש השנה
+Rosh Hashanah - Day 1
+א' דראש השנה
+
+
+(5775, 7, 2)
+ב' בתשרי
+(2014, 9, 26)
+Rosh Hashanah
+ראש השנה
+Rosh Hashanah - Day 2
+ב' דראש השנה
+
+
+(5775, 7, 3)
+ג' בתשרי
+(2014, 9, 27)
+Shabbat Shuvah, Shabbat Ha'azinu
+שבת שובה, שבת האזינו
+Shabbat Shuvah, Shabbat Ha'azinu
+שבת שובה, שבת האזינו
+
+
+(5775, 7, 4)
+ד' בתשרי
+(2014, 9, 28)
+Fast of Gedaliah
+צום גדליה
+Fast of Gedaliah
+צום גדליה
+
+
+(5775, 7, 9)
+ט' בתשרי
+(2014, 10, 3)
+Erev Yom Kippur
+ערב יום כפור
+Erev Yom Kippur
+ערב יום כפור
+
+
+(5775, 7, 10)
+י' בתשרי
+(2014, 10, 4)
+Yom Kippur
+יום כפור
+Yom Kippur
+יום כפור
+
+
+(5775, 7, 14)
+י"ד בתשרי
+(2014, 10, 8)
+Erev Sukkot
+ערב סוכות
+Erev Sukkot
+ערב סוכות
+
+
+(5775, 7, 15)
+ט"ו בתשרי
+(2014, 10, 9)
+Sukkot
+סוכות
+Sukkot
+סוכות
+
+
+(5775, 7, 16)
+ט"ז בתשרי
+(2014, 10, 10)
+Chol Hamoed Sukkot
+חוה"מ סוכות
+Chol Hamoed Sukkot - Day 1
+א' דחוה"מ סוכות
+
+
+(5775, 7, 17)
+י"ז בתשרי
+(2014, 10, 11)
+Chol Hamoed Sukkot, Shabbat Chol Hamoed Sukkot
+חוה"מ סוכות, שבת חוה"מ סוכות
+Chol Hamoed Sukkot - Day 2, Shabbat Chol Hamoed Sukkot
+ב' דחוה"מ סוכות, שבת חוה"מ סוכות
+
+
+(5775, 7, 18)
+י"ח בתשרי
+(2014, 10, 12)
+Chol Hamoed Sukkot
+חוה"מ סוכות
+Chol Hamoed Sukkot - Day 3
+ג' דחוה"מ סוכות
+
+
+(5775, 7, 19)
+י"ט בתשרי
+(2014, 10, 13)
+Chol Hamoed Sukkot
+חוה"מ סוכות
+Chol Hamoed Sukkot - Day 4
+ד' דחוה"מ סוכות
+
+
+(5775, 7, 20)
+כ' בתשרי
+(2014, 10, 14)
+Chol Hamoed Sukkot
+חוה"מ סוכות
+Chol Hamoed Sukkot - Day 5
+ה' דחוה"מ סוכות
+
+
+(5775, 7, 21)
+כ"א בתשרי
+(2014, 10, 15)
+Hoshana Raba
+הושענע רבה
+Hoshana Raba
+הושענע רבה
+
+
+(5775, 7, 22)
+כ"ב בתשרי
+(2014, 10, 16)
+Simchat Torah
+שמחת תורה
+Simchat Torah
+שמחת תורה
+
+
+(5775, 7, 24)
+כ"ד בתשרי
+(2014, 10, 18)
+Shabbat B'reshit
+שבת בראשית
+Shabbat B'reshit
+שבת בראשית
+
+
+(5775, 7, 30)
+ל' בתשרי
+(2014, 10, 24)
+Rosh Chodesh Cheshvan
+ראש חודש חשון
+Rosh Chodesh Cheshvan - Day 1
+א' דראש חודש חשון
+
+
+(5775, 8, 1)
+א' בחשון
+(2014, 10, 25)
+Rosh Chodesh Cheshvan, Shabbat Noach
+ראש חודש חשון, שבת נח
+Rosh Chodesh Cheshvan - Day 2, Shabbat Noach
+ב' דראש חודש חשון, שבת נח
+
+
+(5775, 8, 6)
+ו' בחשון
+(2014, 10, 30)
+Start saying v'Ten Tal Umatar
+מתחילים לומר "ותן טל ומטר לברכה"
+Start saying v'Ten Tal Umatar
+מתחילים לומר "ותן טל ומטר לברכה"
+
+
+(5775, 8, 8)
+ח' בחשון
+(2014, 11, 1)
+Shabbat Lech Lecha
+שבת לך לך
+Shabbat Lech Lecha
+שבת לך לך
+
+
+(5775, 8, 15)
+ט"ו בחשון
+(2014, 11, 8)
+Shabbat Vayeira
+שבת וירא
+Shabbat Vayeira
+שבת וירא
+
+
+(5775, 8, 22)
+כ"ב בחשון
+(2014, 11, 15)
+Shabbat Chayei Sarah
+שבת חיי שרה
+Shabbat Chayei Sarah
+שבת חיי שרה
+
+
+(5775, 8, 29)
+כ"ט בחשון
+(2014, 11, 22)
+Shabbat Toldot
+שבת תולדות
+Shabbat Toldot
+שבת תולדות
+
+
+(5775, 9, 1)
+א' בכסלו
+(2014, 11, 23)
+Rosh Chodesh Kislev
+ראש חודש כסלו
+Rosh Chodesh Kislev
+ראש חודש כסלו
+
+
+(5775, 9, 7)
+ז' בכסלו
+(2014, 11, 29)
+Shabbat Vayetze
+שבת ויצא
+Shabbat Vayetze
+שבת ויצא
+
+
+(5775, 9, 14)
+י"ד בכסלו
+(2014, 12, 6)
+Shabbat Vayishlach
+שבת וישלח
+Shabbat Vayishlach
+שבת וישלח
+
+
+(5775, 9, 21)
+כ"א בכסלו
+(2014, 12, 13)
+Shabbat Vayeshev
+שבת וישב
+Shabbat Vayeshev
+שבת וישב
+
+
+(5775, 9, 25)
+כ"ה בכסלו
+(2014, 12, 17)
+Chanukah
+חנוכה
+Chanukah - Day 1
+א' דחנוכה
+
+
+(5775, 9, 26)
+כ"ו בכסלו
+(2014, 12, 18)
+Chanukah
+חנוכה
+Chanukah - Day 2
+ב' דחנוכה
+
+
+(5775, 9, 27)
+כ"ז בכסלו
+(2014, 12, 19)
+Chanukah
+חנוכה
+Chanukah - Day 3
+ג' דחנוכה
+
+
+(5775, 9, 28)
+כ"ח בכסלו
+(2014, 12, 20)
+Chanukah, Shabbat Miketz
+חנוכה, שבת מקץ
+Chanukah - Day 4, Shabbat Miketz
+ד' דחנוכה, שבת מקץ
+
+
+(5775, 9, 29)
+כ"ט בכסלו
+(2014, 12, 21)
+Chanukah
+חנוכה
+Chanukah - Day 5
+ה' דחנוכה
+
+
+(5775, 9, 30)
+ל' בכסלו
+(2014, 12, 22)
+Chanukah, Rosh Chodesh Tevet
+חנוכה, ראש חודש טבת
+Chanukah - Day 6, Rosh Chodesh Tevet - Day 1
+ו' דחנוכה, א' דראש חודש טבת
+
+
+(5775, 10, 1)
+א' בטבת
+(2014, 12, 23)
+Chanukah, Rosh Chodesh Tevet
+חנוכה, ראש חודש טבת
+Chanukah - Day 7, Rosh Chodesh Tevet - Day 2
+ז' דחנוכה, ב' דראש חודש טבת
+
+
+(5775, 10, 2)
+ב' בטבת
+(2014, 12, 24)
+Chanukah
+חנוכה
+Chanukah - Day 8
+ח' דחנוכה
+
+
+(5775, 10, 5)
+ה' בטבת
+(2014, 12, 27)
+Shabbat Vayigash
+שבת ויגש
+Shabbat Vayigash
+שבת ויגש
+
+
+(5775, 10, 10)
+י' בטבת
+(2015, 1, 1)
+Fast of 10 Tevet
+צום עשרה בטבת
+Fast of 10 Tevet
+צום עשרה בטבת
+
+
+(5775, 10, 12)
+י"ב בטבת
+(2015, 1, 3)
+Shabbat Vayechi
+שבת ויחי
+Shabbat Vayechi
+שבת ויחי
+
+
+(5775, 10, 19)
+י"ט בטבת
+(2015, 1, 10)
+Shabbat Shmot
+שבת שמות
+Shabbat Shmot
+שבת שמות
+
+
+(5775, 10, 26)
+כ"ו בטבת
+(2015, 1, 17)
+Shabbat Va'era
+שבת וארא
+Shabbat Va'era
+שבת וארא
+
+
+(5775, 11, 1)
+א' בשבט
+(2015, 1, 21)
+Rosh Chodesh Shvat
+ראש חודש שבט
+Rosh Chodesh Shvat
+ראש חודש שבט
+
+
+(5775, 11, 4)
+ד' בשבט
+(2015, 1, 24)
+Shabbat Bo
+שבת בא
+Shabbat Bo
+שבת בא
+
+
+(5775, 11, 11)
+י"א בשבט
+(2015, 1, 31)
+Shabbat B'shalach
+שבת בשלח
+Shabbat B'shalach
+שבת בשלח
+
+
+(5775, 11, 15)
+ט"ו בשבט
+(2015, 2, 4)
+Tu B'Shvat
+ט"ו בשבט
+Tu B'Shvat
+ט"ו בשבט
+
+
+(5775, 11, 18)
+י"ח בשבט
+(2015, 2, 7)
+Shabbat Yitro
+שבת יתרו
+Shabbat Yitro
+שבת יתרו
+
+
+(5775, 11, 25)
+כ"ה בשבט
+(2015, 2, 14)
+Parshat Shkalim, Shabbat Mishpatim
+פרשת שקלים, שבת משפטים
+Parshat Shkalim, Shabbat Mishpatim
+פרשת שקלים, שבת משפטים
+
+
+(5775, 11, 30)
+ל' בשבט
+(2015, 2, 19)
+Rosh Chodesh Adar
+ראש חודש אדר
+Rosh Chodesh Adar - Day 1
+א' דראש חודש אדר
+
+
+(5775, 12, 1)
+א' באדר
+(2015, 2, 20)
+Rosh Chodesh Adar
+ראש חודש אדר
+Rosh Chodesh Adar - Day 2
+ב' דראש חודש אדר
+
+
+(5775, 12, 2)
+ב' באדר
+(2015, 2, 21)
+Shabbat Truma
+שבת תרומה
+Shabbat Truma
+שבת תרומה
+
+
+(5775, 12, 9)
+ט' באדר
+(2015, 2, 28)
+Parshat Zachor, Shabbat Tetzave
+פרשת זכור, שבת תצוה
+Parshat Zachor, Shabbat Tetzave
+פרשת זכור, שבת תצוה
+
+
+(5775, 12, 13)
+י"ג באדר
+(2015, 3, 4)
+Fast of Esther
+תענית אסתר
+Fast of Esther
+תענית אסתר
+
+
+(5775, 12, 14)
+י"ד באדר
+(2015, 3, 5)
+Purim
+פורים
+Purim
+פורים
+
+
+(5775, 12, 15)
+ט"ו באדר
+(2015, 3, 6)
+Shushan Purim
+שושן פורים
+Shushan Purim
+שושן פורים
+
+
+(5775, 12, 16)
+ט"ז באדר
+(2015, 3, 7)
+Shabbat Ki Tisa
+שבת כי תשא
+Shabbat Ki Tisa
+שבת כי תשא
+
+
+(5775, 12, 23)
+כ"ג באדר
+(2015, 3, 14)
+Parshat Parah, Shabbat Vayakhel - P'kudei
+פרשת פרה, שבת ויקהל - פקודי
+Parshat Parah, Shabbat Vayakhel - P'kudei
+פרשת פרה, שבת ויקהל - פקודי
+
+
+(5775, 1, 1)
+א' בניסן
+(2015, 3, 21)
+Rosh Chodesh Nisan, Parshat Hachodesh, Shabbat Vayikra
+ראש חודש ניסן, פרשת החודש, שבת ויקרא
+Rosh Chodesh Nisan, Parshat Hachodesh, Shabbat Vayikra
+ראש חודש ניסן, פרשת החודש, שבת ויקרא
+
+
+(5775, 1, 8)
+ח' בניסן
+(2015, 3, 28)
+Shabbat Hagadol, Shabbat Tzav
+שבת הגדול, שבת צו
+Shabbat Hagadol, Shabbat Tzav
+שבת הגדול, שבת צו
+
+
+(5775, 1, 14)
+י"ד בניסן
+(2015, 4, 3)
+Fast of the Firstborn, Erev Pesach
+תענית בכורות, ערב פסח
+Fast of the Firstborn, Erev Pesach
+תענית בכורות, ערב פסח
+
+
+(5775, 1, 15)
+ט"ו בניסן
+(2015, 4, 4)
+Pesach
+פסח
+Pesach
+פסח
+
+
+(5775, 1, 16)
+ט"ז בניסן
+(2015, 4, 5)
+Omer, Chol Hamoed Pesach
+עומר, חוה"מ פסח
+Omer - Day 1, Chol Hamoed Pesach - Day 1
+א' בעומר, א' דחוה"מ פסח
+
+
+(5775, 1, 17)
+י"ז בניסן
+(2015, 4, 6)
+Omer, Chol Hamoed Pesach
+עומר, חוה"מ פסח
+Omer - Day 2, Chol Hamoed Pesach - Day 2
+ב' בעומר, ב' דחוה"מ פסח
+
+
+(5775, 1, 18)
+י"ח בניסן
+(2015, 4, 7)
+Omer, Chol Hamoed Pesach
+עומר, חוה"מ פסח
+Omer - Day 3, Chol Hamoed Pesach - Day 3
+ג' בעומר, ג' דחוה"מ פסח
+
+
+(5775, 1, 19)
+י"ט בניסן
+(2015, 4, 8)
+Omer, Chol Hamoed Pesach
+עומר, חוה"מ פסח
+Omer - Day 4, Chol Hamoed Pesach - Day 4
+ד' בעומר, ד' דחוה"מ פסח
+
+
+(5775, 1, 20)
+כ' בניסן
+(2015, 4, 9)
+Omer, Chol Hamoed Pesach
+עומר, חוה"מ פסח
+Omer - Day 5, Chol Hamoed Pesach - Day 5
+ה' בעומר, ה' דחוה"מ פסח
+
+
+(5775, 1, 21)
+כ"א בניסן
+(2015, 4, 10)
+Omer, Pesach
+עומר, פסח
+Omer - Day 6, Pesach - Day 7
+ו' בעומר, ז' דפסח
+
+
+(5775, 1, 22)
+כ"ב בניסן
+(2015, 4, 11)
+Omer, Shabbat Shmini
+עומר, שבת שמיני
+Omer - Day 7, Shabbat Shmini
+ז' בעומר, שבת שמיני
+
+
+(5775, 1, 23)
+כ"ג בניסן
+(2015, 4, 12)
+Omer
+עומר
+Omer - Day 8
+ח' בעומר
+
+
+(5775, 1, 24)
+כ"ד בניסן
+(2015, 4, 13)
+Omer
+עומר
+Omer - Day 9
+ט' בעומר
+
+
+(5775, 1, 25)
+כ"ה בניסן
+(2015, 4, 14)
+Omer
+עומר
+Omer - Day 10
+י' בעומר
+
+
+(5775, 1, 26)
+כ"ו בניסן
+(2015, 4, 15)
+Omer
+עומר
+Omer - Day 11
+י"א בעומר
+
+
+(5775, 1, 27)
+כ"ז בניסן
+(2015, 4, 16)
+Omer, Holocaust Remembrance Day
+עומר, יום השואה
+Omer - Day 12, Holocaust Remembrance Day
+י"ב בעומר, יום השואה
+
+
+(5775, 1, 28)
+כ"ח בניסן
+(2015, 4, 17)
+Omer
+עומר
+Omer - Day 13
+י"ג בעומר
+
+
+(5775, 1, 29)
+כ"ט בניסן
+(2015, 4, 18)
+Omer, Shabbat Tazria - Metzora
+עומר, שבת תזריע - מצורע
+Omer - Day 14, Shabbat Tazria - Metzora
+י"ד בעומר, שבת תזריע - מצורע
+
+
+(5775, 1, 30)
+ל' בניסן
+(2015, 4, 19)
+Omer, Rosh Chodesh Iyar
+עומר, ראש חודש אייר
+Omer - Day 15, Rosh Chodesh Iyar - Day 1
+ט"ו בעומר, א' דראש חודש אייר
+
+
+(5775, 2, 1)
+א' באייר
+(2015, 4, 20)
+Omer, Rosh Chodesh Iyar
+עומר, ראש חודש אייר
+Omer - Day 16, Rosh Chodesh Iyar - Day 2
+ט"ז בעומר, ב' דראש חודש אייר
+
+
+(5775, 2, 2)
+ב' באייר
+(2015, 4, 21)
+Omer
+עומר
+Omer - Day 17
+י"ז בעומר
+
+
+(5775, 2, 3)
+ג' באייר
+(2015, 4, 22)
+Omer, Yom Hazikaron
+עומר, יום הזיכרון לחללי צה"ל
+Omer - Day 18, Yom Hazikaron
+י"ח בעומר, יום הזיכרון לחללי צה"ל
+
+
+(5775, 2, 4)
+ד' באייר
+(2015, 4, 23)
+Omer, Independence Day
+עומר, יום העצמאות
+Omer - Day 19, Independence Day
+י"ט בעומר, יום העצמאות
+
+
+(5775, 2, 5)
+ה' באייר
+(2015, 4, 24)
+Omer
+עומר
+Omer - Day 20
+כ' בעומר
+
+
+(5775, 2, 6)
+ו' באייר
+(2015, 4, 25)
+Omer, Shabbat Acharei Mot - K'doshim
+עומר, שבת אחרי מות - קדושים
+Omer - Day 21, Shabbat Acharei Mot - K'doshim
+כ"א בעומר, שבת אחרי מות - קדושים
+
+
+(5775, 2, 7)
+ז' באייר
+(2015, 4, 26)
+Omer
+עומר
+Omer - Day 22
+כ"ב בעומר
+
+
+(5775, 2, 8)
+ח' באייר
+(2015, 4, 27)
+Omer
+עומר
+Omer - Day 23
+כ"ג בעומר
+
+
+(5775, 2, 9)
+ט' באייר
+(2015, 4, 28)
+Omer
+עומר
+Omer - Day 24
+כ"ד בעומר
+
+
+(5775, 2, 10)
+י' באייר
+(2015, 4, 29)
+Omer
+עומר
+Omer - Day 25
+כ"ה בעומר
+
+
+(5775, 2, 11)
+י"א באייר
+(2015, 4, 30)
+Omer
+עומר
+Omer - Day 26
+כ"ו בעומר
+
+
+(5775, 2, 12)
+י"ב באייר
+(2015, 5, 1)
+Omer
+עומר
+Omer - Day 27
+כ"ז בעומר
+
+
+(5775, 2, 13)
+י"ג באייר
+(2015, 5, 2)
+Omer, Shabbat Emor
+עומר, שבת אמר
+Omer - Day 28, Shabbat Emor
+כ"ח בעומר, שבת אמר
+
+
+(5775, 2, 14)
+י"ד באייר
+(2015, 5, 3)
+Omer
+עומר
+Omer - Day 29
+כ"ט בעומר
+
+
+(5775, 2, 15)
+ט"ו באייר
+(2015, 5, 4)
+Omer
+עומר
+Omer - Day 30
+ל' בעומר
+
+
+(5775, 2, 16)
+ט"ז באייר
+(2015, 5, 5)
+Omer
+עומר
+Omer - Day 31
+ל"א בעומר
+
+
+(5775, 2, 17)
+י"ז באייר
+(2015, 5, 6)
+Omer
+עומר
+Omer - Day 32
+ל"ב בעומר
+
+
+(5775, 2, 18)
+י"ח באייר
+(2015, 5, 7)
+Omer, Lag BaOmer
+עומר, ל"ג בעומר
+Omer - Day 33, Lag BaOmer
+ל"ג בעומר, ל"ג בעומר
+
+
+(5775, 2, 19)
+י"ט באייר
+(2015, 5, 8)
+Omer
+עומר
+Omer - Day 34
+ל"ד בעומר
+
+
+(5775, 2, 20)
+כ' באייר
+(2015, 5, 9)
+Omer, Shabbat B'har
+עומר, שבת בהר
+Omer - Day 35, Shabbat B'har
+ל"ה בעומר, שבת בהר
+
+
+(5775, 2, 21)
+כ"א באייר
+(2015, 5, 10)
+Omer
+עומר
+Omer - Day 36
+ל"ו בעומר
+
+
+(5775, 2, 22)
+כ"ב באייר
+(2015, 5, 11)
+Omer
+עומר
+Omer - Day 37
+ל"ז בעומר
+
+
+(5775, 2, 23)
+כ"ג באייר
+(2015, 5, 12)
+Omer
+עומר
+Omer - Day 38
+ל"ח בעומר
+
+
+(5775, 2, 24)
+כ"ד באייר
+(2015, 5, 13)
+Omer
+עומר
+Omer - Day 39
+ל"ט בעומר
+
+
+(5775, 2, 25)
+כ"ה באייר
+(2015, 5, 14)
+Omer
+עומר
+Omer - Day 40
+מ' בעומר
+
+
+(5775, 2, 26)
+כ"ו באייר
+(2015, 5, 15)
+Omer
+עומר
+Omer - Day 41
+מ"א בעומר
+
+
+(5775, 2, 27)
+כ"ז באייר
+(2015, 5, 16)
+Omer, Shabbat B'chukotai
+עומר, שבת בחוקתי
+Omer - Day 42, Shabbat B'chukotai
+מ"ב בעומר, שבת בחוקתי
+
+
+(5775, 2, 28)
+כ"ח באייר
+(2015, 5, 17)
+Omer, Jerusalem Day
+עומר, יום ירושלים
+Omer - Day 43, Jerusalem Day
+מ"ג בעומר, יום ירושלים
+
+
+(5775, 2, 29)
+כ"ט באייר
+(2015, 5, 18)
+Omer
+עומר
+Omer - Day 44
+מ"ד בעומר
+
+
+(5775, 3, 1)
+א' בסיון
+(2015, 5, 19)
+Omer, Rosh Chodesh Sivan
+עומר, ראש חודש סיון
+Omer - Day 45, Rosh Chodesh Sivan
+מ"ה בעומר, ראש חודש סיון
+
+
+(5775, 3, 2)
+ב' בסיון
+(2015, 5, 20)
+Omer
+עומר
+Omer - Day 46
+מ"ו בעומר
+
+
+(5775, 3, 3)
+ג' בסיון
+(2015, 5, 21)
+Omer
+עומר
+Omer - Day 47
+מ"ז בעומר
+
+
+(5775, 3, 4)
+ד' בסיון
+(2015, 5, 22)
+Omer
+עומר
+Omer - Day 48
+מ"ח בעומר
+
+
+(5775, 3, 5)
+ה' בסיון
+(2015, 5, 23)
+Omer, Erev Shavuot, Shabbat Bamidbar
+עומר, ערב שבועות, שבת במדבר
+Omer - Day 49, Erev Shavuot, Shabbat Bamidbar
+מ"ט בעומר, ערב שבועות, שבת במדבר
+
+
+(5775, 3, 6)
+ו' בסיון
+(2015, 5, 24)
+Shavuot
+שבועות
+Shavuot
+שבועות
+
+
+(5775, 3, 12)
+י"ב בסיון
+(2015, 5, 30)
+Shabbat Naso
+שבת נשא
+Shabbat Naso
+שבת נשא
+
+
+(5775, 3, 19)
+י"ט בסיון
+(2015, 6, 6)
+Shabbat B'ha'alotcha
+שבת בהעלותך
+Shabbat B'ha'alotcha
+שבת בהעלותך
+
+
+(5775, 3, 26)
+כ"ו בסיון
+(2015, 6, 13)
+Shabbat Shlach Lecha
+שבת שלח לך
+Shabbat Shlach Lecha
+שבת שלח לך
+
+
+(5775, 3, 30)
+ל' בסיון
+(2015, 6, 17)
+Rosh Chodesh Tamuz
+ראש חודש תמוז
+Rosh Chodesh Tamuz - Day 1
+א' דראש חודש תמוז
+
+
+(5775, 4, 1)
+א' בתמוז
+(2015, 6, 18)
+Rosh Chodesh Tamuz
+ראש חודש תמוז
+Rosh Chodesh Tamuz - Day 2
+ב' דראש חודש תמוז
+
+
+(5775, 4, 3)
+ג' בתמוז
+(2015, 6, 20)
+Shabbat Korach
+שבת קרח
+Shabbat Korach
+שבת קרח
+
+
+(5775, 4, 10)
+י' בתמוז
+(2015, 6, 27)
+Shabbat Chukat
+שבת חקת
+Shabbat Chukat
+שבת חקת
+
+
+(5775, 4, 17)
+י"ז בתמוז
+(2015, 7, 4)
+Shabbat Balak
+שבת בלק
+Shabbat Balak
+שבת בלק
+
+
+(5775, 4, 18)
+י"ח בתמוז
+(2015, 7, 5)
+Fast of 17 Tamuz
+תענית י"ז תמוז
+Fast of 17 Tamuz
+תענית י"ז תמוז
+
+
+(5775, 4, 24)
+כ"ד בתמוז
+(2015, 7, 11)
+Shabbat Pinchas
+שבת פינחס
+Shabbat Pinchas
+שבת פינחס
+
+
+(5775, 5, 1)
+א' באב
+(2015, 7, 17)
+Rosh Chodesh Av
+ראש חודש אב
+Rosh Chodesh Av
+ראש חודש אב
+
+
+(5775, 5, 2)
+ב' באב
+(2015, 7, 18)
+Shabbat Matot - Masei
+שבת מטות - מסעי
+Shabbat Matot - Masei
+שבת מטות - מסעי
+
+
+(5775, 5, 9)
+ט' באב
+(2015, 7, 25)
+Shabbat Chazon, Shabbat Dvarim
+שבת חזון, שבת דברים
+Shabbat Chazon, Shabbat Dvarim
+שבת חזון, שבת דברים
+
+
+(5775, 5, 10)
+י' באב
+(2015, 7, 26)
+Tisha B'Av
+תשעה באב
+Tisha B'Av
+תשעה באב
+
+
+(5775, 5, 15)
+ט"ו באב
+(2015, 7, 31)
+Tu B'Av
+ט"ו באב
+Tu B'Av
+ט"ו באב
+
+
+(5775, 5, 16)
+ט"ז באב
+(2015, 8, 1)
+Shabbat Nacham, Shabbat Va'etchanan
+שבת נחמו, שבת ואתחנן
+Shabbat Nacham, Shabbat Va'etchanan
+שבת נחמו, שבת ואתחנן
+
+
+(5775, 5, 23)
+כ"ג באב
+(2015, 8, 8)
+Shabbat Ekev
+שבת עקב
+Shabbat Ekev
+שבת עקב
+
+
+(5775, 5, 30)
+ל' באב
+(2015, 8, 15)
+Rosh Chodesh Elul, Shabbat Re'e
+ראש חודש אלול, שבת ראה
+Rosh Chodesh Elul - Day 1, Shabbat Re'e
+א' דראש חודש אלול, שבת ראה
+
+
+(5775, 6, 1)
+א' באלול
+(2015, 8, 16)
+Rosh Chodesh Elul
+ראש חודש אלול
+Rosh Chodesh Elul - Day 2
+ב' דראש חודש אלול
+
+
+(5775, 6, 7)
+ז' באלול
+(2015, 8, 22)
+Shabbat Shoftim
+שבת שופטים
+Shabbat Shoftim
+שבת שופטים
+
+
+(5775, 6, 14)
+י"ד באלול
+(2015, 8, 29)
+Shabbat Ki Tetzei
+שבת כי תצא
+Shabbat Ki Tetzei
+שבת כי תצא
+
+
+(5775, 6, 21)
+כ"א באלול
+(2015, 9, 5)
+Shabbat Ki Tavo
+שבת כי תבוא
+Shabbat Ki Tavo
+שבת כי תבוא
+
+
+(5775, 6, 22)
+כ"ב באלול
+(2015, 9, 6)
+Slichot
+סליחות
+Slichot - Day 1
+א' דסליחות
+
+
+(5775, 6, 23)
+כ"ג באלול
+(2015, 9, 7)
+Slichot
+סליחות
+Slichot - Day 2
+ב' דסליחות
+
+
+(5775, 6, 24)
+כ"ד באלול
+(2015, 9, 8)
+Slichot
+סליחות
+Slichot - Day 3
+ג' דסליחות
+
+
+(5775, 6, 25)
+כ"ה באלול
+(2015, 9, 9)
+Slichot
+סליחות
+Slichot - Day 4
+ד' דסליחות
+
+
+(5775, 6, 26)
+כ"ו באלול
+(2015, 9, 10)
+Slichot
+סליחות
+Slichot - Day 5
+ה' דסליחות
+
+
+(5775, 6, 27)
+כ"ז באלול
+(2015, 9, 11)
+Slichot
+סליחות
+Slichot - Day 6
+ו' דסליחות
+
+
+(5775, 6, 28)
+כ"ח באלול
+(2015, 9, 12)
+Slichot, Shabbat Nitzavim - Vayelech
+סליחות, שבת נצבים - וילך
+Slichot - Day 7, Shabbat Nitzavim - Vayelech
+ז' דסליחות, שבת נצבים - וילך
+
+
+(5775, 6, 29)
+כ"ט באלול
+(2015, 9, 13)
+Erev Rosh Hashanah
+ערב ראש השנה
+Erev Rosh Hashanah
+ערב ראש השנה
+

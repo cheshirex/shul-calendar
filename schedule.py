@@ -170,6 +170,7 @@ for jd in sorted(holidays):
 		minchaG = "12:30"
 		shacharit = "08:00"
 		dafYomi = "07:15"
+		isFirstDayPesach = day['hebrew'][1] == 1 and day['hebrew'][2] == 15
 		if dstActive:
 			minchaG = "13:30"
 			shacharit = "08:30"
@@ -230,11 +231,16 @@ for jd in sorted(holidays):
 		else:
 			column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
 			column1.append((u"מנחה וערבית", minchaErev.strftime("%H:%M")))
+		if isFirstDayPesach:
+			column1.append(((u'חצות הלילה'), (dayTimes['noon'] + datetime.timedelta(hours=12)).strftime("%H:%M")))
 		column1.append((u"שיעור בדף יומי", dafYomi))
-		column1.append((u"שחרית", shacharit))
+		if not isFirstDayPesach:
+			column1.append((u"שחרית", shacharit))
 		if 'shabbat' in day['type'] and day['mevarchim']:
 			column1.append(({'text': u"שיעור לנשים אחרי התפילה", 'bold': True},))
 
+		if isFirstDayPesach:
+			column2.append((u"שחרית", shacharit))
 		if yizkor:
 			column2.append((u'יזכור (משוער)', yizkor))
 		column2.append((u"מנחה גדולה", minchaG))

@@ -161,6 +161,15 @@ Rosh Chodesh Cheshvan - Day 2, Shabbat Noach
 ב' דראש חודש חשון, שבת נח
 
 
+(5775, 8, 2)
+ב' בחשון
+(2014, 10, 26)
+DST end
+
+DST end
+
+
+
 (5775, 8, 6)
 ו' בחשון
 (2014, 10, 30)
@@ -501,6 +510,15 @@ Rosh Chodesh Nisan, Parshat Hachodesh, Shabbat Vayikra
 ראש חודש ניסן, פרשת החודש, שבת ויקרא
 Rosh Chodesh Nisan, Parshat Hachodesh, Shabbat Vayikra
 ראש חודש ניסן, פרשת החודש, שבת ויקרא
+
+
+(5775, 1, 7)
+ז' בניסן
+(2015, 3, 27)
+DST start
+
+DST start
+
 
 
 (5775, 1, 8)

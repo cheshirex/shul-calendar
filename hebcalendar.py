@@ -11,6 +11,7 @@
 
 from convertdate import hebrew, gregorian, utils
 import datetime
+import arrow
 
 # Should be searching for 6, but use 5 because of a bug in the library that gets us off by one day
 weekday = {'sunday': 6,
@@ -507,6 +508,34 @@ def getParshiot(holidays):
 	
 	getHolidays(holidays, shabbatList)
 
+def getDst(year):
+	dst = {}
+	begin = datetime.datetime(*gregorian.from_jd(hebrew.to_jd(year,7,1)))
+	end = datetime.datetime(*gregorian.from_jd(hebrew.to_jd(year,6,29)))
+	
+	for today in arrow.Arrow.range('day', begin, end):
+		today = today.to('Asia/Jerusalem')
+		tomorrow = today.replace(days=+1)
+		
+		if today.dst() != tomorrow.dst():
+			if tomorrow.dst().total_seconds():
+				dst['start'] = tomorrow.datetime
+			else:
+				dst['end'] = tomorrow.datetime
+	return dst
+	
+def getHolidaysFromGregorian(holidays):
+	dst = getDst(year)
+	
+	dayList = []
+	
+	for day, date in dst.iteritems():
+		hebDate = hebrew.from_jd(gregorian.to_jd(date.year, date.month, date.day))
+		dayList.append({'month': hebDate[1], 'day': hebDate[2], 'name': {'english': 'DST ' + day, 'hebrew': ''}, 'length':1, 'type': day + 'Dst'})
+	
+	getHolidays(holidays, dayList)
+	
+	
 def getYear(yearIn, locationIn):
 	# build list of holidays
 	# add special shabbatot
@@ -522,6 +551,8 @@ def getYear(yearIn, locationIn):
 	getVariableHolidays(holidays)
 
 	getParshiot(holidays)
+	
+	getHolidaysFromGregorian(holidays)
 	
 	return holidays
 	

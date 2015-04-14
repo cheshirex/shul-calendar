@@ -28,9 +28,9 @@ def setLocation(name, region, latitude, longitude, tzName, elevation):
 	loc = Location((name, region, latitude, longitude, tzName, elevation))
 
 def variableHour(date):
-	dayLength1 = loc.sunset(date=date) - loc.sunrise(date=date)
-	dayLength2 = (loc.sunset(date=date) + ninety) - (loc.sunrise(date=date) - ninety)
-	return (datetime.timedelta(seconds = dayLength1.total_seconds()/12), datetime.timedelta(seconds = dayLength2.total_seconds()/12))
+	GRA = loc.sunset(date=date) - loc.sunrise(date=date)
+	MA = (loc.sunset(date=date) + ninety) - (loc.sunrise(date=date) - ninety)
+	return {'GRA': datetime.timedelta(seconds = GRA.total_seconds()/12), 'MA': datetime.timedelta(seconds = MA.total_seconds()/12)}
 
 # Until Astral provides a way to calculate the time for a specific position of the sun
 def solarPosition(date, angle):
@@ -40,6 +40,12 @@ def solarPosition(date, angle):
 	time = loc.astral._calc_time(date, loc.latitude, loc.longitude, angle)
 	
 	return time.astimezone(loc.tz)
+
+def plagMincha(date):
+	hour = variableHour(date)['MA']
+	hour1p5 = datetime.timedelta(seconds=(hour.total_seconds() * 1.5))
+	#return round(loc.sunset(date=date) - hour1p5, 'backward')
+	return round(motzei(date) - hour1p5, 'backward')
 	
 def motzei(date):
 	return round(solarPosition(date, motzeiSunPosition), 'forward')
@@ -59,11 +65,11 @@ def fastEnds9av(date):
 
 # Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
 def pesachChametzEating(date):
-	hour = variableHour(date)[1]
+	hour = variableHour(date)['MA']
 	return round(loc.sunrise(date=date) - ninety + 4 * hour, 'backward')
 	
 def pesachChametzBurning(date):
-	hour = variableHour(date)[1]
+	hour = variableHour(date)['MA']
 	return round(loc.sunrise(date=date) - ninety + 5 * hour, 'backward')
 	
 def midnight(date):
@@ -77,7 +83,8 @@ def getTimes(date):
 			'fast9avEnds': fastEnds9av(date),
 			'chametzEating': pesachChametzEating(date),
 			'chametzBurning': pesachChametzBurning(date),
-			'midnight': midnight(date)}
+			'midnight': midnight(date),
+			'plagMincha': plagMincha(date)}
 	data = dict(loc.sun(date=date).items() + data.items())
 	return data
 
@@ -107,16 +114,21 @@ if __name__ == "__main__":
 	setLocation('Givat Zeev','Israel',31.86,35.17,'Asia/Jerusalem',0)
 	times = getTimes(today)
 	
-	print(repr(times['candleLighting'].dst().total_seconds()))
-	
 	print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
 	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
+	print("Sunrise: %s"  % times['sunrise'].strftime('%H:%M'))
+	print("Sunset: %s"  % times['sunset'].strftime('%H:%M'))
 	print("Motzei: %s"  % times['motzei'].strftime('%H:%M'))
 	print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))
 	print("Fast ends: %s" % times['fastEnds'].strftime('%H:%M'))
 	print("Eat chametz by: %s" % times['chametzEating'].strftime('%H:%M'))
 	print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
 	print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
+	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
+	
+	vh = variableHour(today)
+	print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))
+	
 	
 	
 	

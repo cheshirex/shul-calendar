@@ -13,7 +13,9 @@ from convertdate import hebrew, gregorian, utils
 import datetime
 import arrow
 
-# Should be searching for 6, but use 5 because of a bug in the library that gets us off by one day
+externalDays = []
+filter = []
+
 weekday = {'sunday': 6,
 		   'monday': 0,
 		   'tuesday': 1,
@@ -260,7 +262,7 @@ def omer(day, language):
 ## Need special handling to deal with Erev Pesach on Shabbat
 holidayDefs = ({'month': 7, 'day':1, 'name':{'english': u'Rosh Hashanah','hebrew':u'ראש השנה'}, 'length':2, 'type': 'RH'},
                {'month': 7, 'day':3, 'name':{'english': u'Fast of Gedaliah', 'hebrew': u'צום גדליה'}, 'length':1, 'offset': deferToSunday, 'type': 'gedaliah'},
-			   {'month': 7, 'day':9, 'name':{'english': u'Erev Yom Kippur', 'hebrew': u'ערב יום כפור'}, 'length':1},
+			   {'month': 7, 'day':9, 'name':{'english': u'Erev Yom Kippur', 'hebrew': u'ערב יום כפור'}, 'length':1, 'type': 'other'},
 			   {'month': 7, 'day':10,'name':{'english': u'Yom Kippur', 'hebrew': u'יום כפור'}, 'length':1, 'type': 'YK'},
 			   {'month': 7, 'day':14,'name':{'english': u'Erev Sukkot', 'hebrew': u'ערב סוכות'}, 'length':1, 'type': 'erev'},
 			   {'month': 7, 'day':15,'name':{'english': u'Sukkot', 'hebrew': u'סוכות'}, 'length':1, 'location': 'Israel', 'type': 'chag'},
@@ -283,7 +285,7 @@ holidayDefs = ({'month': 7, 'day':1, 'name':{'english': u'Rosh Hashanah','hebrew
 			   {'month': 13,'day':13,'name':{'english': u'Fast of Esther', 'hebrew': u'תענית אסתר'}, 'length':1,'offset': precedingThursday, 'leap': True, 'type': 'esther'},
 			   {'month': 13,'day':14,'name':{'english': u'Purim', 'hebrew': u'פורים'}, 'length':1, 'leap': True, 'type': 'purim'},
 			   {'month': 13,'day':15,'name':{'english': u'Shushan Purim', 'hebrew': u'שושן פורים'}, 'length':1, 'leap': True, 'type': 'SP'},
-			   {'month': 1, 'day':14,'name':{'english': u'Fast of the Firstborn', 'hebrew': u'תענית בכורות'}, 'length':1, 'offset': precedingThursday},
+			   {'month': 1, 'day':14,'name':{'english': u'Fast of the Firstborn', 'hebrew': u'תענית בכורות'}, 'length':1, 'offset': precedingThursday, 'type': 'other'},
 			   {'month': 1, 'day':14,'name':{'english': u'Erev Pesach', 'hebrew': u'ערב פסח'}, 'length':1, 'type': 'erevPesach'},
 			   {'month': 1, 'day':15,'name':{'english': u'Pesach', 'hebrew': u'פסח'}, 'length':1, 'location': 'Israel', 'type': 'chag'},
 			   {'month': 1, 'day':15,'name':{'english': u'Pesach', 'hebrew': u'פסח'}, 'length':2, 'location': 'Diaspora', 'type': 'chag'},
@@ -314,6 +316,8 @@ def getHolidays(holidays, holidayList):
 		if 'location' in holiday and holiday['location'] != location:
 			continue
 		for day in range(holiday['length']):
+			if filter and holiday['type'] not in filter:
+				continue
 			jd = hebrew.to_jd(year, holiday['month'], holiday['day']) + day
 			# Cover the last two days of Pesach in diaspora
 			dayOfHoliday = day
@@ -352,9 +356,7 @@ def getHolidays(holidays, holidayList):
 								'names':[holiday['name']], 'fullnames': fullName}
 				holidays[jd]['date'] = datetime.date(*holidays[jd]['gregorian'])
 				holidays[jd]['hebrewWritten'] = hebrewDate(holidays[jd]['hebrew'][1], holidays[jd]['hebrew'][2], 'hebrew')
-				holidays[jd]['type'] = []
-				if 'type' in holiday:
-					holidays[jd]['type'].append(holiday['type'])
+				holidays[jd]['type'] = [holiday['type']]
 					
 			if 'mevarchim' in holiday:
 				holidays[jd]['mevarchim'] = holiday['mevarchim']
@@ -408,7 +410,7 @@ def getVariableHolidays(holidays):
 	# Shuvah - before yom kippur (before 10 Tishrei)
 	refDay = hebrew.to_jd(year, 7, 10)
 	shabbat = hebrew.from_jd(utils.previous_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Shuvah', 'hebrew': u'שבת שובה'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Shuvah', 'hebrew': u'שבת שובה'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Shkalim - on or before Rosh Chodesh Adar (or Adar 2) (on or before 1 Adar 2 on leap year, else on or before 1 Adar)
@@ -417,7 +419,7 @@ def getVariableHolidays(holidays):
 	else:
 		refDay = hebrew.to_jd(year, 12, 1)
 	shabbat = hebrew.from_jd(utils.previous_or_current_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Shkalim', 'hebrew': u'פרשת שקלים'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Shkalim', 'hebrew': u'פרשת שקלים'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Zachor - before Purim
@@ -426,37 +428,37 @@ def getVariableHolidays(holidays):
 	else:
 		refDay = hebrew.to_jd(year, 12, 14)
 	shabbat = hebrew.from_jd(utils.previous_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Zachor', 'hebrew': u'פרשת זכור'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Zachor', 'hebrew': u'פרשת זכור'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Hachodesh - on or before rosh chodesh Nisan
 	refDay = hebrew.to_jd(year, 1, 1)
 	shabbat = hebrew.from_jd(utils.previous_or_current_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Hachodesh', 'hebrew': u'פרשת החודש'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Hachodesh', 'hebrew': u'פרשת החודש'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Parah - shabbat before hachodesh
 	refDay -= 7
 	shabbat = hebrew.from_jd(utils.previous_or_current_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Parah', 'hebrew': u'פרשת פרה'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Parshat Parah', 'hebrew': u'פרשת פרה'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Hagadol - before Pesach
 	refDay = hebrew.to_jd(year, 1, 15)
 	shabbat = hebrew.from_jd(utils.previous_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Hagadol', 'hebrew': u'שבת הגדול'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Hagadol', 'hebrew': u'שבת הגדול'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Chazon - before 9 av
 	refDay = hebrew.to_jd(year, 5, 9)
 	shabbat = hebrew.from_jd(utils.previous_or_current_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Chazon', 'hebrew': u'שבת חזון'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Chazon', 'hebrew': u'שבת חזון'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 	
 	# Nachamu - after 9 av
 	# refday is already correct
 	shabbat = hebrew.from_jd(utils.next_weekday(weekday['shabbat'], refDay))
-	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Nacham', 'hebrew': u'שבת נחמו'}, 'length':1}
+	holiday = {'month': shabbat[1], 'day':shabbat[2], 'name':{'english': u'Shabbat Nacham', 'hebrew': u'שבת נחמו'}, 'length':1, 'type': 'other'}
 	holidayList.append(holiday)
 		
 	getHolidays(holidays, holidayList)
@@ -535,6 +537,27 @@ def getHolidaysFromGregorian(holidays):
 	
 	getHolidays(holidays, dayList)
 	
+# Building this initially for yahrtzeits, but I imagine it can be used for other things as well, so
+# I'll allow storing multiple lists within the list
+def setExternalDays(dayList, type):
+	global externalDays
+	
+	externalDays.append({type: dayList})
+	
+def getExternalDays(holidays):
+	dayList = []
+	
+	for typeList in externalDays:
+		for type in typeList:
+			for entry in typeList[type]:
+				date = entry['date'].split('.', 3)
+				dayList.append({'month': int(date[1]), 'day': int(date[0]), 'name': {'english': '', 'hebrew': entry['info']}, 'length':1, 'type': type})
+	
+	getHolidays(holidays, dayList)
+
+def setFilter(types):
+	global filter
+	filter = types
 	
 def getYear(yearIn, locationIn):
 	# build list of holidays
@@ -553,6 +576,8 @@ def getYear(yearIn, locationIn):
 	getParshiot(holidays)
 	
 	getHolidaysFromGregorian(holidays)
+	
+	getExternalDays(holidays)
 	
 	return holidays
 	

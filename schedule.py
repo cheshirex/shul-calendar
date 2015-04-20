@@ -198,8 +198,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column2.append((u'יזכור (משוער)', yizkor))
 	column2.append((u"מנחה גדולה", minchaG))
 	if 'shabbat' in day['type'] and not yizkor:
-		#column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
-		column2.append((u"לימוד הורים וילדים", "??:??"))
+		column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
 	if not 'chag' in day['type'] and not 'CH' in day['type']:
 		name = u'מנחה קטנה וס"ש'
 	else:
@@ -270,12 +269,9 @@ def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
 
 		lastCH = holidays[dayLast]
 			
-		#any([name['english'] == 'Simchat Torah' for name in day['names']])
 		desc = name + u' ימי ' + hebcalendar.hebrewDayOfWeek(day['date'].weekday()) + u' - ' + hebcalendar.hebrewDayOfWeek(lastCH['date'].weekday()) + u', '
 		desc += hebcalendar.hebrewNumber(day['hebrew'][2]-1) + u' - ' + hebcalendar.hebrewDate(lastCH['hebrew'][1], lastCH['hebrew'][2], 'hebrew')
 		desc += " (" + lastCH['date'].strftime("%d.%m.%y") + ' - ' + day['date'].strftime("%d.%m.%y") + ')'
-		
-		# Want: חוה"מ פסח - ימי ד'- א', ט"ז - כ' בניסן (20.4.14 –16.4.14) 
 		
 		desc += u'\n'
 		setHeader(worddoc, {'text': desc})

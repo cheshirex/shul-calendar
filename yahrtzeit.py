@@ -7,12 +7,22 @@ import codecs
 import itertools
 from convertdate import hebrew, gregorian, utils
 
+def usage():
+	print 'yahrtzeit.py Yahrtzeit Generation script'
+	print 'Usage: yahrtzeit.py <Jewish year> <name of data file>'
+
 dates = {}
+
+if len(sys.argv) != 3:
+	usage()
+	sys.exit(1)
 
 year = int(sys.argv[1])
 
+inputFile = sys.argv[2]
+
 # Read in file, build DB of dates
-for line in codecs.open("anniversary.txt", encoding='utf-8'):
+for line in codecs.open(inputFile, encoding='utf-8'):
 	# Throw away anything after a comment character
 	line = line.split('#')[0].strip()
 	

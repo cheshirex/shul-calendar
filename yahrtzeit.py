@@ -33,6 +33,9 @@ for line in codecs.open(inputFile, encoding='utf-8'):
 	
 	date = date.split('.', 3)
 	
+	if not hebrew.leap(year) and date[1] == '13':
+		date[1] = '12'
+	
 	jd = hebrew.to_jd(year, int(date[1]), int(date[0]))
 	
 	if jd not in dates:

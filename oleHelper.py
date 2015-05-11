@@ -83,7 +83,7 @@ def createDoc():
 	wordapp = win32com.client.gencache.EnsureDispatch("Word.Application")
 	wordapp.Visible = True # Word Application should be visible
 
-	worddoc = wordapp.Documents.Open("C:\Users\dbernste\Google Drive\Calendar\emptySched.docx", False, False, False)
+	worddoc = wordapp.Documents.Open(os.getcwd() + "\emptySched.docx", False, False, False)
 
 	worddoc.Content.Font.Size = 14
 	worddoc.Content.Paragraphs.TabStops.Add (100)
@@ -91,6 +91,5 @@ def createDoc():
 	return worddoc
 
 def saveDoc(worddoc, monthName, year):
-	#wordapp.ActiveDocument.SaveAs(os.getcwd() + '\\' + monthName + repr(year) + '.docx')
 	worddoc.SaveAs(os.getcwd() + '\\' + monthName + repr(year) + '.docx')
 

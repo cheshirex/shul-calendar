@@ -7,10 +7,40 @@ import codecs
 import itertools
 from convertdate import hebrew, gregorian, utils
 
+import os
+import win32com.client
+
 def usage():
 	print 'yahrtzeit.py Yahrtzeit Generation script'
 	print 'Usage: yahrtzeit.py <Jewish year> <name of data file>'
 
+def createDoc():
+	wordapp = win32com.client.gencache.EnsureDispatch("Word.Application")
+	wordapp.Visible = True # Word Application should be visible
+
+	worddoc = wordapp.Documents.Open(os.getcwd() + "\emptyYahrtzeits.docx", False, False, False)
+
+	worddoc.Content.Font.Size = 12
+	worddoc.Content.Paragraphs.TabStops.Add (100)
+
+	return worddoc
+
+def saveDoc(worddoc, year):
+	worddoc.SaveAs(os.getcwd() + '\\yahrtzeitsFor' + repr(year) + '.docx')
+	
+def writeLine(worddoc, parsha, data):
+	r = worddoc.Range().Paragraphs.Add().Range
+	r.Font.SizeBi = 12
+	r.Font.Name = "Arial"
+	r.Font.BoldBi = True
+	r.Text = parsha
+	r = worddoc.Range().Paragraphs.Add().Range
+	r.Font.SizeBi = 12
+	r.Font.Name = "Arial"
+	r.Text = data
+	r.ListFormat.ApplyBulletDefault()
+	return r
+	
 dates = {}
 
 if len(sys.argv) != 3:
@@ -54,6 +84,8 @@ lastShabbatName = ''
 
 yahrtzeits = sorted(dates)
 
+doc = createDoc()
+
 out = codecs.open('yahrtzeitsFor%d.txt' % year, 'w', encoding='utf-8')
 
 for shabbat in sorted(holidays):
@@ -67,14 +99,19 @@ for shabbat in sorted(holidays):
 
 	if len(yDates) > 0:
 		out.write(lastShabbatName + u'\n')
+		parsha = lastShabbatName + u'\n'
+		data = ''
 		for date in sorted(yDates):
+			weekday = utils.jwday(date)
 			for y in dates[date]:
-				out.write(u"* %s - %s - %s\n" % (y['name'], '.'.join(reversed(y['date'])), y['info']))
-
+				data += u"* %s: %s - %s\n" % (hebcalendar.numbers[weekday], y['name'], y['info'])
+				out.write(data)
+		writeLine(doc, parsha, data)
+				
 
 	lastShabbat = shabbat
 	lastShabbatName = name
 	
-
+saveDoc(doc, year)
 	
 	

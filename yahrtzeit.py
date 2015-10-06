@@ -4,7 +4,6 @@
 import hebcalendar
 import sys
 import codecs
-import itertools
 from convertdate import hebrew, gregorian, utils
 
 import os
@@ -33,6 +32,7 @@ def writeLine(worddoc, parsha, data):
 	r.Font.SizeBi = 12
 	r.Font.Name = "Arial"
 	r.Font.BoldBi = True
+	r.Font.Shading.BackgroundPatternColor = 50500
 	r.Text = parsha
 	r = worddoc.Range().Paragraphs.Add().Range
 	r.Font.SizeBi = 12

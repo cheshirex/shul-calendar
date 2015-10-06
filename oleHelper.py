@@ -90,6 +90,26 @@ def createDoc():
 
 	return worddoc
 
+def createSheet():
+	excelsheet = win32com.client.gencache.EnsureDispatch("Excel.Application")
+	excelsheet.Visible = True # Word Application should be visible
+
+	excelsheet = excelsheet.Workbooks.Open(os.getcwd() + "\emptyParshaSheet.xlsx", False, False)
+
+	sheet = excelsheet.Worksheets("Sheet1")
+	sheet.Activate()
+
+	return sheet
+
+def setRow(sheet, row, date, name, shlishit=True):
+	sheet.Range('A%d' % row).Value = date
+	sheet.Range('B%d' % row).Value = name
+	if not shlishit:
+		sheet.Range('D%d' % row).Interior.Pattern = -4124 # 25% gray
+
 def saveDoc(worddoc, monthName, year):
 	worddoc.SaveAs(os.getcwd() + '\\' + monthName + repr(year) + '.docx')
+
+def saveSheet(sheet, year):
+	sheet.SaveAs(os.getcwd() + '\\parshaSheet' + repr(year) + '.docx')
 

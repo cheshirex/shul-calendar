@@ -134,6 +134,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	if 'yizkor' in day:
 		if location == 'Israel' and simchatTorah:
 			yizkor = "11:45"
+			shacharit = "07:30"
+			dafYomi = "06:45"
 		else:
 			yizkor = "10:00"
 	

@@ -317,8 +317,6 @@ def getHolidays(holidays, holidayList):
 		if 'location' in holiday and holiday['location'] != location:
 			continue
 		for day in range(holiday['length']):
-			if filter and holiday['type'] not in filter:
-				continue
 			jd = hebrew.to_jd(year, holiday['month'], holiday['day']) + day
 			# Cover the last two days of Pesach in diaspora
 			dayOfHoliday = day
@@ -558,7 +556,11 @@ def getExternalDays(holidays):
 
 def setFilter(types):
 	global filter
-	filter = types
+	filter = set(types)
+
+def filterHolidays(holidays):
+	filtered = {k: v for k, v in holidays.iteritems() if set(v['type']).intersection(filter)}
+	return filtered
 	
 def getYear(yearIn, locationIn):
 	# build list of holidays
@@ -579,6 +581,8 @@ def getYear(yearIn, locationIn):
 	getHolidaysFromGregorian(holidays)
 	
 	getExternalDays(holidays)
+
+	holidays = filterHolidays(holidays)
 	
 	return holidays
 	
@@ -626,15 +630,3 @@ if __name__ == "__main__":
 		out.write(z.encode('utf8')+'\n')
 
 	out.close()
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			

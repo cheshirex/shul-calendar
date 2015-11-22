@@ -20,7 +20,6 @@ def createDoc():
 	worddoc = wordapp.Documents.Open(os.getcwd() + "\emptyYahrtzeits.docx", False, False, False)
 
 	worddoc.Content.Font.Size = 12
-	worddoc.Content.Paragraphs.TabStops.Add (100)
 
 	return worddoc
 
@@ -102,7 +101,8 @@ for shabbat in sorted(holidays):
 		parsha = lastShabbatName + u'\n'
 		data = ''
 		for date in sorted(yDates):
-			weekday = utils.jwday(date)
+			# utils assumes the week starts on Monday, so adjust
+			weekday = (utils.jwday(date) + 6) % 7
 			for y in dates[date]:
 				data += u"* %s: %s - %s\n" % (hebcalendar.numbers[weekday], y['name'], y['info'])
 				out.write(data)

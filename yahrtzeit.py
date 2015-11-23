@@ -102,9 +102,9 @@ for shabbat in sorted(holidays):
 		data = ''
 		for date in sorted(yDates):
 			# utils assumes the week starts on Monday, so adjust
-			weekday = (utils.jwday(date) + 6) % 7
+			weekday = hebcalendar.hebrewDayOfWeek(utils.jwday(date))
 			for y in dates[date]:
-				data += u"* %s: %s - %s\n" % (hebcalendar.numbers[weekday], y['name'], y['info'])
+				data += u"* %s: %s - %s\n" % (weekday, y['name'], y['info'])
 				out.write(data)
 		writeLine(doc, parsha, data)
 				

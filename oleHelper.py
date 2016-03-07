@@ -86,7 +86,7 @@ def createDoc():
 	worddoc = wordapp.Documents.Open(os.getcwd() + "\emptySched.docx", False, False, False)
 
 	worddoc.Content.Font.Size = 14
-	worddoc.Content.Paragraphs.TabStops.Add (100)
+	#worddoc.Content.Paragraphs.TabStops.Add (100)
 
 	return worddoc
 
@@ -111,5 +111,5 @@ def saveDoc(worddoc, monthName, year):
 	worddoc.SaveAs(os.getcwd() + '\\' + monthName + repr(year) + '.docx')
 
 def saveSheet(sheet, year):
-	sheet.SaveAs(os.getcwd() + '\\parshaSheet' + repr(year) + '.docx')
+	sheet.SaveAs(os.getcwd() + '\\parshaSheet' + repr(year) + '.xlsx')
 

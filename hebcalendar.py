@@ -559,8 +559,11 @@ def setFilter(types):
 	filter = set(types)
 
 def filterHolidays(holidays):
-	filtered = {k: v for k, v in holidays.iteritems() if set(v['type']).intersection(filter)}
-	return filtered
+	if filter:
+		filtered = {k: v for k, v in holidays.iteritems() if set(v['type']).intersection(filter)}
+		return filtered
+	else:
+		return holidays
 	
 def getYear(yearIn, locationIn):
 	# build list of holidays

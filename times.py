@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-from astral import Astral, Location
+from astral import Astral, Location, SUN_RISING, SUN_SETTING
 
 a = Astral()
 a.solar_depression='civil'
@@ -32,15 +32,6 @@ def variableHour(date):
 	MA = (loc.sunset(date=date) + ninety) - (loc.sunrise(date=date) - ninety)
 	return {'GRA': datetime.timedelta(seconds = GRA.total_seconds()/12), 'MA': datetime.timedelta(seconds = MA.total_seconds()/12)}
 
-# Until Astral provides a way to calculate the time for a specific position of the sun
-def solarPosition(date, angle):
-	if not hasattr(loc, 'astral') or not loc.astral:
-		rise = loc.sunrise() #in order to ensure that an astral object is initialized
-	
-	time = loc.astral._calc_time(date, loc.latitude, loc.longitude, angle)
-	
-	return time.astimezone(loc.tz)
-
 def plagMincha(date):
 	hour = variableHour(date)['MA']
 	hour1p5 = datetime.timedelta(seconds=(hour.total_seconds() * 1.5))
@@ -48,20 +39,20 @@ def plagMincha(date):
 	return round(motzei(date) - hour1p5, 'backward')
 	
 def motzei(date):
-	return round(solarPosition(date, motzeiSunPosition), 'forward')
+	return round(loc.time_at_elevation(motzeiSunPosition, SUN_SETTING, date), 'forward')
 
 def candleLighting(date):
 	delta = datetime.timedelta(minutes=candleLightingMinutes)
 	return round(loc.sunset(date=date) - delta, 'backward')
 
 def fastBegins(date):
-	return round(solarPosition(date, fastStartsPosition), 'backward')
-	
+	return round(loc.time_at_elevation(fastStartsPosition, SUN_RISING, date) ,'backward')
+
 def fastEnds(date):
-	return round(solarPosition(date, fastEndsPosition),'forward')
+	return round(loc.time_at_elevation(fastEndsPosition, SUN_SETTING, date) ,'forward')
 
 def fastEnds9av(date):
-	return round(solarPosition(date, fast9avEndsPosition),'forward')
+	return round(loc.time_at_elevation(fast9avEndsPosition, SUN_SETTING, date) ,'forward')
 
 # Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
 def pesachChametzEating(date):

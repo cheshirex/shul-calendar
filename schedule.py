@@ -588,10 +588,10 @@ for jd in sorted(holidays):
 	elif 'startDst' in day['type'] or 'endDst' in day['type']:
 		clock = None
 		if 'startDst' in day['type']:
+			clock = u'קיץ' + '\n'
+		else:
 			# Not sure why, but a new line is required after switching to winter time, but not summer time?
 			clock = u'חורף' + '\n'
-		else:
-			clock = u'קיץ'
 		text = u"יום %s, %s - %s" % (hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
 		text += u' - עוברים לשעון %s\n' % clock
 		setHeader(worddoc, {'text': text})

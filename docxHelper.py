@@ -3,7 +3,7 @@
 
 import os
 from docx import Document
-#from docx.shared import Inches
+from docx.enum.table import WD_TABLE_DIRECTION
 
 def addEntry(cells, offset, name, time=None):
 	if name == None:
@@ -25,7 +25,9 @@ def addEntry(cells, offset, name, time=None):
 		cells[0+offset].paragraphs[0].runs[0].rtl = True
 
 def createTable(worddoc, rows, cols):
-	return worddoc.add_table(rows=rows, cols=cols)
+	table = worddoc.add_table(rows=rows, cols=cols)
+	table.table_direction = WD_TABLE_DIRECTION.RTL
+	return table
 	
 # For now, hardcoded to four columns
 def createPopulateTable(worddoc, column1, column2):

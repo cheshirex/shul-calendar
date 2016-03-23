@@ -14,7 +14,7 @@ candleLightingMinutes = 22
 motzeiSunPosition = -8.33
 fastEndsPosition = -4.9
 fast9avEndsPosition = -6.45
-fastStartsPosition = 16.013 
+fastStartsPosition = -16.013
 ninety = datetime.timedelta(minutes=90)
 
 def round(time, dir):

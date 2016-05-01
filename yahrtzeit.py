@@ -50,16 +50,21 @@ year = int(sys.argv[1])
 
 inputFile = sys.argv[2]
 
+lineNum = 0
+
 # Read in file, build DB of dates
 for line in codecs.open(inputFile, encoding='utf-8'):
 	# Throw away anything after a comment character
 	line = line.split('#')[0].strip()
-	
+	lineNum += 1
 	if len(line) == 0:
 		continue
 		
-	name, date, info = [x.strip() for x in line.split(',', 3)]
-	
+	try:
+		name, date, info = [x.strip() for x in line.split(',', 3)]
+	except:
+		print 'Error in line: %d' % lineNum
+		sys.exit(-1)
 	date = date.split('.', 3)
 	
 	if not hebrew.leap(year) and date[1] == '13':
@@ -94,7 +99,7 @@ for shabbat in sorted(holidays):
 	heb = '%04d.%02d.%02d' % day['hebrew']
 	name += u' - %s / %s:' % (greg, heb)
 	
-	yDates = [y for y in yahrtzeits if y > lastShabbat and y <= shabbat]
+	yDates = [y for y in yahrtzeits if y >= lastShabbat and y < shabbat]
 
 	if len(yDates) > 0:
 		out.write(lastShabbatName + u'\n')

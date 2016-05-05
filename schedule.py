@@ -455,6 +455,7 @@ def PrintErevPesach(jd, day, holidays, dstActive, gregDate):
 	setHeader(worddoc, {'text': u"%s (יום %s, %s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)})
 	
 	column1.append((u"סוף זמן אכילת חמץ", dayTimes['chametzEating'].strftime("%H:%M")))
+	column1.append((u'מנחה גדולה','13:30'))
 	column2.append((u"סוף זמן שריפת חמץ", dayTimes['chametzBurning'].strftime("%H:%M")))
 	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})

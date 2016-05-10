@@ -296,7 +296,7 @@ holidayDefs = ({'month': 7, 'day':1, 'name':{'english': u'Rosh Hashanah','hebrew
 			   {'month': 1, 'day':21,'name':{'english': u'Pesach', 'hebrew': u'פסח'}, 'length':2, 'location': 'Diaspora', 'dayAdjust': 5, 'type': 'chag', 'yizkor': True},
 			   {'month': 1, 'day':27,'name':{'english': u'Holocaust Remembrance Day', 'hebrew': u'יום השואה'}, 'length':1, 'offset': holocaustDay, 'type': 'other'},
 			   {'month': 2, 'day':4, 'name':{'english': u'Yom Hazikaron', 'hebrew': u'יום הזיכרון לחללי צה"ל'}, 'length':1, 'offset': remembranceDay, 'type': 'other'},
-			   {'month': 2, 'day':5, 'name':{'english': u'Independence Day', 'hebrew': u'יום העצמאות'}, 'length':1, 'offset': independanceDay, 'type': 'other'},
+			   {'month': 2, 'day':5, 'name':{'english': u'Independence Day', 'hebrew': u'יום העצמאות'}, 'length':1, 'offset': independanceDay, 'type': 'independance'},
 			   {'month': 2, 'day':14,'name':{'english': u'Pesach Sheni', 'hebrew': u'פסח שני'}, 'length':1, 'type': 'other'},
 			   {'month': 2, 'day':28,'name':{'english': u'Jerusalem Day', 'hebrew': u'יום ירושלים'}, 'length':1, 'type': 'other'},
 			   {'month': 2, 'day':18,'name':{'english': u'Lag BaOmer', 'hebrew': u'ל"ג בעומר'}, 'length':1, 'type': 'other'},

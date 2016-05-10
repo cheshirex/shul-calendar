@@ -328,8 +328,6 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
 		"%H:%M")
 
-	desc += u'\n'
-	setHeader(worddoc, {'text': desc})
 	text = u'שחרית: 07:00 / 08:30'
 	text += u' • '
 	text += u'מנחה וערבית: '
@@ -597,7 +595,7 @@ for jd in sorted(holidays):
 		PrintChanuka(jd, day, holidays, dstActive, gregDate)
 	elif 'erevPesach' in day['type']:
 		PrintErevPesach(jd, day, holidays, dstActive, gregDate)
-	elif 'indenpendance' in day['type']:
+	elif 'independance' in day['type']:
 		PrintIndependance(jd, day, holidays, dstActive, gregDate)
 	elif 'erevRH' in day['type']:
 		desc = u'סליחות: '

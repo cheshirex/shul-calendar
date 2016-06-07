@@ -5,6 +5,7 @@ import hebcalendar
 import sys
 import codecs
 import uuid
+import datetime
 
 numbers = ['', u'אחד', u'שנים', u'שלושה', u'ארבעה', u'חמשה', u'ששה', u'שבעה', u'שמונה', u'תשעה']
 numbersTen = ['', u'עשר', u'עשרים', u'שלושים', u'ארבעים']
@@ -55,6 +56,8 @@ def getSfirahText(day):
 	text += u'\\n'
 	text += u"הָרַחֲמָן, הוּא יַחֲזִיר לָנוּ עֲבודַת בֵּית הַמִּקְדָּשׁ לִמְקומָהּ בִּמְהֵרָה בְּיָמֵינוּ, אָמֵן סֶלָה"
 
+	text += u'\\n\\nהערות ל:\\ndan.bernst@gmail.com'
+
 	return text
 
 myUuid = uuid.UUID('{023e9cde-ab09-4611-a43f-dac7b1ce77b3}')
@@ -81,18 +84,20 @@ out.write('PRODID:sfirahCalendarGenerator_by_Daniel_Bernstein\r\n')
 dayCounter = 1
 
 for day in sorted(sfirah):
-	date = sfirah[day]
-	greg = '%04d%02d%02d' % date['gregorian']
+	date = sfirah[day]['gregorian']
+	date = datetime.date(date[0],date[1],date[2]) - datetime.timedelta(days=1)
+	greg = date.strftime('%Y%m%d')
 	out.write('BEGIN:VEVENT\r\n')
 	out.write('UID:%s\r\n' % uuid.uuid3(myUuid, '%d' % dayCounter).hex)
-	timestamp = ':%sT000000' % greg
+	timestamp = ':%sT203000' % greg
 	out.write('DTSTART%s\r\n' % timestamp)
 	out.write('DTEND%s\r\n' % timestamp)
 	out.write(u'SUMMARY:ספירת העומר\r\n')
 	text = getSfirahText(dayCounter)
 	out.write('DESCRIPTION:%s\r\n' % text)
+	out.write('CONTACT:dan.bernst@gmail.com\r\n')
 	out.write('BEGIN:VALARM\r\n')
-	out.write('TRIGGER:-PT210M\r\n')
+	out.write('TRIGGER:-PT0M\r\n')
 	out.write('ACTION:DISPLAY\r\n')
 	out.write('DESCRIPTION:%s\r\n' % text)
 	out.write('END:VALARM\r\n')

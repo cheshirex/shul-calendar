@@ -117,6 +117,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=5)
 	# Mincha Ktana is 1:10 before maariv, rounded back to 5 minutes
 	minchaK = dayTimes['motzei'] - datetime.timedelta(minutes=(70 + dayTimes['motzei'].minute % 5))
+	if 'shabbat' not in day['type']:
+		minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))
 	if day['date'].weekday() == hebcalendar.weekday['friday']:
 		minchaK = minchaErev
 	parentChildLearning = minchaK - datetime.timedelta(minutes=40)
@@ -130,6 +132,9 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		dafYomi = "07:45"
 	simchatTorah = any([name['english'] == 'Simchat Torah' for name in day['names']])
 	chanukah = any([name['english'] == 'Chanukah' for name in day['names']])
+	shavuot = any([name['english'] == 'Shavuot' for name in day['names']])
+	shavuotShacharit = dayTimes['sunrise'] - datetime.timedelta(minutes=20 + dayTimes['sunrise'].minute % 5)
+	shavuotRut = shavuotShacharit - datetime.timedelta(minutes=20)
 	yizkor = None
 	if 'yizkor' in day:
 		if location == 'Israel' and simchatTorah:
@@ -141,6 +146,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	
 	lateMaariv = dayTimes['motzei'] + datetime.timedelta(minutes=35)
 	dayBeforeIsChag = (jd - 1) in holidays and any([x in holidays[jd-1]['type'] for x in ('shabbat','chag','RH')])
+	dayAfterIsChag = (jd + 1) in holidays and any([x in holidays[jd+1]['type'] for x in ('shabbat','chag','RH')])
 
 	shabbatName = None
 	otherName = []
@@ -175,8 +181,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column1.append((u"קבלת שבת וערבית", (dayTimes['candleLighting'] + datetime.timedelta(minutes=15)).strftime("%H:%M")))
 	elif dayBeforeIsChag:
 		if not 'shabbat' in day['type']:
-			column1.append((u"הדלקת נרות אחרי", dayTimes['motzei'].strftime("%H:%M")))
-			column1.append((u"ערבית", dayTimes['motzei'].strftime("%H:%M")))
+			column1.append((u"הדלקת נרות וערבית", dayTimes['motzei'].strftime("%H:%M")))
 		else:
 			column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
 			column1.append((u"קבלת שבת וערבית", (dayTimes['candleLighting'] + datetime.timedelta(minutes=15)).strftime("%H:%M")))
@@ -188,8 +193,14 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column1.append((u"מנחה וערבית", minchaErev.strftime("%H:%M")))
 	if isFirstDayPesach:
 		column1.append(((u'חצות הלילה'), (dayTimes['noon'] + datetime.timedelta(hours=12)).strftime("%H:%M")))
-	column1.append((u"שיעור בדף יומי", dafYomi))
-	if not isFirstDayPesach:
+	if shavuot:
+		column1.append((u'שיעורים כל הלילה לפי לו"ז החג',))
+		column1.append((u'קריאת מגילת רות', shavuotRut.strftime("%H:%M")))
+		column1.append((u'שחרית ותיקין ', shavuotShacharit.strftime("%H:%M")))
+		column1.append((u"שחרית", shacharit))
+	else:
+		column1.append((u"שיעור בדף יומי", dafYomi))
+	if not isFirstDayPesach and not shavuot:
 		column1.append((u"שחרית", shacharit))
 	if 'shabbat' in day['type'] and day['mevarchim']:
 		column1.append(({'text': u"שיעור לנשים אחרי התפילה", 'bold': True},))
@@ -201,21 +212,22 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	column2.append((u"מנחה גדולה", minchaG))
 	if 'shabbat' in day['type'] and not yizkor:
 		column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
-	if not 'chag' in day['type'] and not 'CH' in day['type']:
+	if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag:
 		name = u'מנחה קטנה וס"ש'
 	else:
 		name = u"מנחה קטנה"
 	column2.append((name, minchaK.strftime("%H:%M")))
-	if 'shabbat' in day['type']:
-		motzei = dayTimes['motzei'].strftime("%H:%M")
-		if chanukah:
-			# As per Rav Moti's statement, we'll do Maariv 7 minutes early on Chanukah
-			column2.append((u'ערבית', '%s / %s' % ((dayTimes['motzei'] - datetime.timedelta(minutes=7)).strftime("%H:%M"),lateMaariv.strftime("%H:%M"))))
-			column2.append((u'מוצאי שבת', motzei))
-		else:
-			column2.append((u'ערבית ומוצ"ש', '%s / %s' % (motzei, lateMaariv.strftime("%H:%M"))))
-	elif day['date'].weekday() != hebcalendar.weekday['friday']:
-		column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
+	if not dayAfterIsChag:
+		if 'shabbat' in day['type']:
+			motzei = dayTimes['motzei'].strftime("%H:%M")
+			if chanukah:
+				# As per Rav Moti's statement, we'll do Maariv 7 minutes early on Chanukah
+				column2.append((u'ערבית', '%s / %s' % ((dayTimes['motzei'] - datetime.timedelta(minutes=7)).strftime("%H:%M"),lateMaariv.strftime("%H:%M"))))
+				column2.append((u'מוצאי שבת', motzei))
+			else:
+				column2.append((u'ערבית ומוצ"ש', '%s / %s' % (motzei, lateMaariv.strftime("%H:%M"))))
+		elif day['date'].weekday() != hebcalendar.weekday['friday']:
+			column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
 	
 	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})

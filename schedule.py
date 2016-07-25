@@ -147,6 +147,10 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	lateMaariv = dayTimes['motzei'] + datetime.timedelta(minutes=35)
 	dayBeforeIsChag = (jd - 1) in holidays and any([x in holidays[jd-1]['type'] for x in ('shabbat','chag','RH')])
 	dayAfterIsChag = (jd + 1) in holidays and any([x in holidays[jd+1]['type'] for x in ('shabbat','chag','RH')])
+	dayAfterIs9Av = (jd + 1) in holidays and '9av' in holidays[jd+1]['type']
+
+	if dayAfterIs9Av:
+		minchaK = datetime.time(17,00)
 
 	shabbatName = None
 	otherName = []
@@ -210,14 +214,14 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	if yizkor:
 		column2.append((u'יזכור (משוער)', yizkor))
 	column2.append((u"מנחה גדולה", minchaG))
-	if 'shabbat' in day['type'] and not yizkor:
+	if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
 		column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
-	if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag:
+	if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag and not dayAfterIs9Av:
 		name = u'מנחה קטנה וס"ש'
 	else:
 		name = u"מנחה קטנה"
 	column2.append((name, minchaK.strftime("%H:%M")))
-	if not dayAfterIsChag:
+	if not (dayAfterIsChag or dayAfterIs9Av):
 		if 'shabbat' in day['type']:
 			motzei = dayTimes['motzei'].strftime("%H:%M")
 			if chanukah:
@@ -228,7 +232,9 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 				column2.append((u'ערבית ומוצ"ש', '%s / %s' % (motzei, lateMaariv.strftime("%H:%M"))))
 		elif day['date'].weekday() != hebcalendar.weekday['friday']:
 			column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
-	
+	elif dayAfterIs9Av:
+		column2.append((u'סוף זמן אכילה ושתיה', dayTimes['sunset'].strftime("%H:%M")))
+
 	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})
 	return
@@ -411,12 +417,17 @@ def Print9Av(jd, day, holidays, dstActive, gregDate):
 	column2 = []
 
 	setHeader(worddoc, {'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
-	
-	column1.append((u"תחילת הצום", dayTimes['sunset'].strftime("%H:%M")))
-	column1.append((u"ערבית ואיכה", "20:10"))
+	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5)))
+
+	if day['date'].weekday() == hebcalendar.weekday['sunday']:
+		column1.append((u'החלפת בגדים ונעליים', dayTimes['motzei'].strftime("%H:%M")))
+		column1.append((u"ערבית ואיכה", "20:25"))
+	else:
+		column1.append((u"תחילת הצום", dayTimes['sunset'].strftime("%H:%M")))
+		column1.append((u"ערבית ואיכה", "20:10"))
 	column1.append((u"שחרית", "07:00"))
 	
-	column2.append((u"מנחה", (dayTimes['fast9avEnds']- datetime.timedelta(minutes=70)).strftime("%H:%M")))
+	column2.append((u"מנחה", mincha.strftime("%H:%M")))
 	column2.append((u"ערבית", (dayTimes['fast9avEnds']- datetime.timedelta(minutes=5)).strftime("%H:%M")))
 	column2.append((u"סוף הצום", dayTimes['fast9avEnds'].strftime("%H:%M")))
 	createPopulateTable(worddoc, column1, column2)

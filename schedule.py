@@ -30,7 +30,10 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
 	# the preceding year
 	if day['hebrew'][2] == 1:
 		erevDay = day['date'] - datetime.timedelta(days=1)
-		header = u'ערב ראש השנה (כ"ט באלול '
+		dayName = u'יום %s, ' % hebcalendar.hebrewDayOfWeek(erevDay.weekday())
+		header = u'ערב ראש השנה ('
+		header += dayName
+		header += u'כ"ט באלול '
 		header += erevDay.strftime("%d.%m.%y")
 		header += u')'
 		setHeader(worddoc, {'text': header})
@@ -49,7 +52,8 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
 		column1 = []
 		column2 = []
 
-	header = u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)
+	dayName = u'יום %s,' % hebcalendar.hebrewDayOfWeek(day['date'].weekday())
+	header = u"%s (%s %s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)
 	setHeader(worddoc, {'text': header})
 	
 	if day['hebrew'][2] == 2:
@@ -88,8 +92,9 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
 	shacharit = "08:00"
 	dafYomi = "07:15"
 	minchaK = dayTimes['motzei'] - datetime.timedelta(minutes=(70 + dayTimes['motzei'].minute % 5))
-	
-	setHeader(worddoc, {'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
+
+	dayName = u'יום %s,' % hebcalendar.hebrewDayOfWeek(day['date'].weekday())
+	setHeader(worddoc, {'text': u"%s (%s %s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
 	
 	column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
 	column1.append((u"כל נדרי וערבית", minchaErev.strftime("%H:%M")))
@@ -420,7 +425,7 @@ def Print9Av(jd, day, holidays, dstActive, gregDate):
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5)))
 
 	if day['date'].weekday() == hebcalendar.weekday['sunday']:
-		column1.append((u'החלפת בגדים ונעליים', dayTimes['motzei'].strftime("%H:%M")))
+		column1.append((u'צאת השבת', dayTimes['motzei'].strftime("%H:%M")))
 		column1.append((u"ערבית ואיכה", "20:25"))
 	else:
 		column1.append((u"תחילת הצום", dayTimes['sunset'].strftime("%H:%M")))

@@ -262,7 +262,7 @@ def omer(day, language):
 ## Need special handling to deal with Erev Pesach on Shabbat
 holidayDefs = ({'month': 7, 'day':1, 'name':{'english': u'Rosh Hashanah','hebrew':u'ראש השנה'}, 'length':2, 'type': 'RH'},
                {'month': 7, 'day':3, 'name':{'english': u'Fast of Gedaliah', 'hebrew': u'צום גדליה'}, 'length':1, 'offset': deferToSunday, 'type': 'gedaliah'},
-			   {'month': 7, 'day':9, 'name':{'english': u'Erev Yom Kippur', 'hebrew': u'ערב יום כפור'}, 'length':1, 'type': 'other'},
+			   {'month': 7, 'day':9, 'name':{'english': u'Erev Yom Kippur', 'hebrew': u'ערב יום כפור'}, 'length':1, 'type': 'erevYK'},
 			   {'month': 7, 'day':10,'name':{'english': u'Yom Kippur', 'hebrew': u'יום כפור'}, 'length':1, 'type': 'YK'},
 			   {'month': 7, 'day':14,'name':{'english': u'Erev Sukkot', 'hebrew': u'ערב סוכות'}, 'length':1, 'type': 'erev'},
 			   {'month': 7, 'day':15,'name':{'english': u'Sukkot', 'hebrew': u'סוכות'}, 'length':1, 'location': 'Israel', 'type': 'chag'},

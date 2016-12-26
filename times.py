@@ -15,6 +15,7 @@ motzeiSunPosition = -8.33
 fastEndsPosition = -4.9
 fast9avEndsPosition = -6.45
 fastStartsPosition = -16.013
+misheyakirPosition = -11.5
 ninety = datetime.timedelta(minutes=90)
 
 def round(time, dir):
@@ -54,6 +55,9 @@ def fastEnds(date):
 def fastEnds9av(date):
 	return round(loc.time_at_elevation(fast9avEndsPosition, SUN_SETTING, date) ,'forward')
 
+def misheyakir(date):
+	return round(loc.time_at_elevation(misheyakirPosition, SUN_RISING, date), 'forward')
+
 # Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
 def pesachChametzEating(date):
 	hour = variableHour(date)['MA']
@@ -75,7 +79,8 @@ def getTimes(date):
 			'chametzEating': pesachChametzEating(date),
 			'chametzBurning': pesachChametzBurning(date),
 			'midnight': midnight(date),
-			'plagMincha': plagMincha(date)}
+			'plagMincha': plagMincha(date),
+	        'talitTfilin': misheyakir(date)}
 	data = dict(loc.sun(date=date).items() + data.items())
 	return data
 
@@ -116,6 +121,7 @@ if __name__ == "__main__":
 	print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
 	print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
 	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
+	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
 	
 	vh = variableHour(today)
 	print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))

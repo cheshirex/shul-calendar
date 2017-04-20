@@ -151,6 +151,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	simchatTorah = any([name['english'] == 'Simchat Torah' for name in day['names']])
 	chanukah = any([name['english'] == 'Chanukah' for name in day['names']])
 	shavuot = any([name['english'] == 'Shavuot' for name in day['names']])
+	isShabbatHagadol = any([name['english'] == 'Shabbat Hagadol' for name in day['names']])
 	shavuotShacharit = dayTimes['sunrise'] - datetime.timedelta(minutes=20 + dayTimes['sunrise'].minute % 5)
 	shavuotRut = shavuotShacharit - datetime.timedelta(minutes=20)
 	yizkor = None
@@ -166,6 +167,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	dayBeforeIsChag = (jd - 1) in holidays and any([x in holidays[jd-1]['type'] for x in ('shabbat','chag','RH')])
 	dayAfterIsChag = (jd + 1) in holidays and any([x in holidays[jd+1]['type'] for x in ('shabbat','chag','RH')])
 	dayAfterIs9Av = (jd + 1) in holidays and '9av' in holidays[jd+1]['type']
+	dayAfterIsPurim = (jd + 1) in holidays and 'purim' in holidays[jd+1]['type']
 
 	if dayAfterIs9Av:
 		minchaK = datetime.time(17,00)
@@ -236,7 +238,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column2.append((u"מנחה גדולה", minchaG))
 		if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
 			column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
-		if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and not isShabbatShuva:
+		if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and \
+				not dayAfterIsPurim and not isShabbatShuva and not isShabbatHagadol:
 			name = u'מנחה קטנה וס"ש'
 		else:
 			name = u"מנחה קטנה"
@@ -245,10 +248,10 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column2.append((name, minchaK.strftime("%H:%M")))
 	else:
 		column2.append((u'מנחה', u'אחרי מוסף'))
-	if isShabbatShuva:
+	if isShabbatShuva or isShabbatHagadol:
 		column1.append((u'דרשת הרב מוטי אחרי התפילה',))
 		column2.append((u'דרשת הרב טולידאנו', (minchaK + datetime.timedelta(minutes=20)).strftime("%H:%M")))
-	if not (dayAfterIsChag or dayAfterIs9Av):
+	if not (dayAfterIsChag or dayAfterIs9Av or dayAfterIsPurim):
 		if 'shabbat' in day['type']:
 			motzei = dayTimes['motzei'].strftime("%H:%M")
 			# As of 5777, we decided NOT to do Motzei early, but instead light candles at shul
@@ -262,6 +265,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 			column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
 	elif dayAfterIs9Av:
 		column2.append((u'סוף זמן אכילה ושתיה', dayTimes['sunset'].strftime("%H:%M")))
+	elif dayAfterIsPurim:
+		column2.append((u'מוצאי שבת', dayTimes['motzei'].strftime("%H:%M")))
 
 	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})
@@ -349,9 +354,10 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
 	setHeader(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
 	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
-	
+
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
-	column1.append((u"שחרית", "05:50"))
+	column1.append((u"שחרית מניין א'", "05:50"))
+	column1.append((u"שחרית מניין ב'", "08:00"))
 	column1.append((u"מנחה", mincha))
 	
 	column2.append((u"ערבית", maariv))
@@ -384,6 +390,17 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
 	setHeader(worddoc, {'text': '\n'})
 	return
 
+def PrintJerusalem(jd, day, holidays, dstActive, gregDate):
+	dayName = u'יום %s,' % hebcalendar.hebrewDayOfWeek(day['date'].weekday())
+	setHeader(worddoc, {'text': u"%s (%s %s - %s)\n" % (
+	', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
+	maariv = (dayTimes['motzei'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))).strftime(
+		"%H:%M")
+	text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'
+
+	setHeader(worddoc, {'text': text, 'size': 12, 'bold': False})
+	setHeader(worddoc, {'text': '\n'})
+
 def PrintEsther(jd, day, holidays, dstActive, gregDate):
 	column1 = []
 	column2 = []
@@ -399,9 +416,13 @@ def PrintEsther(jd, day, holidays, dstActive, gregDate):
 	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
 	
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
-	column1.append((u"שחרית", "05:50"))
-	
+	column1.append((u"שחרית מניין א'", "05:50"))
+	column1.append((u"שחרית מניין ב'", "08:00"))
+
 	column2.append((u"מנחה", mincha))
+	# Check if Purim is the next day -- this will always be true unless Purim is on Sunday
+	if not ((jd + 1) in holidays and 'purim' in holidays[jd+1]['type']):
+		column2.append((u"ערבית", maariv))
 	column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
 	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})
@@ -470,7 +491,7 @@ def PrintPurim(jd, day, holidays, dstActive, gregDate):
 	maariv = dayTimes['fastEnds'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))
 	if day['date'].weekday() == hebcalendar.weekday['sunday']:
 		# If Purim is Motzei Shabbat, give 30 minutes before Maariv
-		maariv = dayTimes['motzei'] + datetime.timedelta(minutes=(30 + dayTimes['motzei'].minute % 5))
+		maariv = dayTimes['motzei'] + datetime.timedelta(minutes=(40 - dayTimes['motzei'].minute % 5))
 	secondReading = maariv + datetime.timedelta(hours=2)
 	setHeader(worddoc, {'text': u"%s (יום %s, %s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)})
 	
@@ -639,6 +660,8 @@ for jd in sorted(holidays):
 		PrintEsther(jd, day, holidays, dstActive, gregDate)
 	elif 'gedaliah' in day['type']:
 		PrintGedaliah(jd, day, holidays, dstActive, gregDate)
+	elif 'jerusalem' in day['type']:
+		PrintJerusalem(jd, day, holidays, dstActive, gregDate)
 	elif '9av' in day['type']:
 		Print9Av(jd, day, holidays, dstActive, gregDate)
 	elif 'purim' in day['type']:

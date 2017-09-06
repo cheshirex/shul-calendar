@@ -53,7 +53,7 @@ inputFile = sys.argv[2]
 lineNum = 0
 
 # Read in file, build DB of dates
-for line in codecs.open(inputFile, encoding='utf-8'):
+for line in codecs.open(inputFile, encoding='utf-8-sig'):
 	# Throw away anything after a comment character
 	line = line.split('#')[0].strip()
 	lineNum += 1

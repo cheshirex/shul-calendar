@@ -40,7 +40,7 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
 		column1.append((u"סליחות א'", "05:00"))
 		column1.append((u"סליחות ב'", "07:00"))
 		if erevDay.weekday() == hebcalendar.weekday['wednesday']:
-			column1.append(({'text': u'עירוב תבשילין', 'italic': True},))
+			column1.append(({'text': u'עירוב תבשילין', 'italic': True, 'bold': True},))
 
 		column2.append((u"שחרית מנין א'", "06:05"))
 		column2.append((u"שחרית מנין ב'", "08:00"))
@@ -76,7 +76,7 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
 		column2.append((u"מנחה ותשליך", minchaK.strftime("%H:%M")))
 	else:
 		minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(20 + dayTimes['sunset'].minute % 5))
-		column2.append((u"מנחה", (minchaK + datetime.timedelta(minutes=20)).strftime("%H:%M")))
+		column2.append((u"מנחה", minchaK.strftime("%H:%M")))
 	# If it's not Erev Shabbat, add motzei chag line
 	if day['hebrew'][2] == 2 and dayTimes['noon'].weekday() != hebcalendar.weekday['friday']:
 		column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
@@ -358,8 +358,8 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
 	column1.append((u"שחרית מניין א'", "05:50"))
 	column1.append((u"שחרית מניין ב'", "08:00"))
-	column1.append((u"מנחה", mincha))
-	
+
+	column2.append((u"מנחה", mincha))
 	column2.append((u"ערבית", maariv))
 	column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
 	createPopulateTable(worddoc, column1, column2)
@@ -398,7 +398,7 @@ def PrintJerusalem(jd, day, holidays, dstActive, gregDate):
 		"%H:%M")
 	text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'
 
-	setHeader(worddoc, {'text': text, 'size': 12, 'bold': False})
+	setHeader(worddoc, {'text': text, 'bold': False})
 	setHeader(worddoc, {'text': '\n'})
 
 def PrintEsther(jd, day, holidays, dstActive, gregDate):
@@ -466,7 +466,7 @@ def Print9Av(jd, day, holidays, dstActive, gregDate):
 	column1 = []
 	column2 = []
 
-	setHeader(worddoc, {'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
+	setHeader(worddoc, {'text': u"%s (יום %s, %s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5)))
 
 	if day['date'].weekday() == hebcalendar.weekday['sunday']:

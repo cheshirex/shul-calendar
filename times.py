@@ -111,18 +111,18 @@ if __name__ == "__main__":
 	times = getTimes(today)
 	
 	print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
-	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
+	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
 	print("Sunrise: %s"  % times['sunrise'].strftime('%H:%M'))
 	print("Sunset: %s"  % times['sunset'].strftime('%H:%M'))
+	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
+	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
 	print("Motzei: %s"  % times['motzei'].strftime('%H:%M'))
 	print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))
 	print("Fast ends: %s" % times['fastEnds'].strftime('%H:%M'))
 	print("Eat chametz by: %s" % times['chametzEating'].strftime('%H:%M'))
 	print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
 	print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
-	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
-	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
-	
+
 	vh = variableHour(today)
 	print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))
 	

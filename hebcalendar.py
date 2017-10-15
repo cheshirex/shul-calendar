@@ -269,7 +269,7 @@ holidayDefs = ({'month': 7, 'day':1, 'name':{'english': u'Rosh Hashanah','hebrew
 			   {'month': 7, 'day':15,'name':{'english': u'Sukkot', 'hebrew': u'סוכות'}, 'length':2, 'location': 'Diaspora', 'type': 'chag'},
 			   {'month': 7, 'day':16,'name':{'english': u'Chol Hamoed Sukkot', 'hebrew': u'חוה"מ סוכות'}, 'length':5, 'location': 'Israel', 'type': 'CH'},
 			   {'month': 7, 'day':17,'name':{'english': u'Chol Hamoed Sukkot', 'hebrew': u'חוה"מ סוכות'}, 'length':4, 'location': 'Diaspora', 'type': 'CH'},
-			   {'month': 7, 'day':21,'name':{'english': u'Hoshana Raba', 'hebrew': u'הושענע רבה'}, 'length':1, 'type': 'HR'},
+			   {'month': 7, 'day':21,'name':{'english': u'Hoshana Raba', 'hebrew': u'הושענא רבה'}, 'length':1, 'type': 'HR'},
 			   {'month': 7, 'day':22,'name':{'english': u'Simchat Torah', 'hebrew': u'שמחת תורה'}, 'length':1, 'location': 'Israel', 'type': 'chag', 'yizkor': True},
 			   {'month': 7, 'day':22,'name':{'english': u'Shmini Atzeret', 'hebrew': u'שמיני עצרת'}, 'length':1, 'location': 'Diaspora', 'type': 'chag', 'yizkor': True},
 			   {'month': 7, 'day':23,'name':{'english': u'Simchat Torah', 'hebrew': u'שמחת תורה'}, 'length':1, 'location': 'Diaspora', 'type': 'chag'},

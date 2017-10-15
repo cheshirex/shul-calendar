@@ -207,6 +207,9 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 	elif dayBeforeIsChag:
 		if not 'shabbat' in day['type']:
 			column1.append((u"הדלקת נרות וערבית", dayTimes['motzei'].strftime("%H:%M")))
+		elif isShabbatShuva:
+			column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
+			column1.append((u"קבלת שבת וערבית אחרי מנחה",))
 		else:
 			column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
 			column1.append((u"קבלת שבת וערבית", (dayTimes['candleLighting'] + datetime.timedelta(minutes=15)).strftime("%H:%M")))
@@ -278,8 +281,9 @@ def PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate):
 
 	setHeader(worddoc, {'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
 	
-	column1.append((u"קריאת משנה תורה בליל הושענה רבה אחרי ערבית",))
-	column1.append((u"שחרית מנין א' ", '05:30'))
+	column1.append((u"קריאת משנה תורה בליל הושענא רבה אחרי ערבית",))
+	# Moved later because Misheyakir is late. Revisit next year
+	column1.append((u"שחרית מנין א' ", '06:00'))
 	
 	column2.append((None, ))
 	column2.append((u"שחרית מנין ב'", '07:30'))
@@ -432,7 +436,7 @@ def PrintGedaliah(jd, day, holidays, dstActive, gregDate):
 	column1 = []
 	column2 = []
 
-	slichot = u"סליחות עשרת ימי תשובה: 05:30 / 07:30" + u"\n"
+	slichot = u"סליחות עשרת ימי תשובה: 05:25 / 07:30" + u"\n"
 	
 	if day['date'].weekday() != hebcalendar.weekday['sunday']:
 		setHeader(worddoc, {'text': slichot})
@@ -449,7 +453,7 @@ def PrintGedaliah(jd, day, holidays, dstActive, gregDate):
 	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
 	
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
-	column1.append((u"סליחות ושחרית", "05:30"))
+	column1.append((u"סליחות ושחרית", "05:20"))
 			
 	column2.append((u"מנחה", mincha))
 	column2.append((u"ערבית", maariv))

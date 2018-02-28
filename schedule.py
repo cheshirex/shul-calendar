@@ -113,8 +113,8 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
 
 def PrintErevYK(jd, day, holidays, dstActive, gregDate):
 	dayName = u'יום %s,' % hebcalendar.hebrewDayOfWeek(day['date'].weekday())
-	setHeader(worddoc, {'text': u"%s (%s %s - %s)\n" % (
-	', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
+	setHeader(worddoc, {'text': u"%s (%s %s - %s)\n" % \
+	                            (', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
 	text = u'סליחות ושחרית: 06:00 / 08:00'
 	text += u' • '
 	text += u'מנחה: '
@@ -239,8 +239,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
 		column2.append((u'יזכור (משוער)', yizkor))
 	if not simchatTorah:
 		column2.append((u"מנחה גדולה", minchaG))
-		if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
-			column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
+		#if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
+		#	column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
 		if not 'chag' in day['type'] and not 'CH' in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and \
 				not dayAfterIsPurim and not isShabbatShuva and not isShabbatHagadol:
 			name = u'מנחה קטנה וס"ש'
@@ -308,9 +308,43 @@ def PrintRoshChodesh(jd, day, holidays, dstActive, gregDate):
 			desc += day['date'].strftime("%d.%m.%y") 
 		#if day['date'].weekday() not in (hebcalendar.weekday['friday'], hebcalendar.weekday['shabbat']):
 		if day['date'].weekday() not in (hebcalendar.weekday['shabbat'],):
-			desc += u' - שחרית ב05:50'
+			earliest = dayTimes['talitTfilin'].replace(hour = 5, minute = 50)
+			shacharitTime = u'05:50'
+			if earliest < dayTimes['talitTfilin']:
+				shacharitTime = u'06:00'
+			desc += u' - שחרית ב%s' % shacharitTime
 			
 		setHeader(worddoc, {'text': desc})
+
+		column1 = []
+		column2 = []
+
+		moladHour = day['molad']['hours'] % 12
+		if moladHour == 0:
+			moladHour = 12
+		text = u'המולד יהיה ביום %s, בשעה %d, ' % (hebcalendar.hebrewDayOfWeek(day['molad']['day']), moladHour)
+		if day['molad']['minutes']:
+			if day['molad']['minutes'] == 1:
+				text += u'דקה 1'
+			else:
+				text += u'%d דקות' % day['molad']['minutes']
+			if day['molad']['chalakim']:
+				text += u' ו'
+		if day['molad']['chalakim'] == 1:
+			text += u'חלק 1'
+		elif day['molad']['chalakim']:
+			text += u'%d חלקים' % day['molad']['chalakim']
+		if day['molad']['hours'] < 12:
+			text += u' בבוקר'
+		elif day['molad']['hours'] == 12 and day['molad']['minutes'] == 0 and day['molad']['chalakim'] == 0:
+			text += u' בצהרים'
+		else:
+			text += u' אחרי הצהרים'
+		text += u'\n'
+		# For now, not actually printing the molad. Will add this later
+		#column1.append((text,))
+		#createPopulateTable(worddoc, column1, column2)
+		#setHeader(worddoc, {'text': '\n'})
 	return
 	
 def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
@@ -492,7 +526,7 @@ def PrintPurim(jd, day, holidays, dstActive, gregDate):
 	column1 = []
 	column2 = []
 
-	maariv = dayTimes['fastEnds'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))
+	maariv = dayTimes['fastEnds'] - datetime.timedelta(minutes=(5 + dayTimes['fastEnds'].minute % 5))
 	if day['date'].weekday() == hebcalendar.weekday['sunday']:
 		# If Purim is Motzei Shabbat, give 30 minutes before Maariv
 		maariv = dayTimes['motzei'] + datetime.timedelta(minutes=(40 - dayTimes['motzei'].minute % 5))

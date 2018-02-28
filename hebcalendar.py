@@ -26,6 +26,9 @@ weekday = {'sunday': 6,
 
 year = None
 location = None
+# Calculate molad based on zero year - as per Ari Brodsky, take Marcheshvan 5765
+moladZero = {'day': 3, 'hours': 2, 'minutes': 0, 'chalakim': 0}
+moladZeroDate = {'year': 5765, 'month': 8, 'day': 1}
 
 language = ['english','hebrew']
 numbers = [u"א'",  u"ב'",  u"ג'",  u"ד'",  u"ה'",  u"ו'",  u"ז'",  u"ח'",  u"ט'",  u"י'", 
@@ -363,6 +366,9 @@ def getHolidays(holidays, holidayList):
 			if 'yizkor' in holiday:
 				holidays[jd]['yizkor'] = holiday['yizkor']
 
+			if 'molad' in holiday:
+				holidays[jd]['molad'] = holiday['molad']
+
 def getFixedHolidays(holidays):
 	getHolidays(holidays, holidayDefs)
 			
@@ -381,10 +387,11 @@ def getVariableHolidays(holidays):
 			nextMonth = 1
 		heb = u'ראש חודש ' + getHebrewMonth(nextMonth, 'hebrew')
 		english = u'Rosh Chodesh ' + getHebrewMonth(nextMonth, 'english')
+		molad = getMolad(year, nextMonth)
 		if hebrew.month_days(year, month) == 29:
-			holiday = {'month': nextMonth, 'day':1, 'name':{'english':english,'hebrew':heb}, 'length':1, 'type': 'RC'}
+			holiday = {'month': nextMonth, 'day':1, 'name':{'english':english,'hebrew':heb}, 'length':1, 'type': 'RC', 'molad': molad}
 		else:
-			holiday = {'month': month, 'day':30, 'name':{'english':english,'hebrew':heb}, 'length':2, 'type': 'RC'}
+			holiday = {'month': month, 'day':30, 'name':{'english':english,'hebrew':heb}, 'length':2, 'type': 'RC', 'molad': molad}
 		holidayList.append(holiday)
 		
 	# 8th day of Chanukah
@@ -564,7 +571,53 @@ def filterHolidays(holidays):
 		return filtered
 	else:
 		return holidays
-	
+
+def getMolad(year, month):
+	# This will only work for dates after the reference (zero) date
+	moladYear = moladZeroDate['year']
+	moladMonth = moladZeroDate['month']
+
+	monthCount = 0
+
+	# Get number of months between
+	while moladYear < year:
+		if hebrew.leap(moladYear):
+			monthCount += 13
+		else:
+			monthCount += 12
+		moladYear += 1
+
+	monthsInYear = 12
+	if hebrew.leap(year):
+		monthsInYear = 13
+
+	while moladMonth != month:
+		monthCount += 1
+		moladMonth = (moladMonth + 1)
+		if moladMonth > monthsInYear:
+			moladMonth = 1
+
+	# for each month, add 1 day, 12 hours, 44 minutes, 1 chelek
+	chalakim = monthCount + moladZero['chalakim']
+	minutes = 44 * monthCount + moladZero['minutes']
+	hour = 12 * monthCount + moladZero['hours']
+	day = monthCount + moladZero['day']
+
+	# And now normalize it
+	# 18 chalakim in a minute
+	minutes += chalakim // 18
+	chalakim = chalakim % 18
+
+	hour += minutes // 60
+	minutes = minutes % 60
+
+	day += hour // 24
+	hour = hour % 24
+
+	day %= 7
+
+	return {'day': day, 'hours': hour, 'minutes': minutes, 'chalakim': chalakim}
+
 def getYear(yearIn, locationIn):
 	# build list of holidays
 	# add special shabbatot

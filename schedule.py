@@ -419,12 +419,10 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
 		"%H:%M")
 
-	text = u'שחרית: 07:00 / 08:30'
-	text += u' • '
-	text += u'מנחה וערבית: '
-	text += (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
-	text += u'\n'
-	setHeader(worddoc, {'text': text, 'size': 12, 'bold': False})
+	column1.append((u"שחרית חגיגית", "07:30"))
+	column2.append((u"מנחה וערבית",
+	                (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")))
+	createPopulateTable(worddoc, column1, column2)
 	setHeader(worddoc, {'text': '\n'})
 	return
 

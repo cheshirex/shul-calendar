@@ -405,17 +405,34 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
 	return
 
 def PrintIndependance(jd, day, holidays, dstActive, gregDate):
+	dayName = []
+	omerName = None
+
+	for fullname in day['fullnames']:
+		if u'בעומר' in fullname['hebrew'] and not omerName:
+			omerName = fullname['hebrew']
+		else:
+			dayName.append(fullname['hebrew'])
+	text = u', '.join(a for a in dayName)
+	text += u' ('
+	text += u"יום %s, %s - %s" % (hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
+	text += u') '
+	if omerName:
+		text += u' - ' + omerName
+	text += u'\n'
+	setHeader(worddoc, {'text': text})
+
 	column1 = []
 	column2 = []
 
-	text = u', '.join(a['hebrew'] for a in day['fullnames'])
-	text += u' ('
-	text += u"יום %s, %s - %s" % (
-	hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
-	text += u') '
-	text += u'\n'
+	#text = u', '.join(a['hebrew'] for a in day['fullnames'])
+	#text += u' ('
+	#text += u"יום %s, %s - %s" % (
+	#hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
+	#text += u') '
+	#text += u'\n'
 
-	setHeader(worddoc, {'text': text})
+	#setHeader(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
 		"%H:%M")
 
@@ -427,9 +444,23 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
 	return
 
 def PrintJerusalem(jd, day, holidays, dstActive, gregDate):
-	dayName = u'יום %s,' % hebcalendar.hebrewDayOfWeek(day['date'].weekday())
-	setHeader(worddoc, {'text': u"%s (%s %s - %s)\n" % (
-	', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
+	dayName = []
+	omerName = None
+
+	for fullname in day['fullnames']:
+		if u'בעומר' in fullname['hebrew'] and not omerName:
+			omerName = fullname['hebrew']
+		else:
+			dayName.append(fullname['hebrew'])
+	text = u', '.join(a for a in dayName)
+	text += u' ('
+	text += u"יום %s, %s - %s" % (hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
+	text += u') '
+	if omerName:
+		text += u' - ' + omerName
+	text += u'\n'
+	setHeader(worddoc, {'text': text})
+
 	maariv = (dayTimes['motzei'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))).strftime(
 		"%H:%M")
 	text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'

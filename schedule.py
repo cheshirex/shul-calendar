@@ -425,14 +425,6 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
 	column1 = []
 	column2 = []
 
-	#text = u', '.join(a['hebrew'] for a in day['fullnames'])
-	#text += u' ('
-	#text += u"יום %s, %s - %s" % (
-	#hebcalendar.hebrewDayOfWeek(day['date'].weekday()), day['hebrewWritten'], gregDate)
-	#text += u') '
-	#text += u'\n'
-
-	#setHeader(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
 		"%H:%M")
 

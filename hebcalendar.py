@@ -59,8 +59,10 @@ def hebrewDayOfChag(number, holiday):
 def englishDayOfChag(number, holiday):
 	return u"%s - Day %d" % (holiday, number+1)
 
-def getYearType():
-	days = hebrew.year_days(year)
+def getYearType(yearForType=None):
+	if yearForType == None:
+		yearForType = year
+	days = hebrew.year_days(yearForType)
 	length = None
 	if days in (353, 383):
 		length = 'short'
@@ -69,9 +71,9 @@ def getYearType():
 	elif days in (355, 385):
 		length = 'long'
 	
-	rh = utils.jwday(hebrew.to_jd(year, 7, 1))
+	rh = utils.jwday(hebrew.to_jd(yearForType, 7, 1))
 	
-	pesach = utils.jwday(hebrew.to_jd(year, 1, 15))
+	pesach = utils.jwday(hebrew.to_jd(yearForType, 1, 15))
 	
 	return (rh, length, pesach)
 
@@ -85,7 +87,8 @@ def behar(type):
 	return not hebrew.leap(year) and not (type[0] == weekday['thursday'] and type[2] == weekday['shabbat'])
 	
 def nitzavim(type):
-	return type[0] not in (weekday['monday'],weekday['tuesday'])
+	nextYearType = getYearType(year+1)
+	return nextYearType[0] not in (weekday['monday'], weekday['tuesday'])
 	
 def chukat(type):
 	return location == 'Diaspora' and type[2] == weekday['thursday']

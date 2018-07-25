@@ -530,7 +530,8 @@ def Print9Av(jd, day, holidays, dstActive, gregDate):
 
 	if day['date'].weekday() == hebcalendar.weekday['sunday']:
 		column1.append((u'צאת השבת', dayTimes['motzei'].strftime("%H:%M")))
-		column1.append((u"ערבית ואיכה", "20:25"))
+		maariv = dayTimes['motzei'] + datetime.timedelta(minutes = (15 + (5 - dayTimes['motzei'].minute % 5)))
+		column1.append((u"ערבית ואיכה", maariv.strftime("%H:%M")))
 	else:
 		column1.append((u"תחילת הצום", dayTimes['sunset'].strftime("%H:%M")))
 		column1.append((u"ערבית ואיכה", "20:10"))

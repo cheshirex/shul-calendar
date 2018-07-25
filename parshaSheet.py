@@ -78,7 +78,8 @@ for jd in sorted(holidays):
 			row += 1
 			continue
 
-		elif 'chag' in day['type'] or ('shabbat' in day['type'] and 'CH' in day['type']):
+		elif 'chag' in day['type'] or ('shabbat' in day['type'] and 'CH' in day['type']) \
+				or 'RH' in day['type'] or 'YK' in day['type']:
 			# Name of chag, cross out seudah shlishit
 			shlishit = False
 

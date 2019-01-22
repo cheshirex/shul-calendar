@@ -589,7 +589,7 @@ def PrintChanuka(jd, day, holidays, dstActive, gregDate):
 
 		setHeader(worddoc, {'text': desc})
 		
-		column1.append((u"שחרית מנין א'", "05:50"))
+		column1.append((u"שחרית מנין א'", "06:00"))
 		column1.append((u"שחרית מנין ב'", "08:00"))
 
 		column2.append((u"מנחה", (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")))
@@ -649,7 +649,7 @@ def PrintSlichot(jd, day, holidays, dstActive, gregDate):
 		desc += u' ימי ' + hebcalendar.hebrewDayOfWeek(first['date'].weekday()) + u' - ' + hebcalendar.hebrewDayOfWeek(last['date'].weekday()) + u', '
 		desc += hebcalendar.hebrewNumber(first['hebrew'][2]-1) + u' - ' + hebcalendar.hebrewDate(last['hebrew'][1], last['hebrew'][2], 'hebrew')
 		desc += " (" + last['date'].strftime("%d.%m.%y") + ' - ' + first['date'].strftime("%d.%m.%y") + '): '
-		desc += u'07:40 / 05:40'
+		desc += u'07:40 / 05:30'
 		desc += u'\n'
 		setHeader(worddoc, {'text': desc})
 		setHeader(worddoc, {'text': '\n'})

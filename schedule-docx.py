@@ -42,7 +42,7 @@ if month:
 else:
 	holidays = calendar.getYear(year, location)
 
-times.setLocation('Givat Zeev','Israel',31.86,35.17,'Asia/Jerusalem',0)
+times.set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
 
 holidayDone = []
 
@@ -50,7 +50,7 @@ document = Document("emptySched.docx")
 
 for jd in sorted(holidays):
 	day = holidays[jd]
-	dayTimes = times.getTimes(day['date'])
+	dayTimes = times.get_times(day['date'])
 	
 	dstActive = dayTimes['motzei'].dst().total_seconds() != 0
 	

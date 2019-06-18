@@ -72,8 +72,8 @@ if len(sys.argv) != 2:
 	sys.exit(1)
 
 year = int(sys.argv[1])
-hebcalendar.setFilter(['omer'])
-sfirah = hebcalendar.getYear(year, 'Israel')
+hebcalendar.set_filter(['omer'])
+sfirah = hebcalendar.get_year(year, 'Israel')
 
 out = codecs.open('sfirahFor%d.ics' % year, 'w', encoding='utf-8')
 

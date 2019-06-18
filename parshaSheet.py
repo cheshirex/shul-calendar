@@ -13,10 +13,10 @@ from convertdate import hebrew, utils
 year = int(sys.argv[1])
 
 location = 'Israel'
-holidays = hebcalendar.getYear(year, location)
+holidays = hebcalendar.get_year(year, location)
 
 # Excel version
-sheet = createSheet()
+sheet = create_sheet()
 
 row = 2
 
@@ -29,7 +29,7 @@ for jd in sorted(holidays):
 			# four megillah readings
 			text = u'אסתר - קריאה %s'
 			for a in (u"א' בלילה", u"ב' בלילה", u"א' ביום", u"ב' ביום"):
-				setRow(sheet, row, day['hebrewWritten'], text % a, False)
+				set_row(sheet, row, day['hebrewWritten'], text % a, False)
 				row += 1
 			continue
 
@@ -56,25 +56,25 @@ for jd in sorted(holidays):
 		text = ' - '.join(a for a in reversed(names))
 
 		if u'שבועות' in text:
-			setRow(sheet, row, day['hebrewWritten'], text, False)
+			set_row(sheet, row, day['hebrewWritten'], text, False)
 			row += 1
-			setRow(sheet, row, day['hebrewWritten'], u"מגילת רות - מנין א'", False)
+			set_row(sheet, row, day['hebrewWritten'], u"מגילת רות - מנין א'", False)
 			row += 1
-			setRow(sheet, row, day['hebrewWritten'], u"מגילת רות - מנין ב'", False)
+			set_row(sheet, row, day['hebrewWritten'], u"מגילת רות - מנין ב'", False)
 			row += 1
 			continue
 
 		# If shabbat/chag, add megillah
 		elif day['date'].weekday() == hebcalendar.weekday['shabbat'] and (u'סוכות' in text or u'פסח' in text):
 			# add megillah
-			setRow(sheet, row, day['hebrewWritten'], text, False)
+			set_row(sheet, row, day['hebrewWritten'], text, False)
 			row += 1
 			megillah = None
 			if u'סוכות' in text:
 				megillah = u'קהלת'
 			else:
 				megillah = u'שיר השירים'
-			setRow(sheet, row, day['hebrewWritten'], u"מגילת %s" % megillah, False)
+			set_row(sheet, row, day['hebrewWritten'], u"מגילת %s" % megillah, False)
 			row += 1
 			continue
 
@@ -83,7 +83,7 @@ for jd in sorted(holidays):
 			# Name of chag, cross out seudah shlishit
 			shlishit = False
 
-		setRow(sheet, row, day['hebrewWritten'], text, shlishit)
+		set_row(sheet, row, day['hebrewWritten'], text, shlishit)
 		row += 1
 
-saveSheet(sheet, year)
+save_sheet(sheet, year)

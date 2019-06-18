@@ -78,8 +78,8 @@ for line in codecs.open(inputFile, encoding='utf-8-sig'):
 	dates[jd].append({'name': name, 'info': info, 'date': date})
 
 # Get full date list from hebcalendar, filter for shabbat, chag
-hebcalendar.setFilter(['shabbat', 'chag', 'RH', 'YK'])
-holidays = hebcalendar.getYear(year, 'Israel')
+hebcalendar.set_filter(['shabbat', 'chag', 'RH', 'YK'])
+holidays = hebcalendar.get_year(year, 'Israel')
 
 # Okay, now I have a dict of shabbat/chagim, and a separate dict of yahrtzeits. Need to work through them both.
 
@@ -107,7 +107,7 @@ for shabbat in sorted(holidays):
 		data = ''
 		for date in sorted(yDates):
 			# utils assumes the week starts on Monday, so adjust
-			weekday = hebcalendar.hebrewDayOfWeek(utils.jwday(date))
+			weekday = hebcalendar.hebrew_day_of_week(utils.jwday(date))
 			for y in dates[date]:
 				data += u"* %s: %s - %s\n" % (weekday, y['name'], y['info'])
 				out.write(data)

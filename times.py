@@ -5,7 +5,7 @@ import datetime
 from astral import Astral, Location, SUN_RISING, SUN_SETTING
 
 a = Astral()
-a.solar_depression='civil'
+a.solar_depression = 'civil'
 
 loc = None
 
@@ -18,68 +18,82 @@ fastStartsPosition = -16.013
 misheyakirPosition = -11.5
 ninety = datetime.timedelta(minutes=90)
 
-def round(time, dir):
-	if dir == 'forward':
-		return time.replace(second = 0) + datetime.timedelta(seconds=60)
-	elif dir == 'backward':
-		return time.replace(second = 0)
 
-def setLocation(name, region, latitude, longitude, tzName, elevation):
+def round(time, direction):
+	if direction == 'forward':
+		return time.replace(second=0) + datetime.timedelta(seconds=60)
+	elif direction == 'backward':
+		return time.replace(second=0)
+
+
+def set_location(name, region, latitude, longitude, tz_name, elevation):
 	global loc
-	loc = Location((name, region, latitude, longitude, tzName, elevation))
+	loc = Location((name, region, latitude, longitude, tz_name, elevation))
 
-def variableHour(date):
+
+def variable_hour(date):
 	GRA = loc.sunset(date=date) - loc.sunrise(date=date)
 	MA = (loc.sunset(date=date) + ninety) - (loc.sunrise(date=date) - ninety)
-	return {'GRA': datetime.timedelta(seconds = GRA.total_seconds()/12), 'MA': datetime.timedelta(seconds = MA.total_seconds()/12)}
+	return {'GRA': datetime.timedelta(seconds=GRA.total_seconds()/12),
+	        'MA': datetime.timedelta(seconds=MA.total_seconds()/12)}
 
-def plagMincha(date):
-	hour = variableHour(date)['MA']
+
+def plag_mincha(date):
+	hour = variable_hour(date)['MA']
 	hour1p5 = datetime.timedelta(seconds=(hour.total_seconds() * 1.5))
-	#return round(loc.sunset(date=date) - hour1p5, 'backward')
 	return round(motzei(date) - hour1p5, 'backward')
-	
+
+
 def motzei(date):
 	return round(loc.time_at_elevation(motzeiSunPosition, SUN_SETTING, date), 'forward')
 
-def candleLighting(date):
+
+def candle_lighting(date):
 	delta = datetime.timedelta(minutes=candleLightingMinutes)
 	return round(loc.sunset(date=date) - delta, 'backward')
 
-def fastBegins(date):
-	return round(loc.time_at_elevation(fastStartsPosition, SUN_RISING, date) ,'backward')
 
-def fastEnds(date):
-	return round(loc.time_at_elevation(fastEndsPosition, SUN_SETTING, date) ,'forward')
+def fast_begins(date):
+	return round(loc.time_at_elevation(fastStartsPosition, SUN_RISING, date), 'backward')
 
-def fastEnds9av(date):
-	return round(loc.time_at_elevation(fast9avEndsPosition, SUN_SETTING, date) ,'forward')
+
+def fast_ends(date):
+	return round(loc.time_at_elevation(fastEndsPosition, SUN_SETTING, date), 'forward')
+
+
+def fast_ends_9av(date):
+	return round(loc.time_at_elevation(fast9avEndsPosition, SUN_SETTING, date), 'forward')
+
 
 def misheyakir(date):
 	return round(loc.time_at_elevation(misheyakirPosition, SUN_RISING, date), 'forward')
 
-# Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
-def pesachChametzEating(date):
-	hour = variableHour(date)['MA']
-	return round(loc.sunrise(date=date) - ninety + 4 * hour, 'backward')
-	
-def pesachChametzBurning(date):
-	hour = variableHour(date)['MA']
-	return round(loc.sunrise(date=date) - ninety + 5 * hour, 'backward')
-	
-def midnight(date):
-	return loc.solar_noon() - datetime.timedelta(hours = 12)
 
-def getTimes(date):
+# Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
+def pesach_chametz_eating(date):
+	hour = variable_hour(date)['MA']
+	return round(loc.sunrise(date=date) - ninety + 4 * hour, 'backward')
+
+
+def pesach_chametz_burning(date):
+	hour = variable_hour(date)['MA']
+	return round(loc.sunrise(date=date) - ninety + 5 * hour, 'backward')
+
+
+def midnight(date):
+	return loc.solar_noon() - datetime.timedelta(hours=12)
+
+
+def get_times(date):
 	data = {'motzei': motzei(date),
-			'candleLighting': candleLighting(date),
-			'fastBegins': fastBegins(date),
-			'fastEnds': fastEnds(date),
-			'fast9avEnds': fastEnds9av(date),
-			'chametzEating': pesachChametzEating(date),
-			'chametzBurning': pesachChametzBurning(date),
+			'candleLighting': candle_lighting(date),
+			'fastBegins': fast_begins(date),
+			'fastEnds': fast_ends(date),
+			'fast9avEnds': fast_ends_9av(date),
+			'chametzEating': pesach_chametz_eating(date),
+			'chametzBurning': pesach_chametz_burning(date),
 			'midnight': midnight(date),
-			'plagMincha': plagMincha(date),
+			'plagMincha': plag_mincha(date),
 	        'talitTfilin': misheyakir(date)}
 	data = dict(loc.sun(date=date).items() + data.items())
 	return data
@@ -98,6 +112,7 @@ def getTimes(date):
 # sunset = shkiah
 # Erev Pesach -- times for eating and burning chametz
 
+
 if __name__ == "__main__":
 	import sys
 	
@@ -107,30 +122,21 @@ if __name__ == "__main__":
 	else:
 		today = datetime.datetime.today()
 	
-	setLocation('Givat Zeev','Israel',31.86,35.17,'Asia/Jerusalem',0)
-	times = getTimes(today)
+	set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
+	times = get_times(today)
 	
 	print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
 	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
-	print("Sunrise: %s"  % times['sunrise'].strftime('%H:%M'))
-	print("Sunset: %s"  % times['sunset'].strftime('%H:%M'))
+	print("Sunrise: %s" % times['sunrise'].strftime('%H:%M'))
+	print("Sunset: %s" % times['sunset'].strftime('%H:%M'))
 	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
 	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
-	print("Motzei: %s"  % times['motzei'].strftime('%H:%M'))
+	print("Motzei: %s" % times['motzei'].strftime('%H:%M'))
 	print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))
 	print("Fast ends: %s" % times['fastEnds'].strftime('%H:%M'))
 	print("Eat chametz by: %s" % times['chametzEating'].strftime('%H:%M'))
 	print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
 	print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
 
-	vh = variableHour(today)
+	vh = variable_hour(today)
 	print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))
-	
-	
-	
-	
-	
-	
-	
-	
-	

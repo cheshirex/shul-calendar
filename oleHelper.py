@@ -3,6 +3,7 @@
 
 import os
 import win32com.client
+import itertools
 
 
 def add_entry(cell, name, time=None):
@@ -12,7 +13,7 @@ def add_entry(cell, name, time=None):
 		next_cell = cell.Next
 		cell.Merge(cell.Previous)
 		return next_cell
-	if isinstance(name, basestring):
+	if isinstance(name, str):
 		name = {'text': name}
 	if 'bold' in name and name['bold']:
 		cell.Range.Font.BoldBi = True
@@ -20,7 +21,7 @@ def add_entry(cell, name, time=None):
 	cell.Range.Font.SizeBi = 14
 	cell.Range.Font.Name = "Arial"
 	if time:
-		if isinstance(time, basestring):
+		if isinstance(time, str):
 			time = {'text': time}
 		if 'bold' in time and time['bold']:
 			cell.Range.Font.BoldBi = True
@@ -54,7 +55,8 @@ def create_table(worddoc, rows, cols):
 def create_populate_table(worddoc, column1, column2):
 	rows = max(len(column1), len(column2))
 	table = create_table(worddoc, rows, 4)
-	columns = map(None, column1, column2)
+	columns = itertools.zip_longest(column1, column2, fillvalue=None)
+	#columns = map(None, column1, column2)
 	cell = table.Cell(1, 1)
 	for c1, c2 in columns:
 		if c1 is None:
@@ -112,7 +114,7 @@ def set_row(sheet, row, date, name, shlishit=True):
 	sheet.Range('A%d' % row).Value = date
 	sheet.Range('B%d' % row).Value = name
 	if not shlishit:
-		sheet.Range('D%d' % row).Interior.Pattern = -4124  # 25% gray
+		sheet.Range('E%d' % row).Interior.Pattern = -4124  # 25% gray
 
 
 def save_doc(worddoc, month_name, year):

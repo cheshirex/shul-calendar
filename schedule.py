@@ -348,6 +348,9 @@ def PrintRoshChodesh(jd, day, holidays, dstActive, gregDate):
 	return
 	
 def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
+	# If the first day is Shabbat, it's handled separately. Leave it out.
+	if day['date'].weekday() == hebcalendar.weekday['shabbat']:
+		return
 	name = [x['hebrew'] for x in day['names'] if u'חוה"מ' in x['hebrew']][0]
 	if name not in holidayDone:
 		holidayDone.append(name)
@@ -360,6 +363,10 @@ def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
 			dayLast += 1
 
 		lastCH = holidays[dayLast]
+
+		# If the last day is Shabbat, it's handled separately anyway, so go back to Friday
+		if lastCH['date'].weekday() == hebcalendar.weekday['shabbat']:
+			lastCH = holidays[dayLast-1]
 			
 		desc = name + u' ימי ' + hebcalendar.hebrew_day_of_week(day['date'].weekday()) + u' - ' + hebcalendar.hebrew_day_of_week(lastCH['date'].weekday()) + u', '
 		desc += hebcalendar.hebrew_number(day['hebrew'][2] - 1) + u' - ' + hebcalendar.hebrew_date(lastCH['hebrew'][1], lastCH['hebrew'][2], 'hebrew')
@@ -391,7 +398,7 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
 
 	set_header(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
-	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
+	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
 	column1.append((u"שחרית מניין א'", "05:50"))
@@ -472,7 +479,7 @@ def PrintEsther(jd, day, holidays, dstActive, gregDate):
 
 	set_header(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
-	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
+	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 	
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
 	column1.append((u"שחרית מניין א'", "05:50"))
@@ -505,7 +512,7 @@ def PrintGedaliah(jd, day, holidays, dstActive, gregDate):
 
 	set_header(worddoc, {'text': text})
 	mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
-	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=(dayTimes['fastEnds'].minute % 5))).strftime("%H:%M")
+	maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 	
 	column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
 	column1.append((u"סליחות ושחרית", "05:20"))
@@ -649,7 +656,7 @@ def PrintSlichot(jd, day, holidays, dstActive, gregDate):
 		desc += u' ימי ' + hebcalendar.hebrew_day_of_week(first['date'].weekday()) + u' - ' + hebcalendar.hebrew_day_of_week(last['date'].weekday()) + u', '
 		desc += hebcalendar.hebrew_number(first['hebrew'][2] - 1) + u' - ' + hebcalendar.hebrew_date(last['hebrew'][1], last['hebrew'][2], 'hebrew')
 		desc += " (" + last['date'].strftime("%d.%m.%y") + ' - ' + first['date'].strftime("%d.%m.%y") + '): '
-		desc += u'07:40 / 05:30'
+		desc += u'07:40 / 05:35'
 		desc += u'\n'
 		set_header(worddoc, {'text': desc})
 		set_header(worddoc, {'text': '\n'})

@@ -579,7 +579,7 @@ def get_dst(year):
 	
 	for today in arrow.Arrow.range('day', begin, end):
 		today = today.to('Asia/Jerusalem')
-		tomorrow = today.replace(days=+1)
+		tomorrow = today.shift(days=+1)
 		
 		if today.dst() != tomorrow.dst():
 			if tomorrow.dst().total_seconds():
@@ -594,7 +594,7 @@ def get_holidays_from_gregorian(holidays):
 	
 	day_list = []
 	
-	for day, date in dst.iteritems():
+	for day, date in dst.items():
 		heb_date = hebrew.from_jd(gregorian.to_jd(date.year, date.month, date.day))
 		day_list.append({
 			'month': heb_date[1], 'day': heb_date[2], 'name': {'english': 'DST ' + day, 'hebrew': ''},
@@ -716,7 +716,7 @@ def get_month(year_in, month, location_in):
 	
 	holidays_month = {}
 	
-	for jd, day in holidays_year.iteritems():
+	for jd, day in holidays_year.items():
 		# Include everything in the given month, EXCEPT this month's Rosh 
 		# Chodesh, UNLESS it's also another day (such as Shabbat Rosh Chodesh).
 		# Instead, we list NEXT month's Rosh Chodesh on the schedule.

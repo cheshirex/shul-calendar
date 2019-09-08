@@ -95,7 +95,7 @@ def get_times(date):
 			'midnight': midnight(date),
 			'plagMincha': plag_mincha(date),
 	        'talitTfilin': misheyakir(date)}
-	data = dict(loc.sun(date=date).items() + data.items())
+	data.update(loc.sun(date=date))
 	return data
 
 # times of day from Astral based on location:

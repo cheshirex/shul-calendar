@@ -10,61 +10,64 @@ import datetime
 numbers = ['', u'אחד', u'שנים', u'שלושה', u'ארבעה', u'חמשה', u'ששה', u'שבעה', u'שמונה', u'תשעה']
 numbersTen = ['', u'עשר', u'עשרים', u'שלושים', u'ארבעים']
 
-def getSfirahText(day):
-	text = u"בָּרוּךְ אַתָּה ה' אֱלהֵינוּ מֶלֶךְ הָעולָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְותָיו וְצִוָּנוּ עַל סְפִירַת הָעומֶר"
-	text += u'\\n'
 
-	if day == 1:
-		text += u'היום יום אחד בעומר'
-	elif day == 2:
-		text += u'היום שני ימים בעומר'
-	elif day == 10:
-		text += u'היום עשרה ימים, שהם שבוע אחד ושלשה ימים בעומר'
+def getSfirahText(curDay):
+	output = u"בָּרוּךְ אַתָּה ה' אֱלהֵינוּ מֶלֶךְ הָעולָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְותָיו וְצִוָּנוּ עַל סְפִירַת הָעומֶר"
+	output += u'\\n'
+
+	if curDay == 1:
+		output += u'היום יום אחד בעומר'
+	elif curDay == 2:
+		output += u'היום שני ימים בעומר'
+	elif curDay == 10:
+		output += u'היום עשרה ימים, שהם שבוע אחד ושלשה ימים בעומר'
 	else:
-		text += u'היום '
-		text += numbers[day % 10]
+		output += u'היום '
+		output += numbers[curDay % 10]
 
-		if day % 10 and day > 20:
-			text += u' ו'
-		if day > 10:
-			if day < 20:
-				text += u' '
-			text += numbersTen[day / 10]
-			text += u' יום'
+		if curDay % 10 and curDay > 20:
+			output += u' ו'
+		if curDay > 10:
+			if curDay < 20:
+				output += u' '
+			output += numbersTen[curDay // 10]
+			output += u' יום'
 		else:
-			text += u' ימים'
+			output += u' ימים'
 
-		if day >= 7:
-			text += u', שהם '
-			if day / 7 == 1:
-				text += u'שבוע אחד'
-			elif day / 7 == 2:
-				text += u'שני שבועות'
+		if curDay >= 7:
+			output += u', שהם '
+			if curDay // 7 == 1:
+				output += u'שבוע אחד'
+			elif curDay // 7 == 2:
+				output += u'שני שבועות'
 			else:
-				text += numbers[day / 7]
-				text += u' שבועות'
-			if day % 7 == 1:
-				text += u' ויום אחד'
-			elif day % 7 == 2:
-				text += u' ושני ימים'
-			elif day % 7:
-				text += u' ו'
-				text += numbers[day % 7]
-				text += u' ימים'
-		text += u' בעומר'
+				output += numbers[curDay // 7]
+				output += u' שבועות'
+			if curDay % 7 == 1:
+				output += u' ויום אחד'
+			elif curDay % 7 == 2:
+				output += u' ושני ימים'
+			elif curDay % 7:
+				output += u' ו'
+				output += numbers[curDay % 7]
+				output += u' ימים'
+		output += u' בעומר'
 
-	text += u'\\n'
-	text += u"הָרַחֲמָן, הוּא יַחֲזִיר לָנוּ עֲבודַת בֵּית הַמִּקְדָּשׁ לִמְקומָהּ בִּמְהֵרָה בְּיָמֵינוּ, אָמֵן סֶלָה"
+	output += u'\\n'
+	output += u"הָרַחֲמָן, הוּא יַחֲזִיר לָנוּ עֲבודַת בֵּית הַמִּקְדָּשׁ לִמְקומָהּ בִּמְהֵרָה בְּיָמֵינוּ, אָמֵן סֶלָה"
 
-	text += u'\\n\\nהערות ל:\\ndan.bernst@gmail.com'
+	output += u'\\n\\nהערות ל:\\ndan.bernst@gmail.com'
 
-	return text
+	return output
+
 
 myUuid = uuid.UUID('{023e9cde-ab09-4611-a43f-dac7b1ce77b3}')
 
+
 def usage():
-	print 'sfirah.py Sfirah calendar Generation script'
-	print 'Usage: sfirah.py <Jewish year>'
+	print('sfirah.py Sfirah calendar Generation script')
+	print('Usage: sfirah.py <Jewish year>')
 
 
 if len(sys.argv) != 2:
@@ -85,7 +88,7 @@ dayCounter = 1
 
 for day in sorted(sfirah):
 	date = sfirah[day]['gregorian']
-	date = datetime.date(date[0],date[1],date[2]) - datetime.timedelta(days=1)
+	date = datetime.date(date[0], date[1], date[2]) - datetime.timedelta(days=1)
 	greg = date.strftime('%Y%m%d')
 	out.write('BEGIN:VEVENT\r\n')
 	out.write('UID:%s\r\n' % uuid.uuid3(myUuid, '%d' % dayCounter).hex)

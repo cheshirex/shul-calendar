@@ -632,7 +632,7 @@ def set_filter(types):
 
 def filter_holidays(holidays):
 	if filter:
-		filtered = {k: v for k, v in holidays.iteritems() if set(v['type']).intersection(filter)}
+		filtered = {k: v for k, v in holidays.items() if set(v['type']).intersection(filter)}
 		return filtered
 	else:
 		return holidays

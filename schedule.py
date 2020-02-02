@@ -276,7 +276,9 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
             #	column2.append((u'ערבית', '%s / %s' % ((dayTimes['motzei'] - datetime.timedelta(minutes=7)).strftime("%H:%M"),lateMaariv.strftime("%H:%M"))))
             #	column2.append((u'מוצאי שבת', motzei))
             # else:
-            column2.append((u'ערבית ומוצ"ש', '%s / %s' % (motzei, lateMaariv.strftime("%H:%M"))))
+            # As of 5780, Gary asked us to stop listing late maariv -- there aren't enough participants
+            # column2.append((u'ערבית ומוצ"ש', '%s / %s' % (motzei, lateMaariv.strftime("%H:%M"))))
+            column2.append((u'ערבית ומוצ"ש', motzei))
         elif day['date'].weekday() != hebcalendar.weekday['friday']:
             column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
     elif dayAfterIs9Av:

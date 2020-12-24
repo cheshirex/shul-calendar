@@ -141,8 +141,18 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
     column1 = []
     column2 = []
 
+    lateMaariv = dayTimes['motzei'] + datetime.timedelta(minutes=35)
+    dayBeforeIsFast = (jd - 1) in holidays and 'fast' in holidays[jd - 1]['type']
+    dayBeforeIsChag = (jd - 1) in holidays and any([x in holidays[jd - 1]['type'] for x in ('shabbat', 'chag', 'RH')])
+    dayAfterIsChag = (jd + 1) in holidays and any([x in holidays[jd + 1]['type'] for x in ('shabbat', 'chag', 'RH')])
+    dayAfterIs9Av = (jd + 1) in holidays and '9av' in holidays[jd + 1]['type']
+    dayAfterIsPurim = (jd + 1) in holidays and 'purim' in holidays[jd + 1]['type']
+
     # Mincha Erev Shabbat / Chag is 5 minutes after candle lighting
     minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=5)
+    if dayBeforeIsFast:
+        # If Friday is a fast day, mincha should be 10 minutes earlier for torah reading
+        minchaErev -= datetime.timedelta(minutes=10)
     # Mincha Ktana is 1:10 before maariv, rounded back to 5 minutes
     minchaK = dayTimes['motzei'] - datetime.timedelta(minutes=(70 + dayTimes['motzei'].minute % 5))
     if 'shabbat' not in day['type']:
@@ -172,12 +182,6 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
             dafYomi = "07:15"
         else:
             yizkor = "10:00"
-
-    lateMaariv = dayTimes['motzei'] + datetime.timedelta(minutes=35)
-    dayBeforeIsChag = (jd - 1) in holidays and any([x in holidays[jd - 1]['type'] for x in ('shabbat', 'chag', 'RH')])
-    dayAfterIsChag = (jd + 1) in holidays and any([x in holidays[jd + 1]['type'] for x in ('shabbat', 'chag', 'RH')])
-    dayAfterIs9Av = (jd + 1) in holidays and '9av' in holidays[jd + 1]['type']
-    dayAfterIsPurim = (jd + 1) in holidays and 'purim' in holidays[jd + 1]['type']
 
     if dayAfterIs9Av:
         minchaK = datetime.time(17, 00)
@@ -238,7 +242,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
         column1.append((u'שיעורים כל הלילה לפי לו"ז החג',))
         column1.append((u'קריאת מגילת רות', shavuotRut.strftime("%H:%M")))
         column1.append((u'שחרית ותיקין ', shavuotShacharit.strftime("%H:%M")))
-        column1.append((u"שחרית", shacharit))
+        column2.append((u"שחרית", shacharit))
     else:
         column1.append((u"שיעור בדף יומי", dafYomi))
     if not isFirstDayPesach and not shavuot:
@@ -427,11 +431,14 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
 
     column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
     column1.append((u"שחרית מניין א'", "05:50"))
-    column1.append((u"שחרית מניין ב'", "08:00"))
+    if day['date'].weekday() == hebcalendar.weekday['friday']:
+        column2.append((u"שחרית מניין ב'", "08:00"))
+    else:
+        column1.append((u"שחרית מניין ב'", "08:00"))
+        column2.append((u"מנחה", mincha))
+        column2.append((u"ערבית", maariv))
+        column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
 
-    column2.append((u"מנחה", mincha))
-    column2.append((u"ערבית", maariv))
-    column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
     create_populate_table(worddoc, column1, column2)
     set_header(worddoc, {'text': '\n'})
     return

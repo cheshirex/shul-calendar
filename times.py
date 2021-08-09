@@ -17,6 +17,7 @@ fast9avEndsPosition = -6.45
 fastStartsPosition = -16.013
 misheyakirPosition = -11.5
 firstDayEndPosition = -6.2
+candleLightinMotzash = -6.45
 ninety = datetime.timedelta(minutes=90)
 
 
@@ -47,6 +48,10 @@ def plag_mincha(date):
 
 def motzei(date):
 	return round(loc.time_at_elevation(motzeiSunPosition, SUN_SETTING, date), 'forward')
+
+
+def candle_lighting_motzash(date):
+	return round(loc.time_at_elevation(candleLightinMotzash, SUN_SETTING, date), 'forward')
 
 
 def candle_lighting(date):
@@ -100,6 +105,7 @@ def get_times(date):
 			'chametzBurning': pesach_chametz_burning(date),
 			'midnight': midnight(date),
 			'plagMincha': plag_mincha(date),
+			'candleLightingPesachMotzash': candle_lighting_motzash(date),
 	        'talitTfilin': misheyakir(date)}
 	data.update(loc.sun(date=date))
 	return data
@@ -121,22 +127,23 @@ def get_times(date):
 
 if __name__ == "__main__":
 	import sys
-	
+
 	today = None
 	if len(sys.argv) == 4:
 		today = datetime.datetime(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
 	else:
 		today = datetime.datetime.today()
-	
+
 	set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
 	times = get_times(today)
-	
+
 	print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
 	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
 	print("Sunrise: %s" % times['sunrise'].strftime('%H:%M'))
 	print("Sunset: %s" % times['sunset'].strftime('%H:%M'))
 	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
 	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
+	print("Candle lighting first night of Pesach on motzash: %s" % times['candleLightingPesachMotzash'].strftime('%H:%M'))
 	print("First day of chag ends: %s" % times['firstDayEnds'].strftime('%H:%M'))
 	print("Motzei: %s" % times['motzei'].strftime('%H:%M'))
 	print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))

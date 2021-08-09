@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from convertdate import hebrew, gregorian, utils
+from convertdate import hebrew, gregorian, utils, julianday
 import datetime
 import arrow
 
@@ -314,7 +314,7 @@ holidayDefs = (
 	{'month': 13, 'day': 13, 'name': {'english': u'Fast of Esther', 'hebrew': u'תענית אסתר'}, 'length': 1,'offset': preceding_thursday, 'leap': True, 'type': 'esther'},
 	{'month': 13, 'day': 14, 'name': {'english': u'Purim', 'hebrew': u'פורים'}, 'length':1, 'leap': True, 'type': 'purim'},
 	{'month': 13, 'day': 15, 'name': {'english': u'Shushan Purim', 'hebrew': u'שושן פורים'}, 'length': 1, 'leap': True, 'type': 'SP'},
-	{'month': 1, 'day': 14, 'name': {'english': u'Fast of the Firstborn', 'hebrew': u'תענית בכורות'}, 'length': 1, 'offset': preceding_thursday, 'type': 'other'},
+	{'month': 1, 'day': 14, 'name': {'english': u'Fast of the Firstborn', 'hebrew': u'תענית בכורות'}, 'length': 1, 'offset': preceding_thursday, 'type': 'firstborn'},
 	{'month': 1, 'day': 14, 'name': {'english': u'Erev Pesach', 'hebrew': u'ערב פסח'}, 'length': 1, 'type': 'erevPesach'},
 	{'month': 1, 'day': 15, 'name': {'english': u'Pesach', 'hebrew': u'פסח'}, 'length': 1, 'location': 'Israel', 'type': 'chag'},
 	{'month': 1, 'day': 15, 'name': {'english': u'Pesach', 'hebrew': u'פסח'}, 'length': 2, 'location': 'Diaspora', 'type': 'chag'},
@@ -491,7 +491,16 @@ def get_variable_holidays(holidays):
 		'month': shabbat[1], 'day': shabbat[2], 'name': {'english': u'Parshat Parah', 'hebrew': u'פרשת פרה'},
 		'length': 1, 'type': 'other'}
 	holiday_list.append(holiday)
-	
+
+	# special case -- if shabbat hagadol is also erev Pesach,
+	ref_day = hebrew.to_jd(year, 1, 14)
+	day_of_week = julianday.to_datetime(ref_day).date().weekday()
+	if weekday['shabbat'] == day_of_week:
+		holiday = {
+			'month': 1, 'day': 13, 'name': {'english': u'', 'hebrew': u''},
+			'length': 1, 'type': 'preErevPesach'}
+	holiday_list.append(holiday)
+
 	# Hagadol - before Pesach
 	ref_day = hebrew.to_jd(year, 1, 15)
 	shabbat = hebrew.from_jd(utils.previous_weekday(weekday['shabbat'], ref_day))
@@ -590,7 +599,9 @@ def get_dst(year):
 
 
 def get_holidays_from_gregorian(holidays):
-	dst = get_dst(year)
+	# Disable -- for now, leave out DST information
+	#dst = get_dst(year)
+	dst = {}
 	
 	day_list = []
 	

@@ -1,4 +1,4 @@
-This schedule generator is built on Python 2.7, with dependencies on the following libraries:
+This schedule generator is built on Python 3.9, with dependencies on the following libraries:
 * Astral from pypi.python.org (use "pip install astral"), to determine times of day
 * convertdate available (use "pip install convertdate") to convert between different calendar systems
 * docx (experimental, not working yet -- use "pip install python-docx") for Word file generation

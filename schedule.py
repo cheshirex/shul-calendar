@@ -750,8 +750,11 @@ def PrintSlichot(jd, day, holidays, dstActive, gregDate):
 
         dayLast = jd
         while True:
-            nextDay = holidays[dayLast + 1]
-            if 'slichot' not in nextDay['type']:
+            try:
+                nextDay = holidays[dayLast + 1]
+                if 'slichot' not in nextDay['type']:
+                    break
+            except KeyError:
                 break
             dayLast += 1
 

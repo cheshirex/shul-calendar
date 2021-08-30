@@ -2,10 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-from astral import Astral, Location, SUN_RISING, SUN_SETTING
 
-a = Astral()
-a.solar_depression = 'civil'
+import astral.sun
+from astral import LocationInfo, SunDirection
+
+# a.solar_depression = 'civil' -- no longer available, what did this do anyway?
 
 loc = None
 
@@ -22,93 +23,123 @@ ninety = datetime.timedelta(minutes=90)
 
 
 def round(time, direction):
-	if direction == 'forward':
-		return time.replace(second=0) + datetime.timedelta(seconds=60)
-	elif direction == 'backward':
-		return time.replace(second=0)
+    if direction == 'forward':
+        return time.replace(second=0) + datetime.timedelta(seconds=60)
+    elif direction == 'backward':
+        return time.replace(second=0)
 
 
 def set_location(name, region, latitude, longitude, tz_name, elevation):
-	global loc
-	loc = Location((name, region, latitude, longitude, tz_name, elevation))
+    global loc
+    loc = LocationInfo((name, region, latitude, longitude, tz_name, elevation))
 
 
-def variable_hour(date):
-	GRA = loc.sunset(date=date) - loc.sunrise(date=date)
-	MA = (loc.sunset(date=date) + ninety) - (loc.sunrise(date=date) - ninety)
-	return {'GRA': datetime.timedelta(seconds=GRA.total_seconds()/12),
-	        'MA': datetime.timedelta(seconds=MA.total_seconds()/12)}
+def variable_hour(times):
+    GRA = times['sunset'] - times['sunrise']
+    MA = (times['sunset'] + ninety) - (times['sunrise'] - ninety)
+    return {'GRA': datetime.timedelta(seconds=GRA.total_seconds() / 12),
+            'MA': datetime.timedelta(seconds=MA.total_seconds() / 12)}
 
 
-def plag_mincha(date):
-	hour = variable_hour(date)['MA']
-	hour1p5 = datetime.timedelta(seconds=(hour.total_seconds() * 1.5))
-	return round(motzei(date) - hour1p5, 'backward')
+def plag_mincha(times):
+    hour = variable_hour(times)['MA']
+    hour1p5 = datetime.timedelta(seconds=(hour.total_seconds() * 1.5))
+    return round(motzei(times) - hour1p5, 'backward')
 
 
-def motzei(date):
-	return round(loc.time_at_elevation(motzeiSunPosition, SUN_SETTING, date), 'forward')
+def motzei(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              motzeiSunPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.SETTING),
+                 'forward')
 
 
-def candle_lighting_motzash(date):
-	return round(loc.time_at_elevation(candleLightinMotzash, SUN_SETTING, date), 'forward')
+def candle_lighting_motzash(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              candleLightinMotzash,
+                                              date=times['sunset'],
+                                              direction=SunDirection.SETTING),
+                 'forward')
 
 
-def candle_lighting(date):
-	delta = datetime.timedelta(minutes=candleLightingMinutes)
-	return round(loc.sunset(date=date) - delta, 'backward')
+def candle_lighting(times):
+    delta = datetime.timedelta(minutes=candleLightingMinutes)
+    return round(times['sunset'] - delta, 'backward')
 
 
-def fast_begins(date):
-	return round(loc.time_at_elevation(fastStartsPosition, SUN_RISING, date), 'backward')
+def fast_begins(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              fastStartsPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.RISING),
+                 'backward')
 
 
-def fast_ends(date):
-	return round(loc.time_at_elevation(fastEndsPosition, SUN_SETTING, date), 'forward')
+def fast_ends(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              fastEndsPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.SETTING),
+                 'forward')
 
 
-def fast_ends_9av(date):
-	return round(loc.time_at_elevation(fast9avEndsPosition, SUN_SETTING, date), 'forward')
+def fast_ends_9av(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              fast9avEndsPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.SETTING),
+                 'forward')
 
 
-def misheyakir(date):
-	return round(loc.time_at_elevation(misheyakirPosition, SUN_RISING, date), 'forward')
+def misheyakir(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              misheyakirPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.RISING),
+                 'forward')
 
 
-def firstDayEnds(date):
-	return round(loc.time_at_elevation(firstDayEndPosition, SUN_SETTING, date), 'forward')
+def firstDayEnds(times):
+    return round(astral.sun.time_at_elevation(loc.observer,
+                                              firstDayEndPosition,
+                                              date=times['sunset'],
+                                              direction=SunDirection.SETTING),
+                 'forward')
 
 
 # Try these using 90 minutes before Hanetz to 90 minutes after shkiah, see if the times work out
-def pesach_chametz_eating(date):
-	hour = variable_hour(date)['MA']
-	return round(loc.sunrise(date=date) - ninety + 4 * hour, 'backward')
+def pesach_chametz_eating(times):
+    hour = variable_hour(times)['MA']
+    return round(times['sunrise'] - ninety + 4 * hour, 'backward')
 
 
-def pesach_chametz_burning(date):
-	hour = variable_hour(date)['MA']
-	return round(loc.sunrise(date=date) - ninety + 5 * hour, 'backward')
+def pesach_chametz_burning(times):
+    hour = variable_hour(times)['MA']
+    return round(times['sunrise'] - ninety + 5 * hour, 'backward')
 
 
-def midnight(date):
-	return loc.solar_noon() - datetime.timedelta(hours=12)
+def midnight(times):
+    return times['noon'] - datetime.timedelta(hours=12)
 
 
 def get_times(date):
-	data = {'motzei': motzei(date),
-			'candleLighting': candle_lighting(date),
-			'fastBegins': fast_begins(date),
-			'fastEnds': fast_ends(date),
-			'fast9avEnds': fast_ends_9av(date),
-			'firstDayEnds': firstDayEnds(date),
-			'chametzEating': pesach_chametz_eating(date),
-			'chametzBurning': pesach_chametz_burning(date),
-			'midnight': midnight(date),
-			'plagMincha': plag_mincha(date),
-			'candleLightingPesachMotzash': candle_lighting_motzash(date),
-	        'talitTfilin': misheyakir(date)}
-	data.update(loc.sun(date=date))
-	return data
+    times = astral.sun.sun(loc.observer, date=date)
+    data = {'motzei': motzei(times),
+            'candleLighting': candle_lighting(times),
+            'fastBegins': fast_begins(times),
+            'fastEnds': fast_ends(times),
+            'fast9avEnds': fast_ends_9av(times),
+            'firstDayEnds': firstDayEnds(times),
+            'chametzEating': pesach_chametz_eating(times),
+            'chametzBurning': pesach_chametz_burning(times),
+            'midnight': midnight(times),
+            'plagMincha': plag_mincha(times),
+            'candleLightingPesachMotzash': candle_lighting_motzash(times),
+            'talitTfilin': misheyakir(times)}
+    times.update(data)
+    return times
+
 
 # times of day from Astral based on location:
 # set up Astral with:
@@ -126,31 +157,32 @@ def get_times(date):
 
 
 if __name__ == "__main__":
-	import sys
+    import sys
 
-	today = None
-	if len(sys.argv) == 4:
-		today = datetime.datetime(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
-	else:
-		today = datetime.datetime.today()
+    today = None
+    if len(sys.argv) == 4:
+        today = datetime.datetime(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
+    else:
+        today = datetime.datetime.today()
 
-	set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
-	times = get_times(today)
+    set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
+    times = get_times(today)
 
-	print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
-	print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
-	print("Sunrise: %s" % times['sunrise'].strftime('%H:%M'))
-	print("Sunset: %s" % times['sunset'].strftime('%H:%M'))
-	print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
-	print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
-	print("Candle lighting first night of Pesach on motzash: %s" % times['candleLightingPesachMotzash'].strftime('%H:%M'))
-	print("First day of chag ends: %s" % times['firstDayEnds'].strftime('%H:%M'))
-	print("Motzei: %s" % times['motzei'].strftime('%H:%M'))
-	print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))
-	print("Fast ends: %s" % times['fastEnds'].strftime('%H:%M'))
-	print("Eat chametz by: %s" % times['chametzEating'].strftime('%H:%M'))
-	print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
-	print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
+    print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
+    print("Misheyakir: %s" % times['talitTfilin'].strftime('%H:%M'))
+    print("Sunrise: %s" % times['sunrise'].strftime('%H:%M'))
+    print("Sunset: %s" % times['sunset'].strftime('%H:%M'))
+    print("Plag Mincha: %s" % times['plagMincha'].strftime('%H:%M'))
+    print("Candle lighting: %s" % times['candleLighting'].strftime('%H:%M'))
+    print(
+        "Candle lighting first night of Pesach on motzash: %s" % times['candleLightingPesachMotzash'].strftime('%H:%M'))
+    print("First day of chag ends: %s" % times['firstDayEnds'].strftime('%H:%M'))
+    print("Motzei: %s" % times['motzei'].strftime('%H:%M'))
+    print("Fast begins: %s" % times['fastBegins'].strftime('%H:%M'))
+    print("Fast ends: %s" % times['fastEnds'].strftime('%H:%M'))
+    print("Eat chametz by: %s" % times['chametzEating'].strftime('%H:%M'))
+    print("Burn chametz by: %s" % times['chametzBurning'].strftime('%H:%M'))
+    print("Midnight - finish afikoman before: %s" % times['midnight'].strftime('%H:%M'))
 
-	vh = variable_hour(today)
-	print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))
+    vh = variable_hour(times)
+    print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))

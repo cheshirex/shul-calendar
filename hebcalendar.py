@@ -434,14 +434,14 @@ def get_variable_holidays(holidays):
 	# - First day of slichot is ALWAYS Sunday (Motzei, but after midnight). If RH is on Thursday or Shabbat, it's the
 	#   preceding motzei. Otherwise, it's a week earlier.
 	# Between RH and YK: is handled together with Fast of Gedaliah
-	ref_day = hebrew.to_jd(year, 6, 29)
+	ref_day = hebrew.to_jd(year, 6, 29) + 1
 	slichot = utils.previous_weekday(weekday['sunday'], ref_day)
-	if utils.jwday(ref_day) in (weekday['thursday'], weekday['shabbat']):
+	if utils.jwday(ref_day) not in (weekday['thursday'], weekday['shabbat']):
 		slichot -= 7
 	slichot_start = hebrew.from_jd(slichot)
 	holiday = {
 		'month': slichot_start[1], 'day': slichot_start[2], 'name': {'english': 'Slichot', 'hebrew': u'סליחות'},
-		'length': int(ref_day-slichot), 'type': 'slichot'}
+		'length': int(ref_day-slichot-1), 'type': 'slichot'} # deliberately leave out erev RH
 	holiday_list.append(holiday)
 	
 	# Special Shabbatot
@@ -761,6 +761,7 @@ if __name__ == "__main__":
 		z += ', '.join(a['english'] for a in y['fullnames']) + '\n'
 		z += ', '.join(a['hebrew'] for a in y['fullnames']) + '\n'
 
-		out.write(z.encode('utf8')+'\n')
+		#out.write(z.encode('utf8')+'\n')
+	out.write(z + '\n')
 
 	out.close()

@@ -811,7 +811,7 @@ if month:
 else:
     holidays = hebcalendar.get_year(year, location)
 
-times.set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
+times.set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem')
 
 worddoc = create_doc()
 
@@ -821,7 +821,7 @@ for jd in sorted(holidays):
     if monthName is None:
         monthName = hebcalendar.get_hebrew_month(month, 'english')
 
-    dstActive = dayTimes['motzei'].dst().total_seconds() != 0
+    dstActive = dayTimes['dst']
 
     gregDate = day['date'].strftime("%d.%m.%y")
 

@@ -5,6 +5,7 @@ import datetime
 
 import astral.sun
 from astral import LocationInfo, SunDirection
+import pytz
 
 # a.solar_depression = 'civil' -- no longer available, what did this do anyway?
 
@@ -29,9 +30,9 @@ def round(time, direction):
         return time.replace(second=0)
 
 
-def set_location(name, region, latitude, longitude, tz_name, elevation):
+def set_location(name, region, latitude, longitude, tz_name):
     global loc
-    loc = LocationInfo((name, region, latitude, longitude, tz_name, elevation))
+    loc = LocationInfo(name=name, region=region, timezone=tz_name, latitude=latitude, longitude=longitude)
 
 
 def variable_hour(times):
@@ -124,6 +125,10 @@ def midnight(times):
 
 
 def get_times(date):
+    tz = pytz.timezone(loc.timezone)
+    if type(date) is datetime.date:
+        date = datetime.datetime(date.year, date.month, date.day)
+    date = tz.localize(date)
     times = astral.sun.sun(loc.observer, date=date)
     data = {'motzei': motzei(times),
             'candleLighting': candle_lighting(times),
@@ -136,8 +141,14 @@ def get_times(date):
             'midnight': midnight(times),
             'plagMincha': plag_mincha(times),
             'candleLightingPesachMotzash': candle_lighting_motzash(times),
-            'talitTfilin': misheyakir(times)}
+            'talitTfilin': misheyakir(times),
+            'dst': bool(date.dst())}
     times.update(data)
+
+    for key in times:
+        if type(times[key]) is datetime.datetime:
+            times[key] = times[key].astimezone(tz)
+
     return times
 
 
@@ -165,7 +176,7 @@ if __name__ == "__main__":
     else:
         today = datetime.datetime.today()
 
-    set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem', 0)
+    set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem')
     times = get_times(today)
 
     print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
@@ -186,3 +197,5 @@ if __name__ == "__main__":
 
     vh = variable_hour(times)
     print("Variable hour: GRA: " + str(vh['GRA']) + ', MA: ' + str(vh['MA']))
+
+    print(f"Is DST active? {times['dst']}")

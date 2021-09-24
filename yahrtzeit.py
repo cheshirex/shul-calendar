@@ -10,8 +10,9 @@ import os
 import win32com.client
 
 def usage():
-	print 'yahrtzeit.py Yahrtzeit Generation script'
-	print 'Usage: yahrtzeit.py <Jewish year> <name of data file>'
+	print('yahrtzeit.py Yahrtzeit Generation script')
+	print('Usage: yahrtzeit.py <Jewish year> <name of data file>')
+
 
 def createDoc():
 	wordapp = win32com.client.gencache.EnsureDispatch("Word.Application")
@@ -23,9 +24,11 @@ def createDoc():
 
 	return worddoc
 
+
 def saveDoc(worddoc, year):
 	worddoc.SaveAs(os.getcwd() + '\\yahrtzeitsFor' + repr(year) + '.docx')
-	
+
+
 def writeLine(worddoc, parsha, data):
 	r = worddoc.Range().Paragraphs.Add().Range
 	r.Font.SizeBi = 12
@@ -63,7 +66,7 @@ for line in codecs.open(inputFile, encoding='utf-8-sig'):
 	try:
 		name, date, info = [x.strip() for x in line.split(',', 3)]
 	except:
-		print 'Error in line: %d' % lineNum
+		print('Error in line: %d' % lineNum)
 		sys.exit(-1)
 	date = date.split('.', 3)
 	
@@ -112,7 +115,6 @@ for shabbat in sorted(holidays):
 				data += u"* %s: %s - %s\n" % (weekday, y['name'], y['info'])
 				out.write(data)
 		writeLine(doc, parsha, data)
-				
 
 	lastShabbat = shabbat
 	lastShabbatName = name

@@ -432,6 +432,18 @@ def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
     return
 
 
+def PrintRain(js, day, holidays, dstActive, gregData):
+    header = u"אור ל-ז' חשון בערבית "
+    header += day['date'].strftime("(%d.%m.%y)")
+    header += u'\n'
+    set_header(worddoc, {'text': header})
+    # rain_text = header + u' - '
+    rain_text = u'מתחילים לומר "ותן טל ומטר לברכה"'
+    rain_text += u'\n'
+    set_header(worddoc, {'text': rain_text, 'size': 12, 'bold': False})
+    set_header(worddoc, {'text': '\n'})
+
+
 def PrintFirstbornFast(js, day, holidays, dstActive, gregDate):
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
@@ -881,12 +893,7 @@ for jd in sorted(holidays):
     elif 'firstborn' in day['type']:
         PrintFirstbornFast(jd, day, holidays, dstActive, gregDate)
     elif 'rain' in day['type']:
-        header = u"אור ל-ז' חשון בערבית "
-        header += day['date'].strftime("(%d.%m.%y)")
-        text = ' - '
-        text += u'מתחילים לומר "ותן טל ומטר לברכה"'
-        set_header(worddoc, {'text': text})
-        set_header(worddoc, {'text': '\n'})
+        PrintRain(jd, day, holidays, dstActive, gregDate)
     elif 'startDst' in day['type'] or 'endDst' in day['type']:
         clock = None
         if 'startDst' in day['type']:

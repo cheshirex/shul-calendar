@@ -600,8 +600,8 @@ def get_dst(year):
 
 def get_holidays_from_gregorian(holidays):
 	# Disable -- for now, leave out DST information
-	#dst = get_dst(year)
-	dst = {}
+	dst = get_dst(year)
+	#dst = {}
 	
 	day_list = []
 	

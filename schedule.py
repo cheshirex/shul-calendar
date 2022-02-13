@@ -654,7 +654,7 @@ def PrintPurim(jd, day, holidays, dstActive, gregDate):
     column1.append((u"קריאה שניה", secondReading.strftime("%H:%M")))
     column2.append((u"קריאה שניה", "09:30"))
 
-    column2.append((u"מנחה", "13:00"))
+    column2.append((u"מנחה", "13:15"))
     create_populate_table(worddoc, column1, column2)
     set_header(worddoc, {'text': '\n'})
     return

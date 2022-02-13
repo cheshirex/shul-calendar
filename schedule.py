@@ -270,11 +270,11 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
         column2.append((u"מנחה גדולה", minchaG))
         # if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
         #	column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
-        if 'chag' not in day['type'] and 'CH' not in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and \
-                not dayAfterIsPurim and not isShabbatShuva and not isShabbatHagadol and not earlyShabbatGadol:
-            name = u'מנחה קטנה וס"ש'
-        else:
-            name = u"מנחה קטנה"
+        # if 'chag' not in day['type'] and 'CH' not in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and \
+        #         not dayAfterIsPurim and not isShabbatShuva and not isShabbatHagadol and not earlyShabbatGadol:
+        #     name = u'מנחה קטנה וס"ש'
+        # else:
+        name = u"מנחה קטנה"
         if isShabbatShuva:
             minchaK -= datetime.timedelta(minutes=10)
         # if earlyShabbatGadol or (not earlyShabbatGadol and isShabbatHagadol):

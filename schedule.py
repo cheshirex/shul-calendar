@@ -267,7 +267,8 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
     if yizkor:
         column2.append((u'יזכור (משוער)', yizkor))
     if not simchatTorah:
-        column2.append((u"מנחה גדולה", minchaG))
+        if shabbatName:
+            column2.append((u"מנחה גדולה", minchaG))
         # if 'shabbat' in day['type'] and not yizkor and not dayAfterIs9Av:
         #	column2.append((u"לימוד הורים וילדים", parentChildLearning.strftime("%H:%M")))
         # if 'chag' not in day['type'] and 'CH' not in day['type'] and not dayAfterIsChag and not dayAfterIs9Av and \
@@ -508,13 +509,15 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
     column1 = []
     column2 = []
 
-    mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
-        "%H:%M")
+    # mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
+    #    "%H:%M")
+    mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime(
+                        "%H:%M")
 
+    column1.append((u"מנחה וערבית חגיגית", mincha))
     column1.append((u"שחרית חגיגית", "07:30"))
-    column2.append((u"מנחה וערבית",
-                    (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime(
-                        "%H:%M")))
+    column2.append(("", ""))
+    column2.append((u"מנחה וערבית", mincha))
     create_populate_table(worddoc, column1, column2)
     set_header(worddoc, {'text': '\n'})
     return

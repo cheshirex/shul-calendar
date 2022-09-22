@@ -59,13 +59,13 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
     if day['hebrew'][2] == 2:
         dayPrev = holidays[jd-1]
         dayTimesPrev = times.get_times(dayPrev['date'])
-        column1.append((u"הדלקת נרות אחרי", dayTimesPrev['firstDayEnds'].strftime("%H:%M")))
+        column1.append((u"הדלקת נרות החל מ", dayTimesPrev['firstDayEnds'].strftime("%H:%M")))
     else:
         column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
     if day['hebrew'][2] == 1:
         column1.append((u"מנחה וערבית", minchaErev.strftime("%H:%M")))
     else:
-        column1.append((u"ערבית", dayTimes['firstDayEnds'].strftime("%H:%M")))
+        column1.append((u"ערבית", dayTimesPrev['firstDayEnds'].strftime("%H:%M")))
     column1.append((u"שיעור בדף יומי", dafYomi))
     column1.append((u"שחרית", shacharit))
 
@@ -92,7 +92,7 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
     column1 = []
     column2 = []
 
-    minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=5)
+    minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=10)
     shacharit = "08:00"
     dafYomi = "07:15"
 

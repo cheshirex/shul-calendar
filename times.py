@@ -18,7 +18,7 @@ fastEndsPosition = -4.9
 fast9avEndsPosition = -6.45
 fastStartsPosition = -16.013
 misheyakirPosition = -11.5
-firstDayEndPosition = -6.2
+firstDayEndPosition = -4.9
 candleLightinMotzash = -6.45
 ninety = datetime.timedelta(minutes=90)
 

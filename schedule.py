@@ -102,7 +102,7 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
 
     column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
     column1.append((u"כל נדרי וערבית", minchaErev.strftime("%H:%M")))
-    column1.append((u"שיעור לפני שיר הייחוד",))
+    column1.append((u"שיעור קצר לפני שיר הייחוד",))
     column1.append((u"שיעור בדף יומי", dafYomi))
     column1.append((u"שחרית", shacharit))
 

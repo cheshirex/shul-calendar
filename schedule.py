@@ -8,12 +8,12 @@ import datetime
 
 from convertdate import hebrew, utils
 
-from oleHelper import *
-# from docxHelper import *
-# import win32com.client
+from oleHelper import OleHelper
+
+helper = OleHelper()
 
 
-def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
+def PrintRoshHashana(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
@@ -35,7 +35,7 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
         header += u'כ"ט באלול '
         header += erevDay.strftime("%d.%m.%y")
         header += u')'
-        set_header(worddoc, {'text': header})
+        helper.set_header(worddoc, {'text': header})
 
         column1.append((u"סליחות א'", "05:00"))
         column1.append((u"סליחות ב'", "07:00"))
@@ -45,16 +45,16 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
         column2.append((u"שחרית מנין א'", "06:05"))
         column2.append((u"שחרית מנין ב'", "08:00"))
 
-        create_populate_table(worddoc, column1, column2)
-        set_header(worddoc, {'text': '\n'})
+        helper.create_populate_table(worddoc, column1, column2)
+        helper.set_header(worddoc, {'text': '\n'})
 
         column1 = []
         column2 = []
 
     dayName = u'יום %s,' % hebcalendar.hebrew_day_of_week(day['date'].weekday())
     header = u"%s (%s %s - %s)" % (
-        ', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)
-    set_header(worddoc, {'text': header})
+        ', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], greg_date)
+    helper.set_header(worddoc, {'text': header})
 
     if day['hebrew'][2] == 2:
         dayPrev = holidays[jd-1]
@@ -83,12 +83,12 @@ def PrintRoshHashana(jd, day, holidays, dstActive, gregDate):
     if day['hebrew'][2] == 2 and dayTimes['noon'].weekday() != hebcalendar.weekday['friday']:
         column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
 
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
+def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
@@ -97,8 +97,8 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
     dafYomi = "07:15"
 
     dayName = u'יום %s,' % hebcalendar.hebrew_day_of_week(day['date'].weekday())
-    set_header(worddoc, {'text': u"%s (%s %s - %s)" % (
-        ', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], gregDate)})
+    helper.set_header(worddoc, {'text': u"%s (%s %s - %s)" % (
+        ', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'], greg_date)})
 
     column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
     column1.append((u"כל נדרי וערבית", minchaErev.strftime("%H:%M")))
@@ -114,30 +114,30 @@ def PrintYomKippur(jd, day, holidays, dstActive, gregDate):
                         "%H:%M")))
     column2.append((u"ערבית ומוצאי חג", dayTimes['motzei'].strftime("%H:%M")))
 
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintErevYK(jd, day, holidays, dstActive, gregDate):
+def PrintErevYK(jd, day, holidays, dst_active, greg_date):
     dayName = u'יום %s,' % hebcalendar.hebrew_day_of_week(day['date'].weekday())
-    set_header(worddoc, {'text': u"%s (%s %s - %s)\n" % \
+    helper.set_header(worddoc, {'text': u"%s (%s %s - %s)\n" % \
                                  (', '.join(a['hebrew'] for a in day['fullnames']), dayName, day['hebrewWritten'],
-                                  gregDate)})
+                                  greg_date)})
     text = u'סליחות ושחרית: 06:00 / 08:00'
     text += u' • '
     text += u'מנחה: '
     text += u"14:00"
     text += u'\n'
-    set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-    set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
+    helper.set_header(worddoc, {'text': '\n'})
 
 
-def PrintChag(jd, day, holidays, dstActive, gregDate):
+def PrintChag(jd, day, holidays, dst_active, greg_date):
     pass
 
 
-def PrintShabbat(jd, day, holidays, dstActive, gregDate):
+def PrintShabbat(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
@@ -169,7 +169,7 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
     shacharit = "08:00"
     dafYomi = "07:15"
     isFirstDayPesach = day['hebrew'][1] == 1 and day['hebrew'][2] == 15
-    if dstActive:
+    if dst_active:
         minchaG = "13:30"
         shacharit = "08:30"
         dafYomi = "07:45"
@@ -210,14 +210,14 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
     if 'chag' in day['type']:
         dayName = u'יום %s, ' % hebcalendar.hebrew_day_of_week(day['date'].weekday())
     if shabbatName:
-        header = u"%s (%s%s - %s)" % (shabbatName, dayName, day['hebrewWritten'], gregDate)
+        header = u"%s (%s%s - %s)" % (shabbatName, dayName, day['hebrewWritten'], greg_date)
         if len(otherName):
             header += u' - ' + u', '.join(a for a in otherName)
     else:
-        header = u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)
+        header = u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], greg_date)
     isShabbatShuva = header.find(u'שובה') != -1
 
-    set_header(worddoc, {'text': header})
+    helper.set_header(worddoc, {'text': header})
 
     if day['date'].weekday() == hebcalendar.weekday['friday']:
         column1.append(({'text': u'עירוב תבשילין', 'italic': True, 'bold': True},))
@@ -314,17 +314,17 @@ def PrintShabbat(jd, day, holidays, dstActive, gregDate):
         column2.append((u'מוצאי שבת', dayTimes['motzei'].strftime("%H:%M")))
     # else dayAfterIsChag -- maariv will be listed in the next day's entry
 
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate):
+def PrintHoshanaRabah(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
-    set_header(worddoc, {
-        'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
+    helper.set_header(worddoc, {
+        'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], greg_date)})
 
     column1.append((u"קריאת משנה תורה בליל הושענא רבה אחרי ערבית",))
     # Moved later because Misheyakir is late. Revisit next year
@@ -332,12 +332,12 @@ def PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate):
 
     column2.append((None,))
     column2.append((u"שחרית מנין ב'", '07:30'))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintRoshChodesh(jd, day, holidays, dstActive, gregDate):
+def PrintRoshChodesh(jd, day, holidays, dst_active, greg_date):
     name = [x['hebrew'] for x in day['names'] if u'ראש' in x['hebrew']][0]
     if name not in holidayDone:
         holidayDone.append(name)
@@ -361,7 +361,7 @@ def PrintRoshChodesh(jd, day, holidays, dstActive, gregDate):
                 shacharitTime = u'06:00'
             desc += u' - שחרית ב%s' % shacharitTime
 
-        set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': desc})
 
         column1 = []
         column2 = []
@@ -395,7 +395,7 @@ def PrintRoshChodesh(jd, day, holidays, dstActive, gregDate):
     return
 
 
-def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
+def PrintCholHamoed(jd, day, holidays, dst_active, greg_date):
     # If the first day is Shabbat, it's handled separately. Leave it out.
     if day['date'].weekday() == hebcalendar.weekday['shabbat']:
         return
@@ -424,7 +424,7 @@ def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
         desc += " (" + lastCH['date'].strftime("%d.%m.%y") + ' - ' + day['date'].strftime("%d.%m.%y") + ')'
 
         desc += u'\n'
-        set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': desc})
         text = u'שחרית: 06:00 / 07:30'
         text += u' • '
         text += u'מנחה וערבית: '
@@ -434,48 +434,48 @@ def PrintCholHamoed(jd, day, holidays, dstActive, gregDate):
         text += u'ערבית: '
         text += maariv
         text += u'\n'
-        set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
+        helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintRain(js, day, holidays, dstActive, gregData):
+def PrintRain(js, day, holidays, dst_active, gregData):
     header = u"אור ל-ז' חשון בערבית "
     header += day['date'].strftime("(%d.%m.%y)")
     header += u'\n'
-    set_header(worddoc, {'text': header})
+    helper.set_header(worddoc, {'text': header})
     # rain_text = header + u' - '
     rain_text = u'מתחילים לומר "ותן טל ומטר לברכה"'
     rain_text += u'\n'
-    set_header(worddoc, {'text': rain_text, 'size': 12, 'bold': False})
-    set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': rain_text, 'size': 12, 'bold': False})
+    helper.set_header(worddoc, {'text': '\n'})
 
 
-def PrintFirstbornFast(js, day, holidays, dstActive, gregDate):
+def PrintFirstbornFast(js, day, holidays, dst_active, greg_date):
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     text += u'\n'
 
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
     text = u'סיום לאחר תפילת שחרית ב2 המניינים'
     text += u'\n'
-    set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-    set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
+    helper.set_header(worddoc, {'text': '\n'})
 
 
-def PrintFastDay(jd, day, holidays, dstActive, gregDate):
+def PrintFastDay(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     text += u'\n'
 
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
     mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
     maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 
@@ -489,12 +489,12 @@ def PrintFastDay(jd, day, holidays, dstActive, gregDate):
         column2.append((u"ערבית", maariv))
         column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
 
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintIndependance(jd, day, holidays, dstActive, gregDate):
+def PrintIndependance(jd, day, holidays, dst_active, greg_date):
     dayName = []
     omerName = None
 
@@ -505,12 +505,12 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
             dayName.append(fullname['hebrew'])
     text = u', '.join(a for a in dayName)
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     if omerName:
         text += u' - ' + omerName
     text += u'\n'
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
 
     column1 = []
     column2 = []
@@ -524,12 +524,12 @@ def PrintIndependance(jd, day, holidays, dstActive, gregDate):
     column1.append((u"שחרית חגיגית", "07:30"))
     column2.append(("", ""))
     column2.append((u"מנחה וערבית", mincha))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintJerusalem(jd, day, holidays, dstActive, gregDate):
+def PrintJerusalem(jd, day, holidays, dst_active, greg_date):
     dayName = []
     omerName = None
 
@@ -540,32 +540,32 @@ def PrintJerusalem(jd, day, holidays, dstActive, gregDate):
             dayName.append(fullname['hebrew'])
     text = u', '.join(a for a in dayName)
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     if omerName:
         text += u' - ' + omerName
     text += u'\n'
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
 
     maariv = (dayTimes['motzei'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))).strftime(
         "%H:%M")
     text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'
 
-    set_header(worddoc, {'text': text, 'bold': False})
-    set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': text, 'bold': False})
+    helper.set_header(worddoc, {'text': '\n'})
 
 
-def PrintEsther(jd, day, holidays, dstActive, gregDate):
+def PrintEsther(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     text += u'\n'
 
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
     mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
     maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 
@@ -578,28 +578,28 @@ def PrintEsther(jd, day, holidays, dstActive, gregDate):
     if not ((jd + 1) in holidays and 'purim' in holidays[jd + 1]['type']):
         column2.append((u"ערבית", maariv))
     column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintGedaliah(jd, day, holidays, dstActive, gregDate):
+def PrintGedaliah(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
     slichot = u"סליחות עשרת ימי תשובה: 05:25" + u"\n"
 
     if day['date'].weekday() != hebcalendar.weekday['sunday']:
-        set_header(worddoc, {'text': slichot})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': slichot})
+        helper.set_header(worddoc, {'text': '\n'})
 
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
-    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+    text += u"יום %s, %s - %s" % (hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     text += u') '
     text += u'\n'
 
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
     mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")
     maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 
@@ -609,22 +609,22 @@ def PrintGedaliah(jd, day, holidays, dstActive, gregDate):
     column2.append((u"מנחה", mincha))
     column2.append((u"ערבית", maariv))
     column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
 
     if day['date'].weekday() == hebcalendar.weekday['sunday']:
-        set_header(worddoc, {'text': slichot})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': slichot})
+        helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def Print9Av(jd, day, holidays, dstActive, gregDate):
+def Print9Av(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
-    set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
+    helper.set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
         ', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrew_day_of_week(day['date'].weekday()),
-        day['hebrewWritten'], gregDate)})
+        day['hebrewWritten'], greg_date)})
     mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5)))
 
     if day['date'].weekday() == hebcalendar.weekday['sunday']:
@@ -639,12 +639,12 @@ def Print9Av(jd, day, holidays, dstActive, gregDate):
     column2.append((u"מנחה", mincha.strftime("%H:%M")))
     column2.append((u"ערבית", (dayTimes['fast9avEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")))
     column2.append((u"סוף הצום", dayTimes['fast9avEnds'].strftime("%H:%M")))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintPurim(jd, day, holidays, dstActive, gregDate):
+def PrintPurim(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
@@ -653,9 +653,9 @@ def PrintPurim(jd, day, holidays, dstActive, gregDate):
         # If Purim is Motzei Shabbat, give 30 minutes before Maariv
         maariv = dayTimes['motzei'] + datetime.timedelta(minutes=(40 - dayTimes['motzei'].minute % 5))
     secondReading = maariv + datetime.timedelta(hours=2)
-    set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
+    helper.set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
         ', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrew_day_of_week(day['date'].weekday()),
-        day['hebrewWritten'], gregDate)})
+        day['hebrewWritten'], greg_date)})
 
     column1.append((u"ערבית וקריאת מגילה", maariv.strftime("%H:%M")))
     column2.append((u"שחרית וקריאת מגילה", "07:00"))
@@ -664,12 +664,12 @@ def PrintPurim(jd, day, holidays, dstActive, gregDate):
     column2.append((u"קריאה שניה", "09:30"))
 
     column2.append((u"מנחה", "13:15"))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintChanuka(jd, day, holidays, dstActive, gregDate):
+def PrintChanuka(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
@@ -691,7 +691,7 @@ def PrintChanuka(jd, day, holidays, dstActive, gregDate):
         desc += hebcalendar.hebrew_day_of_month(day8['hebrew'][2] - 1) + u"טבת "
         desc += day8['date'].strftime("%d.%m.%y")
 
-        set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': desc})
 
         column1.append((u"שחרית מנין א'", "06:00"))
         column1.append((u"שחרית מנין ב'", "08:00"))
@@ -705,53 +705,53 @@ def PrintChanuka(jd, day, holidays, dstActive, gregDate):
         #	if holidays[d+0.5]['date'].weekday() == hebcalendar.weekday['friday']:
         #		# There's a Friday in Chanuka (well, duh, but specifically for the case of Tevet)
         #		column1.append((u"שחרית מנין א' ביום ו'", "06:00"))
-        create_populate_table(worddoc, column1, column2)
-        set_header(worddoc, {'text': '\n'})
+        helper.create_populate_table(worddoc, column1, column2)
+        helper.set_header(worddoc, {'text': '\n'})
     return
 
     # set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
     #     ', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrew_day_of_week(day['date'].weekday()),
-    #     day['hebrewWritten'], gregDate)})
+    #     day['hebrewWritten'], greg_date)})
 
 
-def PrintErevPesach(jd, day, holidays, dstActive, gregDate):
+def PrintErevPesach(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
-    set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
+    helper.set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
         ', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrew_day_of_week(day['date'].weekday()),
-        day['hebrewWritten'], gregDate)})
+        day['hebrewWritten'], greg_date)})
 
     column1.append((u"סוף זמן אכילת חמץ", dayTimes['chametzEating'].strftime("%H:%M")))
     column1.append((u'מנחה גדולה', '13:30'))
     column2.append((u"סוף זמן שריפת חמץ", dayTimes['chametzBurning'].strftime("%H:%M")))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintErevPesachForShabbatErevPesach(jd, day, holidays, dstActive, gregDate):
+def PrintErevPesachForShabbatErevPesach(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
     text = u"יום %s, %s - %s" % (
-        hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+        hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
     if 'startDst' in day['type']:
         text += u' - עוברים לשעון קיץ'
-    set_header(worddoc, {'text': text})
+    helper.set_header(worddoc, {'text': text})
 
     column1.append((u"שריפת חמץ", dayTimes['chametzBurning'].strftime("%H:%M")))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate):
+def PrintHoshanaRabah(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
-    set_header(worddoc, {
-        'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)})
+    helper.set_header(worddoc, {
+        'text': u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], greg_date)})
 
     column1.append((u"קריאת משנה תורה בליל הושענא רבה אחרי ערבית",))
     # Moved later because Misheyakir is late. Revisit next year
@@ -759,12 +759,12 @@ def PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate):
 
     column2.append((None,))
     column2.append((u"שחרית מנין ב'", '07:30'))
-    create_populate_table(worddoc, column1, column2)
-    set_header(worddoc, {'text': '\n'})
+    helper.create_populate_table(worddoc, column1, column2)
+    helper.set_header(worddoc, {'text': '\n'})
     return
 
 
-def PrintSlichot(jd, day, holidays, dstActive, gregDate):
+def PrintSlichot(jd, day, holidays, dst_active, greg_date):
     name = day['names'][0]
     if name not in holidayDone:
         holidayDone.append(name)
@@ -787,14 +787,14 @@ def PrintSlichot(jd, day, holidays, dstActive, gregDate):
         desc = u'סליחות: מוצ"ש '
         desc += u' ('
         desc += u"יום %s, %s - %s" % (
-            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
         desc += u'): '
         desc += u'שעה ' + (
                 dayTimes['noon'] - datetime.timedelta(hours=12, minutes=(dayTimes['noon'].minute % 5))).strftime(
             "%H:%M")
         desc += u'\n'
-        set_header(worddoc, {'text': desc})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': '\n'})
 
         desc = u"סליחות: "
 
@@ -806,8 +806,8 @@ def PrintSlichot(jd, day, holidays, dstActive, gregDate):
         desc += " (" + last['date'].strftime("%d.%m.%y") + ' - ' + first['date'].strftime("%d.%m.%y") + '): '
         desc += u'05:35'
         desc += u'\n'
-        set_header(worddoc, {'text': desc})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': '\n'})
 
 
 ### 
@@ -834,7 +834,7 @@ else:
 
 times.set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem')
 
-worddoc = create_doc()
+worddoc = helper.create_doc()
 
 for jd in sorted(holidays):
     day = holidays[jd]
@@ -842,9 +842,9 @@ for jd in sorted(holidays):
     if monthName is None:
         monthName = hebcalendar.get_hebrew_month(month, 'english')
 
-    dstActive = dayTimes['dst']
+    dst_active = dayTimes['dst']
 
-    gregDate = day['date'].strftime("%d.%m.%y")
+    greg_date = day['date'].strftime("%d.%m.%y")
 
     # Holiday types:
     # shabbat
@@ -857,52 +857,52 @@ for jd in sorted(holidays):
     # SP (Shushan Purim)
     # erevPesach
     if 'RH' in day['type']:
-        PrintRoshHashana(jd, day, holidays, dstActive, gregDate)
+        PrintRoshHashana(jd, day, holidays, dst_active, greg_date)
     elif 'YK' in day['type']:
-        PrintYomKippur(jd, day, holidays, dstActive, gregDate)
+        PrintYomKippur(jd, day, holidays, dst_active, greg_date)
     # Shabbat or chag, unless it's Shabbat and 2nd day RC for next month
     elif ('shabbat' in day['type'] or 'chag' in day['type']) and month == day['hebrew'][1]:
-        PrintShabbat(jd, day, holidays, dstActive, gregDate)
+        PrintShabbat(jd, day, holidays, dst_active, greg_date)
     elif 'RC' in day['type']:
-        PrintRoshChodesh(jd, day, holidays, dstActive, gregDate)
+        PrintRoshChodesh(jd, day, holidays, dst_active, greg_date)
     elif 'HR' in day['type']:
-        PrintHoshanaRabah(jd, day, holidays, dstActive, gregDate)
+        PrintHoshanaRabah(jd, day, holidays, dst_active, greg_date)
     elif 'CH' in day['type']:
-        PrintCholHamoed(jd, day, holidays, dstActive, gregDate)
+        PrintCholHamoed(jd, day, holidays, dst_active, greg_date)
     elif 'fast' in day['type']:
-        PrintFastDay(jd, day, holidays, dstActive, gregDate)
+        PrintFastDay(jd, day, holidays, dst_active, greg_date)
     elif 'esther' in day['type']:
-        PrintEsther(jd, day, holidays, dstActive, gregDate)
+        PrintEsther(jd, day, holidays, dst_active, greg_date)
     elif 'gedaliah' in day['type']:
-        PrintGedaliah(jd, day, holidays, dstActive, gregDate)
+        PrintGedaliah(jd, day, holidays, dst_active, greg_date)
     elif 'jerusalem' in day['type']:
-        PrintJerusalem(jd, day, holidays, dstActive, gregDate)
+        PrintJerusalem(jd, day, holidays, dst_active, greg_date)
     elif '9av' in day['type']:
-        Print9Av(jd, day, holidays, dstActive, gregDate)
+        Print9Av(jd, day, holidays, dst_active, greg_date)
     elif 'purim' in day['type']:
-        PrintPurim(jd, day, holidays, dstActive, gregDate)
+        PrintPurim(jd, day, holidays, dst_active, greg_date)
     elif 'chanuka' in day['type']:
-        PrintChanuka(jd, day, holidays, dstActive, gregDate)
+        PrintChanuka(jd, day, holidays, dst_active, greg_date)
     elif 'erevPesach' in day['type']:
-        PrintErevPesach(jd, day, holidays, dstActive, gregDate)
+        PrintErevPesach(jd, day, holidays, dst_active, greg_date)
     elif 'independance' in day['type']:
-        PrintIndependance(jd, day, holidays, dstActive, gregDate)
+        PrintIndependance(jd, day, holidays, dst_active, greg_date)
     elif 'preErevPesach' in day['type']:
-        PrintErevPesachForShabbatErevPesach(jd, day, holidays, dstActive, gregDate)
+        PrintErevPesachForShabbatErevPesach(jd, day, holidays, dst_active, greg_date)
     elif 'erevRH' in day['type']:
         desc = u'סליחות: '
-        desc += u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], gregDate)
+        desc += u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], greg_date)
         desc += u': 07:00 / 05:00\n'
-        set_header(worddoc, {'text': desc})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': desc})
+        helper.set_header(worddoc, {'text': '\n'})
     elif 'erevYK' in day['type']:
-        PrintErevYK(jd, day, holidays, dstActive, gregDate)
+        PrintErevYK(jd, day, holidays, dst_active, greg_date)
     elif 'slichot' in day['type']:
-        PrintSlichot(jd, day, holidays, dstActive, gregDate)
+        PrintSlichot(jd, day, holidays, dst_active, greg_date)
     elif 'firstborn' in day['type']:
-        PrintFirstbornFast(jd, day, holidays, dstActive, gregDate)
+        PrintFirstbornFast(jd, day, holidays, dst_active, greg_date)
     elif 'rain' in day['type']:
-        PrintRain(jd, day, holidays, dstActive, gregDate)
+        PrintRain(jd, day, holidays, dst_active, greg_date)
     elif 'startDst' in day['type'] or 'endDst' in day['type']:
         clock = None
         if 'startDst' in day['type']:
@@ -910,29 +910,29 @@ for jd in sorted(holidays):
         else:
             clock = u'חורף' + '\n'
         text = u"יום %s, %s - %s" % (
-            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
         text += u' - עוברים לשעון %s\n' % clock
-        set_header(worddoc, {'text': text})
+        helper.set_header(worddoc, {'text': text})
     elif 'omer' in day['type'] and len(day['type']) == 1:
         pass
     else:
-        dayName = []
+        day_name = []
         omerName = None
 
         for fullname in day['fullnames']:
             if u'בעומר' in fullname['hebrew'] and not omerName:
                 omerName = fullname['hebrew']
             else:
-                dayName.append(fullname['hebrew'])
-        text = u', '.join(a for a in dayName)
+                day_name.append(fullname['hebrew'])
+        text = u', '.join(a for a in day_name)
         text += u' ('
         text += u"יום %s, %s - %s" % (
-            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], gregDate)
+            hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
         text += u') '
         if omerName:
             text += u' - ' + omerName
         text += u'\n'
-        set_header(worddoc, {'text': text})
-        set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': text})
+        helper.set_header(worddoc, {'text': '\n'})
 
-save_doc(worddoc, monthName, year)
+helper.save_doc(worddoc, monthName, year)

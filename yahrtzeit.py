@@ -9,6 +9,7 @@ from convertdate import hebrew, gregorian, utils
 import os
 import win32com.client
 
+
 def usage():
 	print('yahrtzeit.py Yahrtzeit Generation script')
 	print('Usage: yahrtzeit.py <Jewish year> <name of data file>')
@@ -102,7 +103,7 @@ for shabbat in sorted(holidays):
 	heb = '%04d.%02d.%02d' % day['hebrew']
 	name += u' - %s / %s:' % (greg, heb)
 	
-	yDates = [y for y in yahrtzeits if y >= lastShabbat and y < shabbat]
+	yDates = [y for y in yahrtzeits if lastShabbat <= y < shabbat]
 
 	if len(yDates) > 0:
 		out.write(lastShabbatName + u'\n')

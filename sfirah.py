@@ -11,46 +11,46 @@ numbers = ['', u'אחד', u'שנים', u'שלושה', u'ארבעה', u'חמשה'
 numbersTen = ['', u'עשר', u'עשרים', u'שלושים', u'ארבעים']
 
 
-def getSfirahText(curDay):
+def get_sfirah_text(cur_day):
 	output = u"בָּרוּךְ אַתָּה ה' אֱלהֵינוּ מֶלֶךְ הָעולָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְותָיו וְצִוָּנוּ עַל סְפִירַת הָעומֶר"
 	output += u'\\n'
 
-	if curDay == 1:
+	if cur_day == 1:
 		output += u'היום יום אחד בעומר'
-	elif curDay == 2:
+	elif cur_day == 2:
 		output += u'היום שני ימים בעומר'
-	elif curDay == 10:
+	elif cur_day == 10:
 		output += u'היום עשרה ימים, שהם שבוע אחד ושלשה ימים בעומר'
 	else:
 		output += u'היום '
-		output += numbers[curDay % 10]
+		output += numbers[cur_day % 10]
 
-		if curDay % 10 and curDay > 20:
+		if cur_day % 10 and cur_day > 20:
 			output += u' ו'
-		if curDay > 10:
-			if curDay < 20:
+		if cur_day > 10:
+			if cur_day < 20:
 				output += u' '
-			output += numbersTen[curDay // 10]
+			output += numbersTen[cur_day // 10]
 			output += u' יום'
 		else:
 			output += u' ימים'
 
-		if curDay >= 7:
+		if cur_day >= 7:
 			output += u', שהם '
-			if curDay // 7 == 1:
+			if cur_day // 7 == 1:
 				output += u'שבוע אחד'
-			elif curDay // 7 == 2:
+			elif cur_day // 7 == 2:
 				output += u'שני שבועות'
 			else:
-				output += numbers[curDay // 7]
+				output += numbers[cur_day // 7]
 				output += u' שבועות'
-			if curDay % 7 == 1:
+			if cur_day % 7 == 1:
 				output += u' ויום אחד'
-			elif curDay % 7 == 2:
+			elif cur_day % 7 == 2:
 				output += u' ושני ימים'
-			elif curDay % 7:
+			elif cur_day % 7:
 				output += u' ו'
-				output += numbers[curDay % 7]
+				output += numbers[cur_day % 7]
 				output += u' ימים'
 		output += u' בעומר'
 
@@ -96,7 +96,7 @@ for day in sorted(sfirah):
 	out.write('DTSTART%s\r\n' % timestamp)
 	out.write('DTEND%s\r\n' % timestamp)
 	out.write(u'SUMMARY:ספירת העומר\r\n')
-	text = getSfirahText(dayCounter)
+	text = get_sfirah_text(dayCounter)
 	out.write('DESCRIPTION:%s\r\n' % text)
 	out.write('CONTACT:dan.bernst@gmail.com\r\n')
 	out.write('BEGIN:VALARM\r\n')

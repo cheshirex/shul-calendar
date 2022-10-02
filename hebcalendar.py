@@ -285,6 +285,7 @@ def omer(day, language):
 		fullname += u"עומר"
 	return fullname
 
+
 # Holidays:
 # Candle lighting vs. candle lighting after - should be able to tell by 'chag' flag
 # Need special handling to deal with Erev Pesach on Shabbat
@@ -332,10 +333,10 @@ holidayDefs = (
 	{'month': 3, 'day': 5, 'name': {'english': u'Erev Shavuot', 'hebrew': u'ערב שבועות'}, 'length': 1, 'type': 'erev'},
 	{'month': 3, 'day': 6, 'name': {'english': u'Shavuot', 'hebrew': u'שבועות'}, 'length': 1, 'location': 'Israel', 'type': 'chag', 'yizkor': True},
 	{'month': 3, 'day': 6, 'name': {'english': u'Shavuot', 'hebrew': u'שבועות'}, 'length': 2, 'location': 'Diaspora', 'type': 'chag', 'yizkor': True},
-	{'month': 4, 'day': 17,'name': {'english': u'Fast of 17 Tamuz', 'hebrew': u'תענית י"ז תמוז'}, 'length': 1, 'offset': defer_to_sunday, 'type': 'fast'},
+	{'month': 4, 'day': 17, 'name': {'english': u'Fast of 17 Tamuz', 'hebrew': u'תענית י"ז תמוז'}, 'length': 1, 'offset': defer_to_sunday, 'type': 'fast'},
 	{'month': 5, 'day': 9, 'name': {'english': u"Tisha B'Av", 'hebrew': u'תשעה באב'}, 'length': 1, 'offset': defer_to_sunday, 'type': '9av'},
-	{'month': 5, 'day': 15,'name': {'english': u"Tu B'Av", 'hebrew': u'ט"ו באב'}, 'length': 1, 'type': 'other'},
-	{'month': 6, 'day': 29,'name': {'english': u'Erev Rosh Hashanah', 'hebrew':u'ערב ראש השנה'}, 'length': 1, 'type': 'erevRH'})
+	{'month': 5, 'day': 15, 'name': {'english': u"Tu B'Av", 'hebrew': u'ט"ו באב'}, 'length': 1, 'type': 'other'},
+	{'month': 6, 'day': 29, 'name': {'english': u'Erev Rosh Hashanah', 'hebrew':u'ערב ראש השנה'}, 'length': 1, 'type': 'erevRH'})
 
 
 def get_holidays(holidays, holiday_list):
@@ -761,7 +762,6 @@ if __name__ == "__main__":
 		z += ', '.join(a['english'] for a in y['fullnames']) + '\n'
 		z += ', '.join(a['hebrew'] for a in y['fullnames']) + '\n'
 
-		#out.write(z.encode('utf8')+'\n')
 	out.write(z + '\n')
 
 	out.close()

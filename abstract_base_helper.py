@@ -4,10 +4,6 @@ import abc
 class DocumentHelperInterface(metaclass=abc.ABCMeta):
 
     @staticmethod
-    def add_entry(cell, name, time=None):
-        raise NotImplementedError
-
-    @staticmethod
     def create_table(worddoc, rows, cols):
         raise NotImplementedError
 

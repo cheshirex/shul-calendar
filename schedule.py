@@ -8,9 +8,9 @@ import datetime
 
 from convertdate import hebrew, utils
 
-from oleHelper import OleHelper
+from docxHelper import DocxHelper
 
-helper = OleHelper()
+helper = DocxHelper()
 
 
 def PrintRoshHashana(jd, day, holidays, dst_active, greg_date):
@@ -46,7 +46,7 @@ def PrintRoshHashana(jd, day, holidays, dst_active, greg_date):
         column2.append((u"שחרית מנין ב'", "08:00"))
 
         helper.create_populate_table(worddoc, column1, column2)
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
 
         column1 = []
         column2 = []
@@ -84,7 +84,7 @@ def PrintRoshHashana(jd, day, holidays, dst_active, greg_date):
         column2.append((u'ערבית ומוצ"ח', dayTimes['motzei'].strftime("%H:%M")))
 
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -115,7 +115,7 @@ def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
     column2.append((u"ערבית ומוצאי חג", dayTimes['motzei'].strftime("%H:%M")))
 
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -130,7 +130,7 @@ def PrintErevYK(jd, day, holidays, dst_active, greg_date):
     text += u"14:00"
     text += u'\n'
     helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
 
 
 def PrintChag(jd, day, holidays, dst_active, greg_date):
@@ -315,7 +315,7 @@ def PrintShabbat(jd, day, holidays, dst_active, greg_date):
     # else dayAfterIsChag -- maariv will be listed in the next day's entry
 
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -333,7 +333,7 @@ def PrintHoshanaRabah(jd, day, holidays, dst_active, greg_date):
     column2.append((None,))
     column2.append((u"שחרית מנין ב'", '07:30'))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -435,20 +435,17 @@ def PrintCholHamoed(jd, day, holidays, dst_active, greg_date):
         text += maariv
         text += u'\n'
         helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
     return
 
 
 def PrintRain(js, day, holidays, dst_active, gregData):
     header = u"אור ל-ז' חשון בערבית "
     header += day['date'].strftime("(%d.%m.%y)")
-    header += u'\n'
     helper.set_header(worddoc, {'text': header})
-    # rain_text = header + u' - '
-    rain_text = u'מתחילים לומר "ותן טל ומטר לברכה"'
-    rain_text += u'\n'
+    rain_text = u'מתחילים לומר ״ותן טל ומטר לברכה״'
     helper.set_header(worddoc, {'text': rain_text, 'size': 12, 'bold': False})
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
 
 
 def PrintFirstbornFast(js, day, holidays, dst_active, greg_date):
@@ -462,7 +459,7 @@ def PrintFirstbornFast(js, day, holidays, dst_active, greg_date):
     text = u'סיום לאחר תפילת שחרית ב2 המניינים'
     text += u'\n'
     helper.set_header(worddoc, {'text': text, 'size': 12, 'bold': False})
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
 
 
 def PrintFastDay(jd, day, holidays, dst_active, greg_date):
@@ -490,7 +487,7 @@ def PrintFastDay(jd, day, holidays, dst_active, greg_date):
         column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
 
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -525,7 +522,7 @@ def PrintIndependance(jd, day, holidays, dst_active, greg_date):
     column2.append(("", ""))
     column2.append((u"מנחה וערבית", mincha))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -552,7 +549,7 @@ def PrintJerusalem(jd, day, holidays, dst_active, greg_date):
     text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'
 
     helper.set_header(worddoc, {'text': text, 'bold': False})
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
 
 
 def PrintEsther(jd, day, holidays, dst_active, greg_date):
@@ -579,7 +576,7 @@ def PrintEsther(jd, day, holidays, dst_active, greg_date):
         column2.append((u"ערבית", maariv))
     column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -591,7 +588,7 @@ def PrintGedaliah(jd, day, holidays, dst_active, greg_date):
 
     if day['date'].weekday() != hebcalendar.weekday['sunday']:
         helper.set_header(worddoc, {'text': slichot})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
 
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
@@ -610,11 +607,11 @@ def PrintGedaliah(jd, day, holidays, dst_active, greg_date):
     column2.append((u"ערבית", maariv))
     column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
 
     if day['date'].weekday() == hebcalendar.weekday['sunday']:
         helper.set_header(worddoc, {'text': slichot})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -640,7 +637,7 @@ def Print9Av(jd, day, holidays, dst_active, greg_date):
     column2.append((u"ערבית", (dayTimes['fast9avEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")))
     column2.append((u"סוף הצום", dayTimes['fast9avEnds'].strftime("%H:%M")))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -665,7 +662,7 @@ def PrintPurim(jd, day, holidays, dst_active, greg_date):
 
     column2.append((u"מנחה", "13:15"))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -706,12 +703,8 @@ def PrintChanuka(jd, day, holidays, dst_active, greg_date):
         #		# There's a Friday in Chanuka (well, duh, but specifically for the case of Tevet)
         #		column1.append((u"שחרית מנין א' ביום ו'", "06:00"))
         helper.create_populate_table(worddoc, column1, column2)
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
     return
-
-    # set_header(worddoc, {'text': u"%s (יום %s, %s - %s)" % (
-    #     ', '.join(a['hebrew'] for a in day['fullnames']), hebcalendar.hebrew_day_of_week(day['date'].weekday()),
-    #     day['hebrewWritten'], greg_date)})
 
 
 def PrintErevPesach(jd, day, holidays, dst_active, greg_date):
@@ -726,7 +719,7 @@ def PrintErevPesach(jd, day, holidays, dst_active, greg_date):
     column1.append((u'מנחה גדולה', '13:30'))
     column2.append((u"סוף זמן שריפת חמץ", dayTimes['chametzBurning'].strftime("%H:%M")))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -742,7 +735,7 @@ def PrintErevPesachForShabbatErevPesach(jd, day, holidays, dst_active, greg_date
 
     column1.append((u"שריפת חמץ", dayTimes['chametzBurning'].strftime("%H:%M")))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -760,7 +753,7 @@ def PrintHoshanaRabah(jd, day, holidays, dst_active, greg_date):
     column2.append((None,))
     column2.append((u"שחרית מנין ב'", '07:30'))
     helper.create_populate_table(worddoc, column1, column2)
-    helper.set_header(worddoc, {'text': '\n'})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 
@@ -794,7 +787,7 @@ def PrintSlichot(jd, day, holidays, dst_active, greg_date):
             "%H:%M")
         desc += u'\n'
         helper.set_header(worddoc, {'text': desc})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
 
         desc = u"סליחות: "
 
@@ -807,7 +800,7 @@ def PrintSlichot(jd, day, holidays, dst_active, greg_date):
         desc += u'05:35'
         desc += u'\n'
         helper.set_header(worddoc, {'text': desc})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
 
 
 ### 
@@ -894,7 +887,7 @@ for jd in sorted(holidays):
         desc += u"%s (%s - %s)" % (', '.join(a['hebrew'] for a in day['fullnames']), day['hebrewWritten'], greg_date)
         desc += u': 07:00 / 05:00\n'
         helper.set_header(worddoc, {'text': desc})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
     elif 'erevYK' in day['type']:
         PrintErevYK(jd, day, holidays, dst_active, greg_date)
     elif 'slichot' in day['type']:
@@ -906,9 +899,9 @@ for jd in sorted(holidays):
     elif 'startDst' in day['type'] or 'endDst' in day['type']:
         clock = None
         if 'startDst' in day['type']:
-            clock = u'קיץ' + '\n'
+            clock = u'קיץ'
         else:
-            clock = u'חורף' + '\n'
+            clock = u'חורף'
         text = u"יום %s, %s - %s" % (
             hebcalendar.hebrew_day_of_week(day['date'].weekday()), day['hebrewWritten'], greg_date)
         text += u' - עוברים לשעון %s\n' % clock
@@ -933,6 +926,6 @@ for jd in sorted(holidays):
             text += u' - ' + omerName
         text += u'\n'
         helper.set_header(worddoc, {'text': text})
-        helper.set_header(worddoc, {'text': '\n'})
+        helper.set_header(worddoc, {'text': ''})
 
 helper.save_doc(worddoc, monthName, year)

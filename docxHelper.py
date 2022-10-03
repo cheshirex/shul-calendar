@@ -1,16 +1,28 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-
+import itertools
 import os
 from docx import Document
 from docx.enum.table import WD_TABLE_DIRECTION
+from docx.shared import Pt
 
 from abstract_base_helper import DocumentHelperInterface
 
 
 class DocxHelper(DocumentHelperInterface):
     @staticmethod
-    def add_entry(cells, offset, name, time=None):
+    def set_cell(cell, value):
+        cell.text = value['text']
+        run = cell.paragraphs[0].runs[0]
+        run.rtl = True
+        font = run.font
+        font.name = 'Arial'
+        if 'size' in value:
+            font.size = Pt(value['size'])
+        else:
+            font.size = Pt(14)
+
+    def add_entry(self, cells, offset, name, time=None):
         if name is None:
             # Special case -- merge this cell with the preceding and following cell
             return
@@ -21,13 +33,11 @@ class DocxHelper(DocumentHelperInterface):
         if time:
             if isinstance(time, str):
                 time = {'text': time}
-            cells[0 + offset].text = name['text']
-            cells[0 + offset].paragraphs[0].runs[0].rtl = True
-            cells[1 + offset].text = time['text']
-            cells[1 + offset].paragraphs[0].runs[0].rtl = True
+            self.set_cell(cells[0 + offset], name)
+            self.set_cell(cells[1 + offset], time)
         else:
-            cells[0 + offset].text = name['text']  # Need to figure out how to span multiple columns
-            cells[0 + offset].paragraphs[0].runs[0].rtl = True
+            self.set_cell(cells[0 + offset], name)
+            cells[0 + offset].merge(cells[1 + offset])
 
     @staticmethod
     def create_table(worddoc, rows, cols):
@@ -39,7 +49,7 @@ class DocxHelper(DocumentHelperInterface):
     def create_populate_table(self, worddoc, column1, column2):
         rows = max(len(column1), len(column2))
         table = self.create_table(worddoc, rows, 4)
-        columns = map(None, column1, column2)
+        columns = itertools.zip_longest(column1, column2, fillvalue=None)
         row = 0
         for c1, c2 in columns:
             if c1 == None:
@@ -55,9 +65,20 @@ class DocxHelper(DocumentHelperInterface):
 
     @staticmethod
     def set_header(worddoc, data):
-        p = worddoc.add_paragraph()
-        r = p.add_run(data['text'])
-        r.rtl = True
+        paragraph = worddoc.add_paragraph()
+        run = paragraph.add_run(data['text'])
+        font = run.font
+        run.rtl = True
+        font.name = 'Arial'
+        if 'size' in data:
+            font.size = Pt(data['size'])
+        else:
+            font.size = Pt(16)
+        if 'bold' in data:
+            font.bold = data['bold']
+        else:
+            font.bold = True
+
 
     @staticmethod
     def create_doc():

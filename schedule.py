@@ -508,7 +508,6 @@ def PrintIndependance(jd, day, holidays, dst_active, greg_date):
     text += u') '
     if omerName:
         text += u' - ' + omerName
-    text += u'\n'
     helper.set_header(worddoc, {'text': text})
 
     column1 = []
@@ -516,11 +515,11 @@ def PrintIndependance(jd, day, holidays, dst_active, greg_date):
 
     # mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))).strftime(
     #    "%H:%M")
-    mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime(
+    mincha = (dayTimes['sunset'] - datetime.timedelta(minutes=(10 + dayTimes['sunset'].minute % 5))).strftime(
                         "%H:%M")
 
     column1.append((u"מנחה וערבית חגיגית", mincha))
-    column1.append((u"שחרית חגיגית", "07:30"))
+    column1.append((u"שחרית חגיגית", "08:00"))
     column2.append(("", ""))
     column2.append((u"מנחה וערבית", mincha))
     helper.create_populate_table(worddoc, column1, column2)
@@ -543,12 +542,11 @@ def PrintJerusalem(jd, day, holidays, dst_active, greg_date):
     text += u') '
     if omerName:
         text += u' - ' + omerName
-    text += u'\n'
     helper.set_header(worddoc, {'text': text})
 
     maariv = (dayTimes['motzei'] - datetime.timedelta(minutes=(5 + dayTimes['motzei'].minute % 5))).strftime(
         "%H:%M")
-    text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv + u'\n'
+    text = u'ערבית חגיגית בערב יום ירושלים: ' + maariv
 
     helper.set_header(worddoc, {'text': text, 'bold': False})
     helper.set_header(worddoc, {'text': ''})
@@ -921,7 +919,6 @@ for jd in sorted(holidays):
         text += u') '
         if omerName:
             text += u' - ' + omerName
-        text += u'\n'
         helper.set_header(worddoc, {'text': text})
         helper.set_header(worddoc, {'text': ''})
 

@@ -479,11 +479,11 @@ def PrintFastDay(jd, day, holidays, dst_active, greg_date):
     maariv = (dayTimes['fastEnds'] - datetime.timedelta(minutes=5)).strftime("%H:%M")
 
     column1.append((u"תחילת הצום", dayTimes['fastBegins'].strftime("%H:%M")))
-    column1.append((u"שחרית מניין א'", "05:50"))
+    column1.append((u"שחרית מניין א", "05:50"))
     if day['date'].weekday() == hebcalendar.weekday['friday']:
-        column2.append((u"שחרית מניין ב'", "08:00"))
+        column2.append((u"שחרית מניין ב", "08:00"))
     else:
-        column1.append((u"שחרית מניין ב'", "08:00"))
+        column1.append((u"שחרית מניין ב", "08:00"))
         column2.append((u"מנחה", mincha))
         column2.append((u"ערבית", maariv))
         column2.append((u"סוף הצום", dayTimes['fastEnds'].strftime("%H:%M")))

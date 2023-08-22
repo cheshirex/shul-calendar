@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+from pathlib import Path
+
+from docx.enum.text import WD_COLOR_INDEX
 
 import hebcalendar
 import sys
 import codecs
-from convertdate import hebrew, gregorian, utils
+from convertdate import hebrew, utils
 
-import os
-import win32com.client
+from docxHelper import DocxHelper
+
+helper = DocxHelper()
+worddoc = helper.create_doc(Path().absolute() / "emptyYahrtzeits.docx")
 
 
 def usage():
@@ -15,35 +20,14 @@ def usage():
 	print('Usage: yahrtzeit.py <Jewish year> <name of data file>')
 
 
-def createDoc():
-	wordapp = win32com.client.gencache.EnsureDispatch("Word.Application")
-	wordapp.Visible = True # Word Application should be visible
+def write_entry(worddoc, parsha, data):
+	helper.set_header(worddoc, {'text': parsha,
+								'size': 12,
+								'bold': True,
+								'highlight': WD_COLOR_INDEX.BRIGHT_GREEN})
+	helper.set_bullet_list(worddoc, data)
+	# r.Font.Shading.BackgroundPatternColor = 50500
 
-	worddoc = wordapp.Documents.Open(os.getcwd() + "\emptyYahrtzeits.docx", False, False, False)
-
-	worddoc.Content.Font.Size = 12
-
-	return worddoc
-
-
-def saveDoc(worddoc, year):
-	worddoc.SaveAs(os.getcwd() + '\\yahrtzeitsFor' + repr(year) + '.docx')
-
-
-def writeLine(worddoc, parsha, data):
-	r = worddoc.Range().Paragraphs.Add().Range
-	r.Font.SizeBi = 12
-	r.Font.Name = "Arial"
-	r.Font.BoldBi = True
-	r.Font.Shading.BackgroundPatternColor = 50500
-	r.Text = parsha
-	r = worddoc.Range().Paragraphs.Add().Range
-	r.Font.SizeBi = 12
-	r.Font.Name = "Arial"
-	r.Text = data
-	r.ListFormat.ApplyBulletDefault()
-	return r
-	
 dates = {}
 
 if len(sys.argv) != 3:
@@ -92,9 +76,7 @@ lastShabbatName = ''
 
 yahrtzeits = sorted(dates)
 
-doc = createDoc()
-
-out = codecs.open('yahrtzeitsFor%d.txt' % year, 'w', encoding='utf-8')
+# out = codecs.open('yahrtzeitsFor%d.txt' % year, 'w', encoding='utf-8')
 
 for shabbat in sorted(holidays):
 	day = holidays[shabbat]
@@ -106,20 +88,20 @@ for shabbat in sorted(holidays):
 	yDates = [y for y in yahrtzeits if lastShabbat <= y < shabbat]
 
 	if len(yDates) > 0:
-		out.write(lastShabbatName + u'\n')
-		parsha = lastShabbatName + u'\n'
-		data = ''
+		# out.write(lastShabbatName + u'\n')
+		parsha = lastShabbatName
+		data = []
 		for date in sorted(yDates):
 			# utils assumes the week starts on Monday, so adjust
 			weekday = hebcalendar.hebrew_day_of_week(utils.jwday(date))
 			for y in dates[date]:
-				data += u"* %s: %s - %s\n" % (weekday, y['name'], y['info'])
-				out.write(data)
-		writeLine(doc, parsha, data)
+				data.append(u"%s: %s - %s" % (weekday, y['name'], y['info']))
+				# out.write(data)
+		write_entry(worddoc, parsha, data)
 
 	lastShabbat = shabbat
 	lastShabbatName = name
-	
-saveDoc(doc, year)
-	
+
+worddoc.save(f'yahrtzeitsFor{year}.docx')
+
 	

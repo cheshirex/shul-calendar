@@ -68,6 +68,7 @@ class DocxHelper(DocumentHelperInterface):
         paragraph = worddoc.add_paragraph()
         run = paragraph.add_run(data['text'])
         font = run.font
+        # font.rtl = True  - TODO: This _should_ be a font setting, but it looks like that messes up other font parameters
         run.rtl = True
         font.name = 'Arial'
         if 'size' in data:
@@ -78,11 +79,23 @@ class DocxHelper(DocumentHelperInterface):
             font.bold = data['bold']
         else:
             font.bold = True
-
+        if 'highlight' in data:
+            font.highlight_color = data['highlight']
 
     @staticmethod
-    def create_doc():
-        return Document("emptySched.docx")
+    def set_bullet_list(worddoc, data):
+        for entry in data:
+            paragraph = worddoc.add_paragraph(style='MyBullet')
+            run = paragraph.add_run(entry)
+            font = run.font
+            font.rtl = True
+            font.name = 'Arial'
+            font.size = Pt(12)
+
+    @staticmethod
+    def create_doc(base_doc='emptySched.docx'):
+        doc = Document(base_doc)
+        return doc
 
     @staticmethod
     def save_doc(worddoc, month_name, year):

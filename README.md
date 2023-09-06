@@ -5,3 +5,6 @@ The following components are used:
 * times.py: Calculate relevant times per day for each holiday
 * ole.py: Helper library to build a document using Win32 OLE
 * schedule.py: Main driver to create monthly schedule
+
+To run:
+`python schedule.py <hebrew year> <hebrew month number>`

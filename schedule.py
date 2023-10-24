@@ -203,7 +203,7 @@ def PrintShabbat(jd, day, holidays, dst_active, greg_date):
         if (u'שבת' in fullname['hebrew'] or u'פסח' in fullname['hebrew']) and not any(
                 x in fullname['hebrew'] for x in (u'הגדול', u'חזון', u'נחמו', u'שובה')):
             shabbatName = fullname['hebrew']
-        elif u'סליחות' not in fullname['hebrew']:
+        elif u'סליחות' not in fullname['hebrew'] and 'rain' not in fullname['type']:
             otherName.append(fullname['hebrew'])
 
     header = None
@@ -315,6 +315,11 @@ def PrintShabbat(jd, day, holidays, dst_active, greg_date):
     elif dayAfterIsPurim:
         column2.append((u'מוצאי שבת', dayTimes['motzei'].strftime("%H:%M")))
     # else dayAfterIsChag -- maariv will be listed in the next day's entry
+
+    if 'rain' in day['type']:
+        name = [name['hebrew'] for name in day['fullnames'] if 'rain' in name['type']]
+        column1.append((name[0],))
+        pass
 
     helper.create_populate_table(worddoc, column1, column2)
     helper.set_header(worddoc, {'text': ''})

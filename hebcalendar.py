@@ -604,12 +604,12 @@ def get_parshiot(holidays):
         # Check if the current parsha has a join condition. If so, and the condition is true, join to the next
         # parsha. Otherwise just use the current parsha.
         if 'join' in parshiot[parsha] and parshiot[parsha]['join'](year_type):
-            name['english'] = u'Shabbat %s - %s' % (parshiot[parsha]['english'], parshiot[parsha + 1]['english'])
-            name['hebrew'] = u'שבת ' + '%s - %s' % (parshiot[parsha]['hebrew'], parshiot[parsha + 1]['hebrew'])
+            name['english'] = "Shabbat %s - %s" % (parshiot[parsha]['english'], parshiot[parsha + 1]['english'])
+            name['hebrew'] = "שבת פר׳ " + '%s - %s' % (parshiot[parsha]['hebrew'], parshiot[parsha + 1]['hebrew'])
             parsha += 1
         else:
-            name['english'] = u'Shabbat ' + parshiot[parsha]['english']
-            name['hebrew'] = u'שבת ' + parshiot[parsha]['hebrew']
+            name['english'] = "Shabbat " + parshiot[parsha]['english']
+            name['hebrew'] = "שבת פר׳ " + parshiot[parsha]['hebrew']
 
         hebrew_day = hebrew.from_jd(shabbat)
         mevarchim = hebrew_day[2] >= 23 and hebrew_day[2] != 30

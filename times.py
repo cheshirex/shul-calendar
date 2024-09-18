@@ -193,6 +193,7 @@ if __name__ == "__main__":
     print("Motzei: %s" % day_times['motzei'].strftime('%H:%M'))
     print("Fast begins: %s" % day_times['fastBegins'].strftime('%H:%M'))
     print("Fast ends: %s" % day_times['fastEnds'].strftime('%H:%M'))
+    print("Fast 9 Av ends: %s" % day_times['fast9avEnds'].strftime('%H:%M'))
     print("Eat chametz by: %s" % day_times['chametzEating'].strftime('%H:%M'))
     print("Burn chametz by: %s" % day_times['chametzBurning'].strftime('%H:%M'))
     print("Midnight - finish afikoman before: %s" % day_times['midnight'].strftime('%H:%M'))

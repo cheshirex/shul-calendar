@@ -14,7 +14,7 @@ p.add_run(' and some ')
 p.add_run('italic.').italic = True
 
 document.add_heading('Heading, level 1', level=1)
-document.add_paragraph('Intense quote', style='IntenseQuote')
+# document.add_paragraph('Intense quote', style='IntenseQuote')
 
 document.add_paragraph(
     'first item in unordered list', style='ListBullet'
@@ -24,11 +24,11 @@ document.add_paragraph(
 )
 
 p = document.add_paragraph()
-run = p.add_run(u'מה עם עברית?')
-run.rtl = True
+run = p.add_run("מה עם עברית?")
+run.font.rtl = True
 run.add_text('\n')
-run = p.add_run(u'עברית (ועוד עברית)?')
-run.rtl = True
+run = p.add_run("עברית (ועוד עברית)?")
+run.font.rtl = True
 #document.add_paragraph()
 
 table = document.add_table(rows=1, cols=3)

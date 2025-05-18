@@ -25,9 +25,11 @@ document.add_paragraph(
 
 p = document.add_paragraph()
 run = p.add_run("מה עם עברית?")
-run.font.rtl = True
+run.font.name = "Arial"
+#run.font.rtl = True
 run.add_text('\n')
 run = p.add_run("עברית (ועוד עברית)?")
+run.font.name = "Arial"
 run.font.rtl = True
 #document.add_paragraph()
 

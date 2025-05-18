@@ -50,8 +50,8 @@ for line in codecs.open(inputFile, encoding='utf-8-sig'):
 		
 	try:
 		name, date, info = [x.strip() for x in line.split(',', 3)]
-	except:
-		print('Error in line: %d' % lineNum)
+	except Exception as e:
+		print('Error in line: %d' % lineNum, e)
 		sys.exit(-1)
 	date = date.split('.', 3)
 	

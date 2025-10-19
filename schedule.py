@@ -102,7 +102,8 @@ def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
 
     column1.append((u"הדלקת נרות", dayTimes['candleLighting'].strftime("%H:%M")))
     column1.append((u"כל נדרי וערבית", minchaErev.strftime("%H:%M")))
-    column1.append((u"שיעור קצר לפני שיר הייחוד",))
+    column1.append((u"שיעור בענייני יום הכיפורים",))
+    column1.append((u"שיר הייחוד אחרי השיעור",))
     column1.append((u"שיעור בדף יומי", dafYomi))
     column1.append((u"שחרית", shacharit))
 
@@ -112,7 +113,7 @@ def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
     column2.append((u"נעילה (משוער)",
                     (dayTimes['sunset'] - datetime.timedelta(minutes=(60 + dayTimes['sunset'].minute % 5))).strftime(
                         "%H:%M")))
-    column2.append((u"ערבית ומוצאי חג", dayTimes['motzei'].strftime("%H:%M")))
+    column2.append((u"צאת החג - סיום הצום", dayTimes['motzei'].strftime("%H:%M")))
 
     helper.create_populate_table(worddoc, column1, column2)
     helper.set_header(worddoc, {'text': ''})
@@ -287,10 +288,6 @@ def PrintShabbat(jd, day, holidays, dst_active, greg_date):
         #     name = u'מנחה קטנה וס"ש'
         # else:
         name = u"מנחה קטנה"
-        if isShabbatShuva:
-            minchaK -= datetime.timedelta(minutes=10)
-        # if earlyShabbatGadol or (not earlyShabbatGadol and isShabbatHagadol):
-        #     minchaK += datetime.timedelta(minutes=10)
         if isShabbatHagadol and dayAfterIsPesach:
             minchaK += datetime.timedelta(minutes=15)
         column2.append((name, minchaK.strftime("%H:%M")))

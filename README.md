@@ -1,4 +1,4 @@
-This schedule generator is built on Python 3.9
+This schedule generator is built on Python 3.14
 
 The following components are used:
 * calendar.py: Build a list of holidays for the given Jewish year / month

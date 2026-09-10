@@ -41,7 +41,7 @@ inputFile = sys.argv[2]
 lineNum = 0
 
 # Read in file, build DB of dates
-for line in codecs.open(inputFile, encoding='utf-8-sig'):
+for line in open(inputFile, encoding='utf-8-sig'):
 	# Throw away anything after a comment character
 	line = line.split('#')[0].strip()
 	lineNum += 1
@@ -83,7 +83,7 @@ for shabbat in sorted(holidays):
 	name = u', '.join(a['hebrew'] for a in day['fullnames'])
 	greg = '%04d.%02d.%02d' % day['gregorian']
 	heb = '%04d.%02d.%02d' % day['hebrew']
-	name += u' - %s / %s:' % (greg, heb)
+	name += u' - %s / %s' % (greg, heb)
 	
 	yDates = [y for y in yahrtzeits if lastShabbat <= y < shabbat]
 

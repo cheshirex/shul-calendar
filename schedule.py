@@ -74,8 +74,11 @@ def PrintRoshHashana(jd, day, holidays, dst_active, greg_date):
         column2.append((u"תקיעה שנייה לאחר התפילה",))
     column2.append((u"חצות היום", dayTimes['noon'].strftime("%H:%M")))
     if tashlich:
-        minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(35 + dayTimes['sunset'].minute % 5))
+        minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))
         column2.append((u"מנחה ותשליך", minchaK.strftime("%H:%M")))
+    elif day['date'].weekday() == hebcalendar.weekday['shabbat']:
+        minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(25 + dayTimes['sunset'].minute % 5))
+        column2.append((u"מנחה", minchaK.strftime("%H:%M")))
     else:
         minchaK = dayTimes['sunset'] - datetime.timedelta(minutes=(20 + dayTimes['sunset'].minute % 5))
         column2.append((u"מנחה", minchaK.strftime("%H:%M")))
@@ -92,7 +95,7 @@ def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
     column1 = []
     column2 = []
 
-    minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=10)
+    minchaErev = dayTimes['candleLighting'] + datetime.timedelta(minutes=15)
     shacharit = "08:00"
     dafYomi = "07:15"
 
@@ -109,7 +112,7 @@ def PrintYomKippur(jd, day, holidays, dst_active, greg_date):
 
     column2.append((u'יזכור (משוער)', "10:30"))
     column2.append((u"מנחה", (dayTimes['sunset'] - datetime.timedelta(hours=2, minutes=(
-            15 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")))
+            30 + dayTimes['sunset'].minute % 5))).strftime("%H:%M")))
     column2.append((u"נעילה (משוער)",
                     (dayTimes['sunset'] - datetime.timedelta(minutes=(60 + dayTimes['sunset'].minute % 5))).strftime(
                         "%H:%M")))

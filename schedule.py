@@ -591,9 +591,8 @@ def PrintGedaliah(jd, day, holidays, dst_active, greg_date):
 
     slichot = u"סליחות עשרת ימי תשובה: 05:25" + u"\n"
 
-    if day['date'].weekday() != hebcalendar.weekday['sunday']:
-        helper.set_header(worddoc, {'text': slichot})
-        helper.set_header(worddoc, {'text': ''})
+    # Note: Print slichot for the week only after Tzom Gedaliah, since its timing is different than
+    # the rest of the week.
 
     text = u', '.join(a['hebrew'] for a in day['fullnames'])
     text += u' ('
@@ -614,9 +613,8 @@ def PrintGedaliah(jd, day, holidays, dst_active, greg_date):
     helper.create_populate_table(worddoc, column1, column2)
     helper.set_header(worddoc, {'text': ''})
 
-    if day['date'].weekday() == hebcalendar.weekday['sunday']:
-        helper.set_header(worddoc, {'text': slichot})
-        helper.set_header(worddoc, {'text': ''})
+    helper.set_header(worddoc, {'text': slichot})
+    helper.set_header(worddoc, {'text': ''})
     return
 
 

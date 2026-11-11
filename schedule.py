@@ -693,7 +693,7 @@ def PrintChanuka(jd, day, holidays, dst_active, greg_date):
 
         helper.set_header(worddoc, {'text': desc})
 
-        column1.append((u"שחרית מנין א'", "06:00"))
+        column1.append((u"שחרית", "06:00"))
 
         column1.append((u"מנחה", (
                 dayTimes['sunset'] - datetime.timedelta(minutes=(15 + dayTimes['sunset'].minute % 5))).strftime(
@@ -823,7 +823,7 @@ if month:
 else:
     holidays = hebcalendar.get_year(year, location)
 
-times.set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem')
+times.set_location('Givat Zeev', 'Israel', 31.86, 35.16, 'Asia/Jerusalem')
 
 worddoc = helper.create_doc()
 

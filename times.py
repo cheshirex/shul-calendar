@@ -130,9 +130,11 @@ def get_times(date):
     if type(date) is datetime.date:
         date = datetime.datetime(date.year, date.month, date.day)
     date = tz.localize(date)
+    yesterday = date - datetime.timedelta(days=1)
     times = astral.sun.sun(loc.observer, date=date)
+    times_yesterday = astral.sun.sun(loc.observer, date=yesterday)
     data = {'motzei': motzei(times),
-            'candleLighting': candle_lighting(times),
+            'candleLighting': candle_lighting(times_yesterday),
             'fastBegins': fast_begins(times),
             'fastEnds': fast_ends(times),
             'fast9avEnds': fast_ends_9av(times),
@@ -177,7 +179,7 @@ if __name__ == "__main__":
     else:
         today = datetime.datetime.today()
 
-    set_location('Givat Zeev', 'Israel', 31.86, 35.17, 'Asia/Jerusalem')
+    set_location('Givat Zeev', 'Israel', 31.86, 35.16, 'Asia/Jerusalem')
     day_times = get_times(today)
 
     print("For %s, times are: " % (today.strftime('%a %Y.%m.%d')))
